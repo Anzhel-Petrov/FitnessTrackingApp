@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTrackingApp.Data;
 
-public class FitnessTrackingDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+public class FitnessTrackingAppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 {
-    public FitnessTrackingDbContext()
+    public FitnessTrackingAppDbContext()
     {
         
     }
 
-    public FitnessTrackingDbContext(DbContextOptions options)
+    public FitnessTrackingAppDbContext(DbContextOptions options)
         : base(options)
     {
         
