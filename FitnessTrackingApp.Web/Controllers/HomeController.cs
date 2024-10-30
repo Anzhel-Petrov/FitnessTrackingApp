@@ -1,6 +1,6 @@
-using FitnessTrackingApp.Web.Models;
-using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using FitnessTrackingApp.Web.ViewModels;
 
 namespace FitnessTrackingApp.Web.Controllers
 {
