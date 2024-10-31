@@ -17,4 +17,12 @@ public class FitnessTrackingAppDbContext : IdentityDbContext<ApplicationUser, Id
     {
         
     }
+
+    public DbSet<BodyWeightGoal> BodyWeightGoals { get; set; } = null!;
+    public DbSet<BodyWeightLog> BodyWeightLogs { get; set; } = null!;
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+    }
 }

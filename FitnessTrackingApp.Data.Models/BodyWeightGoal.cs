@@ -19,5 +19,5 @@ public class BodyWeightGoal
     [Required]
     [Range(BodyWeightMinRange, BodyWeightMaxRange)]
     [Precision(5, 2)]
-    public float GoalWeight { get; set; }
+    public decimal GoalWeight { get; set; }
 }

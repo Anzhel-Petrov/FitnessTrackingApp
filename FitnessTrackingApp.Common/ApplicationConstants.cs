@@ -2,6 +2,6 @@
 
 public static class ApplicationConstants
 {
-    public const int BodyWeightMinRange = 30;
-    public const int BodyWeightMaxRange = 300;
+    public const float BodyWeightMinRange = 30f;
+    public const float BodyWeightMaxRange = 300f;
 }

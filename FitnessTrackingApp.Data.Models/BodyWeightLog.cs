@@ -23,5 +23,5 @@ public class BodyWeightLog
     [Required]
     [Range(BodyWeightMinRange, BodyWeightMaxRange)]
     [Precision(5, 2)]
-    public float CurrentWeight { get; set; }
+    public decimal CurrentWeight { get; set; }
 }
