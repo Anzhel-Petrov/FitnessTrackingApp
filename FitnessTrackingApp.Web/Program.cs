@@ -27,6 +27,11 @@ namespace FitnessTrackingApp.Web
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<FitnessTrackingAppDbContext>();
 
+            builder.Services.ConfigureApplicationCookie(cfg =>
+            {
+                cfg.LoginPath = "/User/Login";
+            });
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 

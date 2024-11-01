@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FitnessTrackingApp.Common\FitnessTrackingApp.Common.csproj" />
     <ProjectReference Include="..\FitnessTrackingApp.Data\FitnessTrackingApp.Data.csproj" />
     <ProjectReference Include="..\FitnessTrackingApp.Web.ViewModels\FitnessTrackingApp.Web.ViewModels.csproj" />
   </ItemGroup>
