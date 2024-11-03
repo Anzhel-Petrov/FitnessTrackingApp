@@ -20,4 +20,11 @@ public class BodyWeightGoal
     [Range(BodyWeightMinRange, BodyWeightMaxRange)]
     [Precision(5, 2)]
     public decimal GoalWeight { get; set; }
+
+    [Required] 
+    public bool IsActive { get; set; }
+
+    [Required]
+    [DataType(DataType.Date)]
+    public DateTime DateAdded { get; set; }
 }

@@ -7,8 +7,8 @@ namespace FitnessTrackingApp.Web.Controllers
     [Authorize]
     public class BaseController : Controller
     {
-        protected string? GetUserId()
-            => this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        protected Guid? GetUserId()
+            => Guid.TryParse(this.User.FindFirstValue(ClaimTypes.NameIdentifier), out var userId) ? userId : (Guid?)null;
 
         protected bool IsAuthenticated()
             => this.User.Identity?.IsAuthenticated ?? false;
