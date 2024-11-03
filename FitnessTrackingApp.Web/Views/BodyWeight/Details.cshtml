@@ -1,0 +1,21 @@
+﻿@model FitnessTrackingApp.Web.ViewModels.BodyWeight.BodyWeightDetailsViewModel
+
+<h2>Body Weigh Details</h2>
+
+@if (Model.BodyWeightGoal is null)
+{
+    <div class="row">
+        <div class="col-3">
+            <div class="alert alert-info mt-3 mb-2">
+                <h5 class="ml-3">Add Your Body Weight Goal</h5>
+
+                <form asp-action="AddBodyWeightGoal" method="post" class="ml-3 mr-3">
+                    <div class="input-group form-inline ">
+                        <input type="number" min="0" max="200" name="Weight" step="0.1" class="form-control mr-1" required />
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
