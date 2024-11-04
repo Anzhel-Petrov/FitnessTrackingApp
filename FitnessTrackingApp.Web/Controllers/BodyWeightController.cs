@@ -14,9 +14,10 @@ namespace FitnessTrackingApp.Web.Controllers
         {
             _dbContext = dbContext;
         }
-        public IActionResult Details()
+        public async Task<IActionResult> Details()
         {
-            var bodyWeightGoal = _dbContext.BodyWeightGoals.FirstOrDefault();
+            var bodyWeightGoal = await _dbContext.BodyWeightGoals
+                .FirstOrDefaultAsync(g => g.IsActive && g.UserId == this.GetUserId());
 
             BodyWeightDetailsViewModel bodyWeightDetailsViewModel = new BodyWeightDetailsViewModel()
             {
@@ -27,15 +28,14 @@ namespace FitnessTrackingApp.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBodyWeightGoal(decimal weight)
+        public async Task<IActionResult> CreateBodyWeightGoal(BodyWeightGoalCreateViewModel bodyWeightGoalCreateViewModel)
         {
             if (ModelState.IsValid)
             {
                 Guid userId = this.GetUserId() ?? Guid.Empty;
 
                 var activeGoal = await _dbContext.BodyWeightGoals
-                    .Where(g => g.UserId == userId && g.IsActive)
-                    .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(g => g.IsActive && g.UserId == userId);;
 
                 if (activeGoal != null)
                 {
@@ -45,8 +45,8 @@ namespace FitnessTrackingApp.Web.Controllers
 
                 BodyWeightGoal bodyWeightGoal = new BodyWeightGoal()
                 {
-                    GoalWeight = weight,
                     UserId = userId,
+                    GoalWeight = bodyWeightGoalCreateViewModel.GoalWeight,
                     IsActive = true,
                     DateAdded = DateTime.Today
                 };
@@ -56,7 +56,7 @@ namespace FitnessTrackingApp.Web.Controllers
                 return RedirectToAction(nameof(Details));
             }
 
-            return View();
+            return View(nameof(Details), new BodyWeightDetailsViewModel{ GoalWeightViewModel = bodyWeightGoalCreateViewModel });
         }
     }
 }

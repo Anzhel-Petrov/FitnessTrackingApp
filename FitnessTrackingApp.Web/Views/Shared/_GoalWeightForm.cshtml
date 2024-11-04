@@ -1,0 +1,12 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model FitnessTrackingApp.Web.ViewModels.BodyWeight.BodyWeightGoalCreateViewModel
+
+<form asp-action="CreateBodyWeightGoal" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="GoalWeight">Goal Weight</label>
+        <input asp-for="GoalWeight" class="form-control" aria-required="true" type="number" step="0.01"/>
+        <span asp-validation-for="GoalWeight" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Set Goal</button>
+</form>
