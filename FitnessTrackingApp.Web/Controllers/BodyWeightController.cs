@@ -1,5 +1,6 @@
 ﻿using FitnessTrackingApp.Data;
 using FitnessTrackingApp.Data.Models;
+using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.BodyWeight;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +10,14 @@ namespace FitnessTrackingApp.Web.Controllers
 {
     public class BodyWeightController : BaseController
     {
-        private readonly FitnessTrackingAppDbContext _dbContext;
-        public BodyWeightController(FitnessTrackingAppDbContext dbContext)
+        private readonly IBodyWeightService _bodyWeightService;
+        public BodyWeightController(IBodyWeightService bodyWeightService)
         {
-            _dbContext = dbContext;
+            _bodyWeightService = bodyWeightService;
         }
         public async Task<IActionResult> Details()
         {
-            var bodyWeightGoal = await _dbContext.BodyWeightGoals
-                .FirstOrDefaultAsync(g => g.IsActive && g.UserId == this.GetUserId());
+            var bodyWeightGoal = await _bodyWeightService.GetBodyWeightGoalAsync(this.GetUserId());
 
             BodyWeightDetailsViewModel bodyWeightDetailsViewModel = new BodyWeightDetailsViewModel()
             {
@@ -34,29 +34,20 @@ namespace FitnessTrackingApp.Web.Controllers
             {
                 Guid userId = this.GetUserId() ?? Guid.Empty;
 
-                var activeGoal = await _dbContext.BodyWeightGoals
-                .FirstOrDefaultAsync(g => g.IsActive && g.UserId == userId);;
+                var bodyWeightGoal = await _bodyWeightService.GetBodyWeightGoalAsync(userId);
 
-                if (activeGoal != null)
-                {
-                    activeGoal.IsActive = false;  // Deactivate the current goal
-                    _dbContext.BodyWeightGoals.Update(activeGoal);
-                }
+                await _bodyWeightService.AddBodyWeightGoal(userId, bodyWeightGoal, bodyWeightGoalCreateViewModel.GoalWeight);
 
-                BodyWeightGoal bodyWeightGoal = new BodyWeightGoal()
-                {
-                    UserId = userId,
-                    GoalWeight = bodyWeightGoalCreateViewModel.GoalWeight,
-                    IsActive = true,
-                    DateAdded = DateTime.Today
-                };
-
-                _dbContext.BodyWeightGoals.Add(bodyWeightGoal);
-                await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Details));
             }
 
             return View(nameof(Details), new BodyWeightDetailsViewModel{ GoalWeightViewModel = bodyWeightGoalCreateViewModel });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddBodyWeightLog()
+        {
+            return View(nameof(Details));
         }
     }
 }

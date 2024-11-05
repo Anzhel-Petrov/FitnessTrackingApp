@@ -4,6 +4,11 @@
 
 <h2>Your body weight goal is: @(Model.BodyWeightGoal?.GoalWeight ?? 0) kg</h2>
 
+<div>
+    <h2 class="d-inline">My Bodyweight</h2>
+    <a asp-controller="BodyWeight" asp-action="AddBodyWeightLog" class="font-weight-bold d-inline">+Add Bodyweights</a>
+</div>
+
 <div class="row">
     <div class="col-3">
         <div class="alert alert-info mt-3 mb-2">

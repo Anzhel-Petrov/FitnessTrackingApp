@@ -1,5 +1,7 @@
 using FitnessTrackingApp.Data;
 using FitnessTrackingApp.Data.Models;
+using FitnessTrackingApp.Services.Data;
+using FitnessTrackingApp.Services.Data.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,6 +47,8 @@ namespace FitnessTrackingApp.Web
             {
                 cfg.LoginPath = "/User/Login";
             });
+
+            builder.Services.AddScoped<IBodyWeightService, BodyWeightService>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
