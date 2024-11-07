@@ -41,4 +41,30 @@ public class BodyWeightService : IBodyWeightService
         _dbContext.BodyWeightGoals.Add(newBodyWeightGoal);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<ICollection<BodyWeightLog>> GetWeeklyBodyWeightLogs(Guid userId)
+    {
+        var startOfWeek = DateTime.Today.AddDays(-7);
+        return await _dbContext.BodyWeightLogs
+            .Where(r => r.UserId == userId && r.DateLogged >= startOfWeek)
+            .OrderByDescending(r => r.DateLogged)
+            .ToListAsync();
+    }
+
+    public async Task<ICollection<BodyWeightLog>> GetMonthlyBodyWeightLogs(Guid userId)
+    {
+        var startOfMonth = DateTime.Today.AddMonths(-1);
+        return await _dbContext.BodyWeightLogs
+            .Where(r => r.UserId == userId && r.DateLogged >= startOfMonth)
+            .OrderByDescending(r => r.DateLogged)
+            .ToListAsync();
+    }
+
+    public async Task<ICollection<BodyWeightLog>> GetAllBodyWeightLogs(Guid userId)
+    {
+        return await _dbContext.BodyWeightLogs
+            .Where(r => r.UserId == userId)
+            .OrderByDescending(r => r.DateLogged)
+            .ToListAsync();
+    }
 }
