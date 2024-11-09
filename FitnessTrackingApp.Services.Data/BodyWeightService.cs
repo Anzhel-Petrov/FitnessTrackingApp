@@ -22,12 +22,15 @@ public class BodyWeightService : IBodyWeightService
         return bodyWeightGoal;
     }
 
-    public async Task AddBodyWeightGoal(Guid userId, BodyWeightGoal? bodyWeightGoal, decimal goalWeight)
+    public async Task AddBodyWeightGoal(Guid userId, decimal goalWeight)
     {
-        if (bodyWeightGoal != null)
+        var existingWeightGoal = await _dbContext.BodyWeightGoals
+            .FirstOrDefaultAsync(g => g.IsActive && g.UserId == userId);
+
+        if (existingWeightGoal != null && existingWeightGoal.IsActive)
         {
-            bodyWeightGoal.IsActive = false;  // Deactivate the current goal
-            _dbContext.BodyWeightGoals.Update(bodyWeightGoal);
+            existingWeightGoal.IsActive = false;  // Deactivate the current goal
+            _dbContext.BodyWeightGoals.Update(existingWeightGoal);
         }
 
         BodyWeightGoal newBodyWeightGoal = new BodyWeightGoal()

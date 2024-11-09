@@ -34,9 +34,9 @@ namespace FitnessTrackingApp.Web.Controllers
             {
                 Guid userId = this.GetUserId() ?? Guid.Empty;
 
-                var bodyWeightGoal = await _bodyWeightService.GetBodyWeightGoalAsync(userId);
+                //var existingWeightGoal = await _bodyWeightService.GetBodyWeightGoalAsync(userId);
 
-                await _bodyWeightService.AddBodyWeightGoal(userId, bodyWeightGoal, bodyWeightGoalCreateViewModel.GoalWeight);
+                await _bodyWeightService.AddBodyWeightGoal(userId, bodyWeightGoalCreateViewModel.GoalWeight);
 
                 return RedirectToAction(nameof(Details));
             }
