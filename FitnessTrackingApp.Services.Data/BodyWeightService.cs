@@ -1,4 +1,5 @@
-﻿using FitnessTrackingApp.Data;
+﻿using System.Data;
+using FitnessTrackingApp.Data;
 using FitnessTrackingApp.Data.Models;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.BodyWeight;
@@ -86,6 +87,14 @@ public class BodyWeightService : IBodyWeightService
 
     public async Task AddLogAsync(BodyWeightLogViewModel logViewModel, Guid userId)
     {
+        var existingDateLog = await _dbContext.BodyWeightLogs
+            .FirstOrDefaultAsync(l => l.UserId == userId && l.DateLogged == logViewModel.LogDate);
+
+        if (existingDateLog != null)
+        {
+            
+        }
+
         var log = new BodyWeightLog()
         {
             UserId = userId,

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using FitnessTrackingApp.Common;
 
 namespace FitnessTrackingApp.Web.ViewModels.BodyWeight;
 
@@ -18,6 +19,7 @@ public class BodyWeightLogViewModel
     [Required]
     [Range(30, 300)]
     [Precision(5, 2)]
+    [BodyWeightPrecision(5,2)]
     [Display(Name = "Weight (kg)")]
     public decimal Weight { get; set; }
 }

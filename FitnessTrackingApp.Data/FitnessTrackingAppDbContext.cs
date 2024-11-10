@@ -24,5 +24,9 @@ public class FitnessTrackingAppDbContext : IdentityDbContext<ApplicationUser, Id
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        
+        builder.Entity<BodyWeightLog>()
+            .HasIndex(l => l.DateLogged)
+            .IsUnique();
     }
 }
