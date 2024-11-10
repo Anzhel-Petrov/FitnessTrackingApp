@@ -14,7 +14,7 @@ public class BodyWeightService : IBodyWeightService
     {
         _dbContext = dbContext;
     }
-    public async Task<BodyWeightGoal?> GetBodyWeightGoalAsync(Guid? userId)
+    public async Task<BodyWeightGoal?> GetBodyWeightGoalAsync(Guid userId)
     {
         var bodyWeightGoal = await _dbContext.BodyWeightGoals
             .FirstOrDefaultAsync(g => g.IsActive && g.UserId == userId);
@@ -63,11 +63,37 @@ public class BodyWeightService : IBodyWeightService
             .ToListAsync();
     }
 
-    public async Task<ICollection<BodyWeightLog>> GetAllBodyWeightLogs(Guid userId)
+    public async Task<BodyWeightLogsViewModel> GetAllBodyWeightLogs(Guid userId)
     {
-        return await _dbContext.BodyWeightLogs
+        var bodyWeightLogs = await _dbContext.BodyWeightLogs
             .Where(r => r.UserId == userId)
             .OrderByDescending(r => r.DateLogged)
+            .Select(log => new BodyWeightLogViewModel()
+            {
+                Id = log.Id,
+                UserId = log.UserId,
+                LogDate = log.DateLogged,
+                Weight = log.CurrentWeight
+            })
             .ToListAsync();
+
+        return new BodyWeightLogsViewModel()
+        {
+            Logs = bodyWeightLogs,
+            NewLog = new BodyWeightLogViewModel()
+        };
+    }
+
+    public async Task AddLogAsync(BodyWeightLogViewModel logViewModel, Guid userId)
+    {
+        var log = new BodyWeightLog()
+        {
+            UserId = userId,
+            DateLogged = logViewModel.LogDate,
+            CurrentWeight = logViewModel.Weight
+        };
+
+        await _dbContext.BodyWeightLogs.AddAsync(log);
+        await _dbContext.SaveChangesAsync();
     }
 }

@@ -1,12 +1,12 @@
 ﻿@model FitnessTrackingApp.Web.ViewModels.BodyWeight.BodyWeightDetailsViewModel
 
-<h2>Body Weigh Details</h2>
+<h2>Body Weigh Index</h2>
 
 <h2>Your body weight goal is: @(Model.BodyWeightGoal?.GoalWeight ?? 0) kg</h2>
 
 <div>
     <h2 class="d-inline">My Bodyweight</h2>
-    <a asp-controller="BodyWeight" asp-action="AddBodyWeightLog" class="font-weight-bold d-inline">+Add Bodyweights</a>
+    <a asp-controller="BodyWeight" asp-action="EditBodyWeightLogs" class="font-weight-bold d-inline">+Add Bodyweights</a>
 </div>
 
 <div class="row">
@@ -17,3 +17,5 @@
         </div>
     </div>
 </div>
+
+<a asp-controller="BodyWeight" asp-action="EditBodyWeightLogs" class="btn btn-info me-2 w-50">Edit Body Weight Logs</a>

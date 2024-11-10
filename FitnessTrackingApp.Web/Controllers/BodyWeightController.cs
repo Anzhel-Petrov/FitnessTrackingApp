@@ -11,11 +11,13 @@ namespace FitnessTrackingApp.Web.Controllers
     public class BodyWeightController : BaseController
     {
         private readonly IBodyWeightService _bodyWeightService;
+
         public BodyWeightController(IBodyWeightService bodyWeightService)
         {
             _bodyWeightService = bodyWeightService;
         }
-        public async Task<IActionResult> Details()
+
+        public async Task<IActionResult> Index()
         {
             var bodyWeightGoal = await _bodyWeightService.GetBodyWeightGoalAsync(this.GetUserId());
 
@@ -28,26 +30,41 @@ namespace FitnessTrackingApp.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBodyWeightGoal(BodyWeightGoalCreateViewModel bodyWeightGoalCreateViewModel)
+        public async Task<IActionResult> CreateBodyWeightGoal(
+            BodyWeightGoalCreateViewModel bodyWeightGoalCreateViewModel)
         {
             if (ModelState.IsValid)
             {
-                Guid userId = this.GetUserId() ?? Guid.Empty;
-
                 //var existingWeightGoal = await _bodyWeightService.GetBodyWeightGoalAsync(userId);
 
-                await _bodyWeightService.AddBodyWeightGoal(userId, bodyWeightGoalCreateViewModel.GoalWeight);
+                await _bodyWeightService.AddBodyWeightGoal(this.GetUserId(), bodyWeightGoalCreateViewModel.GoalWeight);
 
-                return RedirectToAction(nameof(Details));
+                return RedirectToAction(nameof(Index));
             }
 
-            return View(nameof(Details), new BodyWeightDetailsViewModel{ GoalWeightViewModel = bodyWeightGoalCreateViewModel });
+            return View(nameof(Index),
+                new BodyWeightDetailsViewModel { GoalWeightViewModel = bodyWeightGoalCreateViewModel });
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddBodyWeightLog()
+        public async Task<IActionResult> EditBodyWeightLogs()
         {
-            return View(nameof(Details));
+            var bodyWeightLogs = await _bodyWeightService.GetAllBodyWeightLogs(this.GetUserId());
+
+            return View(bodyWeightLogs);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddLog(BodyWeightLogsViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(EditBodyWeightLogs), model);
+            }
+
+            await _bodyWeightService.AddLogAsync(model.NewLog, this.GetUserId());
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
