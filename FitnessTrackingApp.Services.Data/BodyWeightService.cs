@@ -105,4 +105,16 @@ public class BodyWeightService : IBodyWeightService
         await _dbContext.BodyWeightLogs.AddAsync(log);
         await _dbContext.SaveChangesAsync();
     }
+    
+    public async Task DeleteLogAsync(long logId, Guid userId)
+    {
+        var log = await _dbContext.BodyWeightLogs
+            .FirstOrDefaultAsync(l => l.Id == logId && l.UserId == userId);
+
+        if (log != null)
+        {
+            _dbContext.BodyWeightLogs.Remove(log);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
 }

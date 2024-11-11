@@ -64,7 +64,15 @@ namespace FitnessTrackingApp.Web.Controllers
 
             await _bodyWeightService.AddLogAsync(model.NewLog, this.GetUserId());
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(EditBodyWeightLogs));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveLog(long id)
+        {
+            await _bodyWeightService.DeleteLogAsync(id, this.GetUserId());
+
+            return RedirectToAction(nameof(EditBodyWeightLogs));
         }
     }
 }
