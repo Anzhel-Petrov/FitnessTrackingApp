@@ -19,11 +19,25 @@ namespace FitnessTrackingApp.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var bodyWeightGoal = await _bodyWeightService.GetBodyWeightGoalAsync(this.GetUserId());
+            var currentUserId = this.GetUserId();
+            
+            var bodyWeightGoal = await _bodyWeightService.GetBodyWeightGoalAsync(currentUserId);
+
+            var weeklyBodyWeightProgress = await _bodyWeightService.GetWeeklyBodyWeightLogs(currentUserId);
+
+            var monthlyBodyWeightProgress = await _bodyWeightService.GetMonthlyBodyWeightLogs(currentUserId);
+
+            var lastLoggedBodyWeight = weeklyBodyWeightProgress.Select(l => l.CurrentWeight).LastOrDefault();
+
+            var lastBodyWeightLoggedDate = weeklyBodyWeightProgress.Select(l => l.DateLogged).LastOrDefault();
 
             BodyWeightDetailsViewModel bodyWeightDetailsViewModel = new BodyWeightDetailsViewModel()
             {
-                BodyWeightGoal = bodyWeightGoal
+                BodyWeightGoal = bodyWeightGoal,
+                MonthlyRecords = monthlyBodyWeightProgress,
+                WeeklyRecords = weeklyBodyWeightProgress,
+                MostRecentWeight = lastLoggedBodyWeight,
+                MostRecentWeightDate = lastBodyWeightLoggedDate,
             };
 
             return View(bodyWeightDetailsViewModel);

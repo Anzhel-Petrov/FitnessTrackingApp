@@ -19,3 +19,61 @@
 </div>
 
 <a asp-controller="BodyWeight" asp-action="EditBodyWeightLogs" class="btn btn-info me-2 w-50">Edit Body Weight Logs</a>
+
+<div class="container">
+    <h2>My Bodyweight</h2>
+
+    <div class="row">
+        <div class="col-md-3 card">
+            <h5>Most Recent Bodyweight</h5>
+            <p>@Model.MostRecentWeight kg</p>
+            <small>@Model.MostRecentWeightDate.ToShortDateString()</small>
+        </div>
+        <div class="col-md-3 card">
+            <h5>This Week's Progress</h5>
+            <p>@Model.WeeklyProgress kg</p>
+        </div>
+        <div class="col-md-3 card">
+            <h5>Current Month's Progress</h5>
+            <p>@Model.MonthlyProgress kg</p>
+        </div>
+        <!-- Add more cards as needed -->
+    </div>
+
+    <h3>This Week</h3>
+    <canvas id="weeklyChart"></canvas>
+
+    <h3>This Month</h3>
+    <canvas id="monthlyChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+    var weeklyChart = new Chart(weeklyCtx, {
+        type: 'line',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.WeeklyRecords.Select(r => r.DateLogged.ToShortDateString()))),
+            datasets: [{
+                label: 'Weight (kg)',
+                data: @Html.Raw(Json.Serialize(Model.WeeklyRecords.Select(r => r.CurrentWeight))),
+                borderColor: 'blue',
+                fill: false
+            }]
+        }
+    });
+
+    var monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+    var monthlyChart = new Chart(monthlyCtx, {
+        type: 'line',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.MonthlyRecords.Select(r => r.DateLogged.ToShortDateString()))),
+            datasets: [{
+                label: 'Weight (kg)',
+                data: @Html.Raw(Json.Serialize(Model.MonthlyRecords.Select(r => r.CurrentWeight))),
+                borderColor: 'green',
+                fill: false
+            }]
+        }
+    });
+</script>

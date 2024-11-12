@@ -46,21 +46,23 @@ public class BodyWeightService : IBodyWeightService
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<ICollection<BodyWeightLog>> GetWeeklyBodyWeightLogs(Guid userId)
+    public async Task<IEnumerable<BodyWeightLog>> GetWeeklyBodyWeightLogs(Guid userId)
     {
         var startOfWeek = DateTime.Today.AddDays(-7);
         return await _dbContext.BodyWeightLogs
             .Where(r => r.UserId == userId && r.DateLogged >= startOfWeek)
-            .OrderByDescending(r => r.DateLogged)
+            .OrderBy(r => r.DateLogged)
+            .AsNoTracking()
             .ToListAsync();
     }
 
-    public async Task<ICollection<BodyWeightLog>> GetMonthlyBodyWeightLogs(Guid userId)
+    public async Task<IEnumerable<BodyWeightLog>> GetMonthlyBodyWeightLogs(Guid userId)
     {
         var startOfMonth = DateTime.Today.AddMonths(-1);
         return await _dbContext.BodyWeightLogs
             .Where(r => r.UserId == userId && r.DateLogged >= startOfMonth)
-            .OrderByDescending(r => r.DateLogged)
+            .OrderBy(r => r.DateLogged)
+            .AsNoTracking()
             .ToListAsync();
     }
 
