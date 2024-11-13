@@ -10,6 +10,7 @@
     <ProjectReference Include="..\FitnessTrackingApp.Data.Models\FitnessTrackingApp.Data.Models.csproj" />
     <ProjectReference Include="..\FitnessTrackingApp.Data\FitnessTrackingApp.Data.csproj" />
     <ProjectReference Include="..\FitnessTrackingApp.Web.ViewModels\FitnessTrackingApp.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\FitnessTrackingApp.Common\FitnessTrackingApp.Common.csproj" />
   </ItemGroup>
 
 </Project>

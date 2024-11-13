@@ -1,4 +1,4 @@
-﻿using System.Data;
+﻿using FitnessTrackingApp.Common;
 using FitnessTrackingApp.Data;
 using FitnessTrackingApp.Data.Models;
 using FitnessTrackingApp.Services.Data.Interfaces;
@@ -23,7 +23,7 @@ public class BodyWeightService : IBodyWeightService
         return bodyWeightGoal;
     }
 
-    public async Task AddBodyWeightGoal(Guid userId, decimal goalWeight)
+    public async Task<OperationResult> AddBodyWeightGoalAsync(Guid userId, decimal goalWeight)
     {
         var existingWeightGoal = await _dbContext.BodyWeightGoals
             .FirstOrDefaultAsync(g => g.IsActive && g.UserId == userId);
@@ -43,10 +43,17 @@ public class BodyWeightService : IBodyWeightService
         };
 
         _dbContext.BodyWeightGoals.Add(newBodyWeightGoal);
-        await _dbContext.SaveChangesAsync();
+        var result = await _dbContext.SaveChangesAsync();
+
+        if (result == 0)
+        {
+            return new OperationResult(false,"Error adding new body weight goal!");
+        }
+        
+        return new OperationResult(true);
     }
 
-    public async Task<IEnumerable<BodyWeightLog>> GetWeeklyBodyWeightLogs(Guid userId)
+    public async Task<IEnumerable<BodyWeightLog>> GetWeeklyBodyWeightLogsAsync(Guid userId)
     {
         var startOfWeek = DateTime.Today.AddDays(-7);
         return await _dbContext.BodyWeightLogs
@@ -56,7 +63,7 @@ public class BodyWeightService : IBodyWeightService
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<BodyWeightLog>> GetMonthlyBodyWeightLogs(Guid userId)
+    public async Task<IEnumerable<BodyWeightLog>> GetMonthlyBodyWeightLogsAsync(Guid userId)
     {
         var startOfMonth = DateTime.Today.AddMonths(-1);
         return await _dbContext.BodyWeightLogs
@@ -66,7 +73,7 @@ public class BodyWeightService : IBodyWeightService
             .ToListAsync();
     }
 
-    public async Task<BodyWeightLogsViewModel> GetAllBodyWeightLogs(Guid userId)
+    public async Task<BodyWeightLogsViewModel> GetAllBodyWeightLogsAsync(Guid userId)
     {
         var bodyWeightLogs = await _dbContext.BodyWeightLogs
             .Where(r => r.UserId == userId)
@@ -87,15 +94,15 @@ public class BodyWeightService : IBodyWeightService
         };
     }
 
-    public async Task AddLogAsync(BodyWeightLogViewModel logViewModel, Guid userId)
+    public async Task<OperationResult> AddBodyWeightLogAsync(BodyWeightLogViewModel logViewModel, Guid userId)
     {
-        var existingDateLog = await _dbContext.BodyWeightLogs
-            .FirstOrDefaultAsync(l => l.UserId == userId && l.DateLogged == logViewModel.LogDate);
-
-        if (existingDateLog != null)
-        {
-            
-        }
+        // var existingDateLog = await _dbContext.BodyWeightLogs
+        //     .FirstOrDefaultAsync(l => l.UserId == userId && l.DateLogged == logViewModel.LogDate);
+        //
+        // if (existingDateLog != null)
+        // {
+        //     return new OperationResult(false, "A weight is already logged for that date!");
+        // }
 
         var log = new BodyWeightLog()
         {
@@ -103,20 +110,53 @@ public class BodyWeightService : IBodyWeightService
             DateLogged = logViewModel.LogDate,
             CurrentWeight = logViewModel.Weight
         };
+        
+        try
+        {
+            _dbContext.BodyWeightLogs.Add(log);
+            await _dbContext.SaveChangesAsync();
+            return new OperationResult(true);
+        }
+        catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("IX_BodyWeightLogs_DateLogged") == true)
+        {
+            // Catching unique constraint violation for DateLogged index
+            return new OperationResult(false, "A log entry for this date already exists.");
+        }
+        catch (Exception ex)
+        {
+            // Catch any other potential exception
+            return new OperationResult(false, "An error occurred while adding the log.");
+        }
 
-        await _dbContext.BodyWeightLogs.AddAsync(log);
-        await _dbContext.SaveChangesAsync();
+        // await _dbContext.BodyWeightLogs.AddAsync(log);
+        // var result = await _dbContext.SaveChangesAsync();
+        //
+        // if (result == 0)
+        // {
+        //     return new OperationResult(false, "Error adding body weight goal!");
+        // }
+        //
+        // return new OperationResult(true);
     }
     
-    public async Task DeleteLogAsync(long logId, Guid userId)
+    public async Task<OperationResult> DeleteBodyWeightLogAsync(long logId, Guid userId)
     {
-        var log = await _dbContext.BodyWeightLogs
+        BodyWeightLog? log = await _dbContext.BodyWeightLogs
             .FirstOrDefaultAsync(l => l.Id == logId && l.UserId == userId);
 
-        if (log != null)
+        if (log == null)
         {
-            _dbContext.BodyWeightLogs.Remove(log);
-            await _dbContext.SaveChangesAsync();
+            return new OperationResult(false, "Log not found or access denied.");
         }
+        
+        _dbContext.BodyWeightLogs.Remove(log);
+        var result = await _dbContext.SaveChangesAsync();
+        
+        if (result == 0)
+        {
+            return new OperationResult(false, "Error deleting body weight log!");
+        }
+        
+        return new OperationResult(true);
     }
 }

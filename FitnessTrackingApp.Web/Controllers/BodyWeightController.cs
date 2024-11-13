@@ -1,10 +1,7 @@
-﻿using FitnessTrackingApp.Data;
-using FitnessTrackingApp.Data.Models;
+﻿using FitnessTrackingApp.Common;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.BodyWeight;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTrackingApp.Web.Controllers
 {
@@ -23,9 +20,9 @@ namespace FitnessTrackingApp.Web.Controllers
             
             var bodyWeightGoal = await _bodyWeightService.GetBodyWeightGoalAsync(currentUserId);
 
-            var weeklyBodyWeightProgress = await _bodyWeightService.GetWeeklyBodyWeightLogs(currentUserId);
+            var weeklyBodyWeightProgress = await _bodyWeightService.GetWeeklyBodyWeightLogsAsync(currentUserId);
 
-            var monthlyBodyWeightProgress = await _bodyWeightService.GetMonthlyBodyWeightLogs(currentUserId);
+            var monthlyBodyWeightProgress = await _bodyWeightService.GetMonthlyBodyWeightLogsAsync(currentUserId);
 
             var lastLoggedBodyWeight = weeklyBodyWeightProgress.Select(l => l.CurrentWeight).LastOrDefault();
 
@@ -51,7 +48,7 @@ namespace FitnessTrackingApp.Web.Controllers
             {
                 //var existingWeightGoal = await _bodyWeightService.GetBodyWeightGoalAsync(userId);
 
-                await _bodyWeightService.AddBodyWeightGoal(this.GetUserId(), bodyWeightGoalCreateViewModel.GoalWeight);
+                OperationResult result = await _bodyWeightService.AddBodyWeightGoalAsync(this.GetUserId(), bodyWeightGoalCreateViewModel.GoalWeight);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -63,7 +60,7 @@ namespace FitnessTrackingApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> EditBodyWeightLogs()
         {
-            var bodyWeightLogs = await _bodyWeightService.GetAllBodyWeightLogs(this.GetUserId());
+            var bodyWeightLogs = await _bodyWeightService.GetAllBodyWeightLogsAsync(this.GetUserId());
 
             return View(bodyWeightLogs);
         }
@@ -76,7 +73,7 @@ namespace FitnessTrackingApp.Web.Controllers
                 return View(nameof(EditBodyWeightLogs), model);
             }
 
-            await _bodyWeightService.AddLogAsync(model.NewLog, this.GetUserId());
+            OperationResult result = await _bodyWeightService.AddBodyWeightLogAsync(model.NewLog, this.GetUserId());
 
             return RedirectToAction(nameof(EditBodyWeightLogs));
         }
@@ -84,7 +81,12 @@ namespace FitnessTrackingApp.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveLog(long id)
         {
-            await _bodyWeightService.DeleteLogAsync(id, this.GetUserId());
+            OperationResult result = await _bodyWeightService.DeleteBodyWeightLogAsync(id, this.GetUserId());
+
+            if (result.Success == false)
+            {
+                
+            }
 
             return RedirectToAction(nameof(EditBodyWeightLogs));
         }

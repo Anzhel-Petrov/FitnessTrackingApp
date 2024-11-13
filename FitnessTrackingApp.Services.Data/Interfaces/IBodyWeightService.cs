@@ -1,4 +1,5 @@
-﻿using FitnessTrackingApp.Data.Models;
+﻿using FitnessTrackingApp.Common;
+using FitnessTrackingApp.Data.Models;
 using FitnessTrackingApp.Web.ViewModels.BodyWeight;
 
 namespace FitnessTrackingApp.Services.Data.Interfaces;
@@ -6,10 +7,10 @@ namespace FitnessTrackingApp.Services.Data.Interfaces;
 public interface IBodyWeightService
 {
     public Task<BodyWeightGoal?> GetBodyWeightGoalAsync(Guid userId);
-    public Task AddBodyWeightGoal(Guid userId, decimal goalWeight);
-    public Task<IEnumerable<BodyWeightLog>> GetWeeklyBodyWeightLogs(Guid userId);
-    public Task<IEnumerable<BodyWeightLog>> GetMonthlyBodyWeightLogs(Guid userId);
-    public Task<BodyWeightLogsViewModel> GetAllBodyWeightLogs(Guid userId);
-    public Task AddLogAsync(BodyWeightLogViewModel logViewModel, Guid userId);
-    public Task DeleteLogAsync(long logId, Guid userId);
+    public Task<OperationResult> AddBodyWeightGoalAsync(Guid userId, decimal goalWeight);
+    public Task<IEnumerable<BodyWeightLog>> GetWeeklyBodyWeightLogsAsync(Guid userId);
+    public Task<IEnumerable<BodyWeightLog>> GetMonthlyBodyWeightLogsAsync(Guid userId);
+    public Task<BodyWeightLogsViewModel> GetAllBodyWeightLogsAsync(Guid userId);
+    public Task<OperationResult> AddBodyWeightLogAsync(BodyWeightLogViewModel logViewModel, Guid userId);
+    public Task<OperationResult> DeleteBodyWeightLogAsync(long logId, Guid userId);
 }
