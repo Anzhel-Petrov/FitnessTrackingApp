@@ -60,7 +60,7 @@ namespace FitnessTrackingApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> EditBodyWeightLogs()
         {
-            var bodyWeightLogs = await _bodyWeightService.GetAllBodyWeightLogsAsync(this.GetUserId());
+            var bodyWeightLogs = await _bodyWeightService.GetBodyWeightLogsViewModelAsync(this.GetUserId());
 
             return View(bodyWeightLogs);
         }
@@ -70,10 +70,17 @@ namespace FitnessTrackingApp.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                model.Logs = await _bodyWeightService.GetAllBodyWeightLogsAsync(this.GetUserId());
                 return View(nameof(EditBodyWeightLogs), model);
             }
 
             OperationResult result = await _bodyWeightService.AddBodyWeightLogAsync(model.NewLog, this.GetUserId());
+            
+            if (!result.Success)
+            {
+                TempData["ErrorMessage"] = result.ErrorMessage;
+                return RedirectToAction(nameof(EditBodyWeightLogs));
+            }
 
             return RedirectToAction(nameof(EditBodyWeightLogs));
         }

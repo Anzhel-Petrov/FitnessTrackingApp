@@ -10,7 +10,9 @@ public interface IBodyWeightService
     public Task<OperationResult> AddBodyWeightGoalAsync(Guid userId, decimal goalWeight);
     public Task<IEnumerable<BodyWeightLog>> GetWeeklyBodyWeightLogsAsync(Guid userId);
     public Task<IEnumerable<BodyWeightLog>> GetMonthlyBodyWeightLogsAsync(Guid userId);
-    public Task<BodyWeightLogsViewModel> GetAllBodyWeightLogsAsync(Guid userId);
+    public Task<List<BodyWeightLogViewModel>> GetAllBodyWeightLogsAsync(Guid userId);
+    public Task<BodyWeightLog?> GetLastBodyWeightLogAsync(Guid userId);
+    public Task<BodyWeightLogsViewModel> GetBodyWeightLogsViewModelAsync(Guid userId);
     public Task<OperationResult> AddBodyWeightLogAsync(BodyWeightLogViewModel logViewModel, Guid userId);
     public Task<OperationResult> DeleteBodyWeightLogAsync(long logId, Guid userId);
 }
