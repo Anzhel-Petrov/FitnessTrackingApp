@@ -22,7 +22,7 @@ namespace FitnessTrackingApp.Web
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
                 {
                     // Sign In
                     options.SignIn.RequireConfirmedAccount = builder
@@ -40,8 +40,8 @@ namespace FitnessTrackingApp.Web
                     options.Password.RequiredLength = builder
                         .Configuration.GetValue<int>("Identity:Password:RequiredLength");
                 })
-                .AddRoles<IdentityRole<Guid>>()
-                .AddEntityFrameworkStores<FitnessTrackingAppDbContext>();
+                .AddEntityFrameworkStores<FitnessTrackingAppDbContext>()
+                .AddDefaultTokenProviders();;
 
             builder.Services.ConfigureApplicationCookie(cfg =>
             {
@@ -52,7 +52,7 @@ namespace FitnessTrackingApp.Web
             builder.Services.AddScoped<IMacroService, MacroService>();
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddMvc();
 
             WebApplication app = builder.Build();
 

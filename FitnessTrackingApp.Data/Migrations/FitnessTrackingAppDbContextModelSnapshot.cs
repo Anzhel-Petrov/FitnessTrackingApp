@@ -144,6 +144,56 @@ namespace FitnessTrackingApp.Data.Migrations
                     b.ToTable("BodyWeightLogs");
                 });
 
+            modelBuilder.Entity("FitnessTrackingApp.Data.Models.CardioSession", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("Calories")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsHIIT")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SessionsPerWeek")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CardioSessions");
+                });
+
+            modelBuilder.Entity("FitnessTrackingApp.Data.Models.GoalPlan", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("GoalName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GoalPlans");
+                });
+
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.Macro", b =>
                 {
                     b.Property<long>("Id")
@@ -161,14 +211,43 @@ namespace FitnessTrackingApp.Data.Migrations
                     b.Property<int>("DailyProtein")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasKey("Id");
+
+                    b.ToTable("Macros");
+                });
+
+            modelBuilder.Entity("FitnessTrackingApp.Data.Models.WeeklyPlan", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CardioSessionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("GoalPlanId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("MacroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Week")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CardioSessionId");
 
-                    b.ToTable("Macros");
+                    b.HasIndex("GoalPlanId");
+
+                    b.HasIndex("MacroId");
+
+                    b.HasIndex("Week", "GoalPlanId")
+                        .IsUnique();
+
+                    b.ToTable("WeeklyPlans");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -250,12 +329,10 @@ namespace FitnessTrackingApp.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -291,12 +368,10 @@ namespace FitnessTrackingApp.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -328,15 +403,42 @@ namespace FitnessTrackingApp.Data.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("FitnessTrackingApp.Data.Models.Macro", b =>
+            modelBuilder.Entity("FitnessTrackingApp.Data.Models.GoalPlan", b =>
                 {
-                    b.HasOne("FitnessTrackingApp.Data.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
+                    b.HasOne("FitnessTrackingApp.Data.Models.ApplicationUser", "User")
+                        .WithMany("GoalPlans")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUser");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FitnessTrackingApp.Data.Models.WeeklyPlan", b =>
+                {
+                    b.HasOne("FitnessTrackingApp.Data.Models.CardioSession", "CardioSession")
+                        .WithMany()
+                        .HasForeignKey("CardioSessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FitnessTrackingApp.Data.Models.GoalPlan", "GoalPlan")
+                        .WithMany("WeeklyPlans")
+                        .HasForeignKey("GoalPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FitnessTrackingApp.Data.Models.Macro", "Macro")
+                        .WithMany()
+                        .HasForeignKey("MacroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CardioSession");
+
+                    b.Navigation("GoalPlan");
+
+                    b.Navigation("Macro");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -388,6 +490,16 @@ namespace FitnessTrackingApp.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FitnessTrackingApp.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("GoalPlans");
+                });
+
+            modelBuilder.Entity("FitnessTrackingApp.Data.Models.GoalPlan", b =>
+                {
+                    b.Navigation("WeeklyPlans");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,12 +10,6 @@ public class Macro
     public long Id { get; set; }
     
     [Required]
-    public Guid UserId { get; set; }
-
-    [ForeignKey(nameof(UserId))]
-    public ApplicationUser ApplicationUser { get; set; } = null!;
-    
-    [Required]
     public int TotalDailyCalories => CalculateTotalCalories();
 
     [Required] 

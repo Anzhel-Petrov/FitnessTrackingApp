@@ -92,7 +92,7 @@ public class BodyWeightService : IBodyWeightService
     {
         return await _dbContext.BodyWeightLogs
             .OrderBy(l => l!.DateLogged)
-            .LastOrDefaultAsync(l => l != null && l.UserId == userId);
+            .LastOrDefaultAsync(l => l.UserId == userId);
     }
 
     public async Task<BodyWeightLogsViewModel> GetBodyWeightLogsViewModelAsync(Guid userId)

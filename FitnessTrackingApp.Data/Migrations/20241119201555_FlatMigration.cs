@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FitnessTrackingApp.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class FlatMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,36 @@ namespace FitnessTrackingApp.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CardioSessions",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Calories = table.Column<int>(type: "int", nullable: false),
+                    SessionsPerWeek = table.Column<int>(type: "int", nullable: false),
+                    IsHIIT = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CardioSessions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Macros",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DailyCarbohydrates = table.Column<int>(type: "int", nullable: false),
+                    DailyProtein = table.Column<int>(type: "int", nullable: false),
+                    DailyFat = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Macros", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,8 +126,8 @@ namespace FitnessTrackingApp.Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -141,8 +171,8 @@ namespace FitnessTrackingApp.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -163,7 +193,9 @@ namespace FitnessTrackingApp.Data.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GoalWeight = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false)
+                    GoalWeight = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -193,6 +225,62 @@ namespace FitnessTrackingApp.Data.Migrations
                         name: "FK_BodyWeightLogs_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GoalPlans",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GoalName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GoalPlans", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GoalPlans_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WeeklyPlans",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GoalPlanId = table.Column<long>(type: "bigint", nullable: false),
+                    Week = table.Column<int>(type: "int", nullable: false),
+                    MacroId = table.Column<long>(type: "bigint", nullable: false),
+                    CardioSessionId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WeeklyPlans", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WeeklyPlans_CardioSessions_CardioSessionId",
+                        column: x => x.CardioSessionId,
+                        principalTable: "CardioSessions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_WeeklyPlans_GoalPlans_GoalPlanId",
+                        column: x => x.GoalPlanId,
+                        principalTable: "GoalPlans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_WeeklyPlans_Macros_MacroId",
+                        column: x => x.MacroId,
+                        principalTable: "Macros",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -242,9 +330,41 @@ namespace FitnessTrackingApp.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BodyWeightLogs_DateLogged",
+                table: "BodyWeightLogs",
+                column: "DateLogged",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BodyWeightLogs_UserId",
                 table: "BodyWeightLogs",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GoalPlans_UserId",
+                table: "GoalPlans",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WeeklyPlans_CardioSessionId",
+                table: "WeeklyPlans",
+                column: "CardioSessionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WeeklyPlans_GoalPlanId",
+                table: "WeeklyPlans",
+                column: "GoalPlanId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WeeklyPlans_MacroId",
+                table: "WeeklyPlans",
+                column: "MacroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WeeklyPlans_Week_GoalPlanId",
+                table: "WeeklyPlans",
+                columns: new[] { "Week", "GoalPlanId" },
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -272,7 +392,19 @@ namespace FitnessTrackingApp.Data.Migrations
                 name: "BodyWeightLogs");
 
             migrationBuilder.DropTable(
+                name: "WeeklyPlans");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "CardioSessions");
+
+            migrationBuilder.DropTable(
+                name: "GoalPlans");
+
+            migrationBuilder.DropTable(
+                name: "Macros");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
