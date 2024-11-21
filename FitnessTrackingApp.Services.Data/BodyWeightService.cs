@@ -136,7 +136,7 @@ public class BodyWeightService : IBodyWeightService
         catch (Exception ex)
         {
             // Catch any other potential exception
-            return new OperationResult(false, "An error occurred while adding the log.");
+            return new OperationResult(false, $"An error occurred while adding the log. Error: {ex.Message}");
         }
 
         // await _dbContext.BodyWeightLogs.AddAsync(log);
