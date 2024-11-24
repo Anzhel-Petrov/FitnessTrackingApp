@@ -9,4 +9,7 @@ public static class ApplicationConstants
     public const int CaloriesPerGramOfProtein = 4;
     public const int CaloriesPerGramOfCarbohydrates = 4;
     public const int CaloriesPerGramOfFat = 9;
+    
+    // GoalPlan
+    public const string OnlyOneActiveGoalPlan = "[IsActive] = 1";
 }

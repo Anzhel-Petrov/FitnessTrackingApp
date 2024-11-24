@@ -1,4 +1,5 @@
-﻿using FitnessTrackingApp.Data.Models;
+﻿using System.Reflection;
+using FitnessTrackingApp.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -24,17 +25,15 @@ public class FitnessTrackingAppDbContext : IdentityDbContext<ApplicationUser, Id
     public DbSet<CardioSession> CardioSessions { get; set; } = null!;
     public DbSet<GoalPlan> GoalPlans { get; set; } = null!;
     public DbSet<WeeklyPlan> WeeklyPlans { get; set; } = null!;
+    public DbSet<Trainer> Trainers { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(builder);
-        
-        builder.Entity<BodyWeightLog>()
-            .HasIndex(l => l.DateLogged)
-            .IsUnique();
+        var configurationAssembly = Assembly.GetAssembly(typeof(FitnessTrackingAppDbContext)) ??
+                                    Assembly.GetExecutingAssembly();
 
-        builder.Entity<WeeklyPlan>()
-            .HasIndex(w => new { w.Week, w.GoalPlanId })
-            .IsUnique();
+        builder.ApplyConfigurationsFromAssembly(configurationAssembly);
+
+        base.OnModelCreating(builder);
     }
 }

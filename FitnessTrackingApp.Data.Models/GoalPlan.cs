@@ -12,7 +12,12 @@ public class GoalPlan
     public Guid UserId { get; set; }
 
     [ForeignKey(nameof(UserId))]
-    public ApplicationUser User { get; set; } = null!;
+    public ApplicationUser ApplicationUser { get; set; } = null!;
+    
+    public Guid TrainerId { get; set; }
+    
+    [ForeignKey(nameof(TrainerId))]
+    public Trainer Trainer { get; set; } = null!;
 
     [Required]
     public string GoalName { get; set; } = null!; // Consider making this an ENUM - WEight gain, Weight loss, Maintain weight
@@ -21,6 +26,8 @@ public class GoalPlan
     public DateTime StartDate { get; set; }
 
     public DateTime? EndDate { get; set; }
+    
+    public bool IsActive { get; set; }
 
-    public ICollection<WeeklyPlan> WeeklyPlans { get; set; } = new List<WeeklyPlan>();
+    public ICollection<WeeklyPlan> WeeklyPlans { get; set; } = new HashSet<WeeklyPlan>();
 }

@@ -8,7 +8,5 @@ namespace FitnessTrackingApp.Data.Models
         {
             this.Id = Guid.NewGuid();
         }
-        
-        public ICollection<GoalPlan> GoalPlans { get; set; } = new List<GoalPlan>();
     }
 }
