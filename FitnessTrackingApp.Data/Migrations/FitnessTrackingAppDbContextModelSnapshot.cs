@@ -113,7 +113,7 @@ namespace FitnessTrackingApp.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BodyWeightGoals");
+                    b.ToTable("BodyWeightGoals", (string)null);
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.BodyWeightLog", b =>
@@ -141,7 +141,7 @@ namespace FitnessTrackingApp.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BodyWeightLogs");
+                    b.ToTable("BodyWeightLogs", (string)null);
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.CardioSession", b =>
@@ -163,7 +163,7 @@ namespace FitnessTrackingApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CardioSessions");
+                    b.ToTable("CardioSessions", (string)null);
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.GoalPlan", b =>
@@ -203,7 +203,7 @@ namespace FitnessTrackingApp.Data.Migrations
                         .IsUnique()
                         .HasFilter("[IsActive] = 1");
 
-                    b.ToTable("GoalPlans");
+                    b.ToTable("GoalPlans", (string)null);
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.Macro", b =>
@@ -225,7 +225,7 @@ namespace FitnessTrackingApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Macros");
+                    b.ToTable("Macros", (string)null);
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.Trainer", b =>
@@ -251,7 +251,7 @@ namespace FitnessTrackingApp.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Trainers");
+                    b.ToTable("Trainers", (string)null);
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.WeeklyPlan", b =>
@@ -285,7 +285,7 @@ namespace FitnessTrackingApp.Data.Migrations
                     b.HasIndex("Week", "GoalPlanId")
                         .IsUnique();
 
-                    b.ToTable("WeeklyPlans");
+                    b.ToTable("WeeklyPlans", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>

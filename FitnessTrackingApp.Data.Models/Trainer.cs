@@ -5,6 +5,10 @@ namespace FitnessTrackingApp.Data.Models;
 
 public class Trainer
 {
+    public Trainer()
+    {
+        this.Id = Guid.NewGuid();
+    }
     [Key]
     public Guid Id { get; set; }
 
