@@ -1,6 +1,7 @@
 ﻿using FitnessTrackingApp.Data;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.Trainer;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTrackingApp.Services.Data;
 
@@ -12,18 +13,19 @@ public class TrainerService : ITrainerService
     {
         _dbContext = dbContext;
     }
-    public Task<List<CustomerViewModel>> GetUnassignedCustomersAsync()
-    {
-        throw new NotImplementedException();
-    }
 
-    public Task<List<CustomerViewModel>> GetAssignedCustomersAsync(Guid trainerId)
+    public async Task<IEnumerable<TrainerViewModel>> GetAvailableTrainersAsync()
     {
-        throw new NotImplementedException();
-    }
-
-    public Task AssignCustomerAsync(Guid trainerId, Guid customerId)
-    {
-        throw new NotImplementedException();
+        return await _dbContext.Trainers
+            .Where(t => t.IsAvailable)
+            .OrderByDescending(t => t.AverageRating)
+            .Select(t => new TrainerViewModel
+            {
+                TrainerId = t.Id,
+                TrainerName = t.User.UserName!,
+                YearsOfExperience = t.YearsOfExperience,
+                AverageRating = t.AverageRating
+            })
+            .ToListAsync();
     }
 }

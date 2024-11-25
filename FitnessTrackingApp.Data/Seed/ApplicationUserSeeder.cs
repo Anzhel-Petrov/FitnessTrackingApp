@@ -40,6 +40,28 @@ public class ApplicationUserSeeder
                 EmailConfirmed = true,
                 PasswordHash = "AQAAAAIAAYagAAAAEM091clNOAmxwsYSHkdKdFrIX9VqVNOlisCtHCMQsHrCwjO8n3FkR/aTOzjO7U39rA==",
                 SecurityStamp = "PS3NQ5SUDKLIPXVZUOLB2WUVYWSCGT4B"
+            },
+            new ApplicationUser()
+            {
+                Id = Guid.Parse("90162da5-8408-493a-8dae-99995094cf09"),
+                UserName = "trainer4@getfit.com",
+                NormalizedUserName = "TRAINER4@GETFIT.COM",
+                Email = "trainer4@getfit.com",
+                NormalizedEmail = "TRAINER4@GETFIT.COM",
+                EmailConfirmed = true,
+                PasswordHash = "AQAAAAIAAYagAAAAED2P7oQH2z6h/CMWDPHngCMirJN+RM3sCXtpmUdMSkRd2HzDYMyxw1Vnu0/ynO1BHA==",
+                SecurityStamp = "CPRDG6HRGDF2RZSL25ZQTAQN6CCFN3OU"
+            },
+            new ApplicationUser()
+            {
+                Id = Guid.Parse("b0209e85-b41c-472b-a767-037253b72665"),
+                UserName = "trainer5@getfit.com",
+                NormalizedUserName = "TRAINER5@GETFIT.COM",
+                Email = "trainer5@getfit.com",
+                NormalizedEmail = "TRAINER5@GETFIT.COM",
+                EmailConfirmed = true,
+                PasswordHash = "AQAAAAIAAYagAAAAEBlaW8OGa3wuT5fTPou0rvz6TpIbQo8fuiXX64BxjqQDguHMTGANK8dsSA2yotbUig==",
+                SecurityStamp = "KLUU7OY42MOI2B6YKLLUTT5KTZX5P4SN"
             }
         };
     }

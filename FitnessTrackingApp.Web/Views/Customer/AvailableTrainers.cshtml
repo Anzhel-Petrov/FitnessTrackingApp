@@ -1,0 +1,42 @@
+﻿@model IEnumerable<TrainerViewModel>
+
+<div class="container mt-5">
+    <h2>Available Trainers</h2>
+    <p>Select a trainer to start your journey!</p>
+
+    @if (!Model.Any())
+    {
+        <p class="text-danger">No trainers are currently available. Please check back later!</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var trainer in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">@trainer.TrainerName</h5>
+                            <p class="card-text">
+                                <strong>Experience:</strong> @trainer.YearsOfExperience years<br />
+                                <strong>Rating:</strong> 
+                                <span class="text-warning">
+                                    @for (int i = 0; i < (int)trainer.AverageRating; i++)
+                                    {
+                                        <i class="bi bi-star-fill"></i> <!-- Bootstrap Star Icon -->
+                                    }
+                                </span>
+                            </p>
+                            <form method="post" action="/Customer/SelectTrainer">
+                                <input type="hidden" name="trainerId" value="@trainer.TrainerId" />
+                                <button type="submit" class="btn btn-primary">
+                                    Select Trainer
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

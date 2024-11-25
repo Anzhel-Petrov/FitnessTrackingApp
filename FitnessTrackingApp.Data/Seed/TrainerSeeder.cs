@@ -28,9 +28,25 @@ public class TrainerSeeder
             {
                 Id = Guid.Parse("d6644f7d-214a-4295-a971-7b065bd5c5ac"),
                 UserId = Guid.Parse("cba94579-9df9-4cda-bf3e-ff5f51048d4b"),
-                AverageRating = 8.2D,
+                AverageRating = 3.9D,
                 IsAvailable = true,
-                YearsOfExperience = 12
+                YearsOfExperience = 4
+            },
+            new Trainer()
+            {
+                Id = Guid.Parse("df3e0b57-1b43-497a-87d0-97a34ba21c92"),
+                UserId = Guid.Parse("90162da5-8408-493a-8dae-99995094cf09"),
+                AverageRating = 2.2D,
+                IsAvailable = false,
+                YearsOfExperience = 2
+            },
+            new Trainer()
+            {
+                Id = Guid.Parse("538c0f88-cd08-4dff-9a9e-0b612e436f03"),
+                UserId = Guid.Parse("b0209e85-b41c-472b-a767-037253b72665"),
+                AverageRating = 0,
+                IsAvailable = true,
+                YearsOfExperience = 0
             }
         };
     }

@@ -86,6 +86,88 @@ namespace FitnessTrackingApp.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("417ae2a4-ffbb-4e27-855e-d353004e0e91"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b0e2327c-4a05-4e03-a943-52f742b32f0c",
+                            Email = "trainer@getfit.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "TRAINER@GETFIT.COM",
+                            NormalizedUserName = "TRAINER@GETFIT.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELgDoi5HDG8Pug6HCYSQo6/+SA6L54OY4AGwUyjd0USCYX57uHHIIiuFLC3bJxuafA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "4JZZ3RICHGHZ3WDZWHJICS76QRJAESPV",
+                            TwoFactorEnabled = false,
+                            UserName = "trainer@getfit.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("e61ce637-3ba1-44a2-8c05-b7c0595c3e5b"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "310cdbce-29d0-472e-85c6-984a207c2675",
+                            Email = "trainer2@getfit.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "TRAINER2@GETFIT.COM",
+                            NormalizedUserName = "TRAINER2@GETFIT.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKi4X8jlIeKb2Ks+WTYxDzXEtjWoEEUxXkHQwV4gNQ4Y55lp3v9e73xxGJRC82dC6A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "3AYQOQVOUTYD57DGY46IMWFVAQFC7BXE",
+                            TwoFactorEnabled = false,
+                            UserName = "trainer2@getfit.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("cba94579-9df9-4cda-bf3e-ff5f51048d4b"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7ab3061f-7234-4ee2-b588-5fc588892838",
+                            Email = "trainer3@getfit.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "TRAINER3@GETFIT.COM",
+                            NormalizedUserName = "TRAINER3@GETFIT.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM091clNOAmxwsYSHkdKdFrIX9VqVNOlisCtHCMQsHrCwjO8n3FkR/aTOzjO7U39rA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "PS3NQ5SUDKLIPXVZUOLB2WUVYWSCGT4B",
+                            TwoFactorEnabled = false,
+                            UserName = "trainer3@getfit.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("90162da5-8408-493a-8dae-99995094cf09"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "59574cda-625d-4e16-8795-62100d711c64",
+                            Email = "trainer4@getfit.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "TRAINER4@GETFIT.COM",
+                            NormalizedUserName = "TRAINER4@GETFIT.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAED2P7oQH2z6h/CMWDPHngCMirJN+RM3sCXtpmUdMSkRd2HzDYMyxw1Vnu0/ynO1BHA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "CPRDG6HRGDF2RZSL25ZQTAQN6CCFN3OU",
+                            TwoFactorEnabled = false,
+                            UserName = "trainer4@getfit.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("b0209e85-b41c-472b-a767-037253b72665"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b4a91793-f118-4cab-8af5-0680a15202a7",
+                            Email = "trainer5@getfit.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "TRAINER5@GETFIT.COM",
+                            NormalizedUserName = "TRAINER5@GETFIT.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBlaW8OGa3wuT5fTPou0rvz6TpIbQo8fuiXX64BxjqQDguHMTGANK8dsSA2yotbUig==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "KLUU7OY42MOI2B6YKLLUTT5KTZX5P4SN",
+                            TwoFactorEnabled = false,
+                            UserName = "trainer5@getfit.com"
+                        });
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.BodyWeightGoal", b =>
@@ -113,7 +195,7 @@ namespace FitnessTrackingApp.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BodyWeightGoals", (string)null);
+                    b.ToTable("BodyWeightGoals");
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.BodyWeightLog", b =>
@@ -141,7 +223,7 @@ namespace FitnessTrackingApp.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BodyWeightLogs", (string)null);
+                    b.ToTable("BodyWeightLogs");
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.CardioSession", b =>
@@ -163,7 +245,7 @@ namespace FitnessTrackingApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CardioSessions", (string)null);
+                    b.ToTable("CardioSessions");
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.GoalPlan", b =>
@@ -203,7 +285,7 @@ namespace FitnessTrackingApp.Data.Migrations
                         .IsUnique()
                         .HasFilter("[IsActive] = 1");
 
-                    b.ToTable("GoalPlans", (string)null);
+                    b.ToTable("GoalPlans");
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.Macro", b =>
@@ -225,7 +307,7 @@ namespace FitnessTrackingApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Macros", (string)null);
+                    b.ToTable("Macros");
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.Trainer", b =>
@@ -251,7 +333,49 @@ namespace FitnessTrackingApp.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Trainers", (string)null);
+                    b.ToTable("Trainers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d8da2c4e-44f5-427d-b6f5-0dccfa1e2a46"),
+                            AverageRating = 6.4000000000000004,
+                            IsAvailable = true,
+                            UserId = new Guid("417ae2a4-ffbb-4e27-855e-d353004e0e91"),
+                            YearsOfExperience = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("ec163c02-6fdd-4e66-bec7-a1418a2fe85a"),
+                            AverageRating = 8.1999999999999993,
+                            IsAvailable = true,
+                            UserId = new Guid("e61ce637-3ba1-44a2-8c05-b7c0595c3e5b"),
+                            YearsOfExperience = 12
+                        },
+                        new
+                        {
+                            Id = new Guid("d6644f7d-214a-4295-a971-7b065bd5c5ac"),
+                            AverageRating = 3.8999999999999999,
+                            IsAvailable = true,
+                            UserId = new Guid("cba94579-9df9-4cda-bf3e-ff5f51048d4b"),
+                            YearsOfExperience = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("df3e0b57-1b43-497a-87d0-97a34ba21c92"),
+                            AverageRating = 2.2000000000000002,
+                            IsAvailable = false,
+                            UserId = new Guid("90162da5-8408-493a-8dae-99995094cf09"),
+                            YearsOfExperience = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("538c0f88-cd08-4dff-9a9e-0b612e436f03"),
+                            AverageRating = 0.0,
+                            IsAvailable = true,
+                            UserId = new Guid("b0209e85-b41c-472b-a767-037253b72665"),
+                            YearsOfExperience = 0
+                        });
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.WeeklyPlan", b =>
@@ -285,7 +409,7 @@ namespace FitnessTrackingApp.Data.Migrations
                     b.HasIndex("Week", "GoalPlanId")
                         .IsUnique();
 
-                    b.ToTable("WeeklyPlans", (string)null);
+                    b.ToTable("WeeklyPlans");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
