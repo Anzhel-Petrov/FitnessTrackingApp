@@ -2,6 +2,7 @@
 using FitnessTrackingApp.Services.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using static FitnessTrackingApp.Common.NotificationMessageConstants;
+using static FitnessTrackingApp.Common.ErrorMessageConstants;
 using static FitnessTrackingApp.Common.SuccessMessagesConstants;
 
 namespace FitnessTrackingApp.Web.Controllers;
@@ -23,13 +24,18 @@ public class CustomerController : BaseController
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> SelectTrainer(Guid trainerId)
     {
-        var customerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        
-        //await _trainerService.AssignTrainerToCustomerAsync(Guid.Parse(customerId), trainerId);
+        var result = await _trainerService.AssignTrainerToCustomerAsync(this.GetUserId(), trainerId);
 
-        TempData[SuccessMessage] = TrainerSelectedSuccess; 
+        if (!result)
+        {
+            TempData[ErrorMessage] = ErrorAssigningTrainer;
+            return RedirectToAction(nameof(AvailableTrainers));
+        }
+
+        TempData[SuccessMessage] = TrainerSelectedSuccess;
         return RedirectToAction(nameof(AvailableTrainers));
     }
 }
