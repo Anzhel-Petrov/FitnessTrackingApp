@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTrackingApp.Web.Controllers;
 
-//[Area("Trainer")]
-//[Authorize(Roles = "Trainer")]
 public class TrainerController : BaseController
 {
     private readonly ITrainerService _trainerService;

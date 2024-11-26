@@ -13,6 +13,15 @@ public class TrainerService : ITrainerService
     {
         _dbContext = dbContext;
     }
+    
+    public async Task<bool> TrainerExistsByUserIdAsync(string userId)
+    {
+        bool result = await _dbContext
+            .Trainers
+            .AnyAsync(a => a.UserId.ToString() == userId);
+
+        return result;
+    }
 
     public async Task<IEnumerable<TrainerViewModel>> GetAvailableTrainersAsync()
     {
