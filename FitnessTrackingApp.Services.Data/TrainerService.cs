@@ -37,9 +37,4 @@ public class TrainerService : ITrainerService
             })
             .ToListAsync();
     }
-
-    public Task<bool> AssignTrainerToCustomerAsync(Guid customerId, Guid trainerId)
-    {
-        throw new NotImplementedException();
-    }
 }

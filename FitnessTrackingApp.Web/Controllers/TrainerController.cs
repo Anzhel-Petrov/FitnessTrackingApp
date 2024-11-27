@@ -16,7 +16,6 @@ public class TrainerController : BaseController
 
     public async Task<IActionResult> Index()
     {
-        var allAvailableTrainers = await _trainerService.GetAvailableTrainersAsync();
-        return View(allAvailableTrainers);
+        return View();
     }
 }

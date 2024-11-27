@@ -1,4 +1,6 @@
 ﻿using System.Security.Claims;
+using FitnessTrackingApp.Common;
+using FitnessTrackingApp.Services.Data;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using static FitnessTrackingApp.Common.NotificationMessageConstants;
@@ -10,10 +12,12 @@ namespace FitnessTrackingApp.Web.Controllers;
 public class CustomerController : BaseController
 {
     private readonly ITrainerService _trainerService;
+    private readonly IGoalPlanService _goalPlanService;
 
-    public CustomerController(ITrainerService trainerService)
+    public CustomerController(ITrainerService trainerService, IGoalPlanService goalPlanService)
     {
         _trainerService = trainerService;
+        _goalPlanService = goalPlanService;
     }
 
     [HttpGet]
@@ -27,11 +31,11 @@ public class CustomerController : BaseController
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SelectTrainer(Guid trainerId)
     {
-        var result = await _trainerService.AssignTrainerToCustomerAsync(this.GetUserId(), trainerId);
+        OperationResult result = await _goalPlanService.AssignTrainerToCustomerAsync(this.GetUserId(), trainerId);
 
-        if (!result)
+        if (result.Success == false)
         {
-            TempData[ErrorMessage] = ErrorAssigningTrainer;
+            TempData[ErrorMessage] = result.ErrorMessage;
             return RedirectToAction(nameof(AvailableTrainers));
         }
 

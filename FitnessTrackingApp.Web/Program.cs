@@ -51,6 +51,7 @@ namespace FitnessTrackingApp.Web
             builder.Services.AddScoped<IBodyWeightService, BodyWeightService>();
             builder.Services.AddScoped<IMacroService, MacroService>();
             builder.Services.AddScoped<ITrainerService, TrainerService>();
+            builder.Services.AddScoped<IGoalPlanService, GoalPlanService>();
 
             // Add services to the container.
             builder.Services.AddMvc();

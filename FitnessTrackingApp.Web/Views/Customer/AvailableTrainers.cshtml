@@ -1,5 +1,12 @@
 ﻿@model IEnumerable<TrainerViewModel>
 
+@if (TempData["ErrorMessage"] != null)
+{
+<div class="alert alert-danger" role="alert">
+    @TempData["ErrorMessage"]
+</div>
+}
+
 <div class="container mt-5">
     <h2>Available Trainers</h2>
     <p>Select a trainer to start your journey!</p>
@@ -27,7 +34,7 @@
                                     }
                                 </span>
                             </p>
-                            <form method="post" action="/Customer/SelectTrainer">
+                            <form asp-action="SelectTrainer" method="post">
                                 <input type="hidden" name="trainerId" value="@trainer.TrainerId" />
                                 <button type="submit" class="btn btn-primary">
                                     Select Trainer
