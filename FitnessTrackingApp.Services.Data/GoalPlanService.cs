@@ -14,20 +14,11 @@ public class GoalPlanService : IGoalPlanService
     {
         _dbContext = dbContext;
     }
-    public async Task<OperationResult> AssignTrainerToCustomerAsync(Guid customerId, Guid trainerId)
+    public async Task<OperationResult> CreateGoalPlanAsync(GoalPlan goalPlan)
     {
-        var newGoalPlan = new GoalPlan
-        {
-            UserId= customerId,
-            TrainerId = trainerId,
-            GoalName = "Weight Loss",
-            StartDate = DateTime.UtcNow,
-            IsActive = true
-        };
-        
         try
         {
-            _dbContext.GoalPlans.Add(newGoalPlan);
+            _dbContext.GoalPlans.Add(goalPlan);
             await _dbContext.SaveChangesAsync();
             return new OperationResult(true);
         }

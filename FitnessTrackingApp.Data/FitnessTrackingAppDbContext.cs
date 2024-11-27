@@ -27,6 +27,7 @@ public class FitnessTrackingAppDbContext : IdentityDbContext<ApplicationUser, Id
     public DbSet<GoalPlan> GoalPlans { get; set; } = null!;
     public DbSet<WeeklyPlan> WeeklyPlans { get; set; } = null!;
     public DbSet<Trainer> Trainers { get; set; } = null!;
+    public DbSet<CustomerDetails> CustomerDetails { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

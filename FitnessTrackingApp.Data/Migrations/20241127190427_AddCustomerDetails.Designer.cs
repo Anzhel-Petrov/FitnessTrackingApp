@@ -4,6 +4,7 @@ using FitnessTrackingApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitnessTrackingApp.Data.Migrations
 {
     [DbContext(typeof(FitnessTrackingAppDbContext))]
-    partial class FitnessTrackingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241127190427_AddCustomerDetails")]
+    partial class AddCustomerDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,88 +89,6 @@ namespace FitnessTrackingApp.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("417ae2a4-ffbb-4e27-855e-d353004e0e91"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "3e7b760b-318e-4b28-9c3a-1f4d7facac0a",
-                            Email = "trainer@getfit.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "TRAINER@GETFIT.COM",
-                            NormalizedUserName = "TRAINER@GETFIT.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELgDoi5HDG8Pug6HCYSQo6/+SA6L54OY4AGwUyjd0USCYX57uHHIIiuFLC3bJxuafA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "4JZZ3RICHGHZ3WDZWHJICS76QRJAESPV",
-                            TwoFactorEnabled = false,
-                            UserName = "trainer@getfit.com"
-                        },
-                        new
-                        {
-                            Id = new Guid("e61ce637-3ba1-44a2-8c05-b7c0595c3e5b"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "7a5e7207-5281-4af1-b67a-9ac8917ad5e3",
-                            Email = "trainer2@getfit.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "TRAINER2@GETFIT.COM",
-                            NormalizedUserName = "TRAINER2@GETFIT.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKi4X8jlIeKb2Ks+WTYxDzXEtjWoEEUxXkHQwV4gNQ4Y55lp3v9e73xxGJRC82dC6A==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "3AYQOQVOUTYD57DGY46IMWFVAQFC7BXE",
-                            TwoFactorEnabled = false,
-                            UserName = "trainer2@getfit.com"
-                        },
-                        new
-                        {
-                            Id = new Guid("cba94579-9df9-4cda-bf3e-ff5f51048d4b"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d6eb572b-df69-46c1-ac67-78eb9bbd8ef9",
-                            Email = "trainer3@getfit.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "TRAINER3@GETFIT.COM",
-                            NormalizedUserName = "TRAINER3@GETFIT.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEM091clNOAmxwsYSHkdKdFrIX9VqVNOlisCtHCMQsHrCwjO8n3FkR/aTOzjO7U39rA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "PS3NQ5SUDKLIPXVZUOLB2WUVYWSCGT4B",
-                            TwoFactorEnabled = false,
-                            UserName = "trainer3@getfit.com"
-                        },
-                        new
-                        {
-                            Id = new Guid("90162da5-8408-493a-8dae-99995094cf09"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "56685257-adf4-4cf7-ae5c-65621f84f975",
-                            Email = "trainer4@getfit.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "TRAINER4@GETFIT.COM",
-                            NormalizedUserName = "TRAINER4@GETFIT.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAED2P7oQH2z6h/CMWDPHngCMirJN+RM3sCXtpmUdMSkRd2HzDYMyxw1Vnu0/ynO1BHA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "CPRDG6HRGDF2RZSL25ZQTAQN6CCFN3OU",
-                            TwoFactorEnabled = false,
-                            UserName = "trainer4@getfit.com"
-                        },
-                        new
-                        {
-                            Id = new Guid("b0209e85-b41c-472b-a767-037253b72665"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "91d9611d-ba3a-471d-88ab-f36d524e58d8",
-                            Email = "trainer5@getfit.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "TRAINER5@GETFIT.COM",
-                            NormalizedUserName = "TRAINER5@GETFIT.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBlaW8OGa3wuT5fTPou0rvz6TpIbQo8fuiXX64BxjqQDguHMTGANK8dsSA2yotbUig==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "KLUU7OY42MOI2B6YKLLUTT5KTZX5P4SN",
-                            TwoFactorEnabled = false,
-                            UserName = "trainer5@getfit.com"
-                        });
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.BodyWeightGoal", b =>
@@ -377,48 +298,6 @@ namespace FitnessTrackingApp.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Trainers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d8da2c4e-44f5-427d-b6f5-0dccfa1e2a46"),
-                            AverageRating = 6.4000000000000004,
-                            IsAvailable = true,
-                            UserId = new Guid("417ae2a4-ffbb-4e27-855e-d353004e0e91"),
-                            YearsOfExperience = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("ec163c02-6fdd-4e66-bec7-a1418a2fe85a"),
-                            AverageRating = 8.1999999999999993,
-                            IsAvailable = true,
-                            UserId = new Guid("e61ce637-3ba1-44a2-8c05-b7c0595c3e5b"),
-                            YearsOfExperience = 12
-                        },
-                        new
-                        {
-                            Id = new Guid("d6644f7d-214a-4295-a971-7b065bd5c5ac"),
-                            AverageRating = 3.8999999999999999,
-                            IsAvailable = true,
-                            UserId = new Guid("cba94579-9df9-4cda-bf3e-ff5f51048d4b"),
-                            YearsOfExperience = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("df3e0b57-1b43-497a-87d0-97a34ba21c92"),
-                            AverageRating = 2.2000000000000002,
-                            IsAvailable = false,
-                            UserId = new Guid("90162da5-8408-493a-8dae-99995094cf09"),
-                            YearsOfExperience = 2
-                        },
-                        new
-                        {
-                            Id = new Guid("538c0f88-cd08-4dff-9a9e-0b612e436f03"),
-                            AverageRating = 0.0,
-                            IsAvailable = true,
-                            UserId = new Guid("b0209e85-b41c-472b-a767-037253b72665"),
-                            YearsOfExperience = 0
-                        });
                 });
 
             modelBuilder.Entity("FitnessTrackingApp.Data.Models.WeeklyPlan", b =>

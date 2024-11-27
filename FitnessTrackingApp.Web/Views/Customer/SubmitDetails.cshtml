@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model FitnessTrackingApp.Web.ViewModels.Customer.CustomerDetailsInputModel
+
+<h2>Provide Your Details</h2>
+
+<form asp-action="SubmitDetails" method="post">
+    <input type="hidden" asp-for="TrainerId" />
+    
+    <div class="form-group">
+        <label asp-for="GoalDescription"></label>
+        <input asp-for="GoalDescription" class="form-control" />
+        <span asp-validation-for="GoalDescription" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartingWeight"></label>
+        <input asp-for="StartingWeight" class="form-control" />
+        <span asp-validation-for="StartingWeight" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TargetWeight"></label>
+        <input asp-for="TargetWeight" class="form-control" />
+        <span asp-validation-for="TargetWeight" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AdditionalNotes"></label>
+        <textarea asp-for="AdditionalNotes" class="form-control"></textarea>
+        <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

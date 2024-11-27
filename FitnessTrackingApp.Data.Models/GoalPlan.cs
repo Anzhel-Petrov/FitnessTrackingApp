@@ -29,5 +29,9 @@ public class GoalPlan
     
     public bool IsActive { get; set; }
 
+    public string Status { get; set; } = null!;
+
+    public CustomerDetails CustomerDetails { get; set; } = null!;
+
     public ICollection<WeeklyPlan> WeeklyPlans { get; set; } = new HashSet<WeeklyPlan>();
 }

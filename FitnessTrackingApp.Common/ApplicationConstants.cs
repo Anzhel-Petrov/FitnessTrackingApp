@@ -12,4 +12,9 @@ public static class ApplicationConstants
     
     // GoalPlan
     public const string OnlyOneActiveGoalPlan = "[IsActive] = 1";
+
+    // Customer Details
+    public const int GoalDescriptionMaxLength = 100;
+    public const int AdditionalNotesMaxLength = 1000;
+
 }

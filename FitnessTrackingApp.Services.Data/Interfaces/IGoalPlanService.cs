@@ -1,8 +1,9 @@
 ﻿using FitnessTrackingApp.Common;
+using FitnessTrackingApp.Data.Models;
 
 namespace FitnessTrackingApp.Services.Data.Interfaces;
 
 public interface IGoalPlanService
 {
-    Task<OperationResult> AssignTrainerToCustomerAsync(Guid customerId, Guid trainerId);
+    Task<OperationResult> CreateGoalPlanAsync(GoalPlan goalPlan);
 }
