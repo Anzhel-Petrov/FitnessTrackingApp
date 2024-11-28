@@ -1,7 +1,7 @@
 ﻿namespace FitnessTrackingApp.Common;
 
-public class OperationResult(bool success, string? errorMessage = null)
+public class OperationResult(bool success, string? message = null)
 {
-    public bool Success { get; set; } = success;
-    public string? ErrorMessage { get; set; } = errorMessage;
+    public bool IsSuccess { get; set; } = success;
+    public string? Message { get; set; } = message;
 }

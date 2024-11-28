@@ -2,6 +2,7 @@
 using FitnessTrackingApp.Data;
 using FitnessTrackingApp.Data.Models;
 using FitnessTrackingApp.Services.Data.Interfaces;
+using FitnessTrackingApp.Web.ViewModels.Customer;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTrackingApp.Services.Data;
@@ -14,45 +15,44 @@ public class GoalPlanService : IGoalPlanService
     {
         _dbContext = dbContext;
     }
-    public async Task<OperationResult> CreateGoalPlanAsync(GoalPlan goalPlan)
+    public async Task<OperationResult> CreateGoalPlanAsync(CustomerDetailsInputModel model, Guid userId)
     {
+        var existingActiveGoalPlan = await _dbContext.GoalPlans
+            .Where(gp => gp.TrainerId == model.TrainerId && gp.UserId == userId && gp.IsActive)
+            .FirstOrDefaultAsync();
+
+        if (existingActiveGoalPlan != null)
+        {
+            return new OperationResult(false, "An active Goal Plan with this Trainer already exists.");
+        }
+        
+        var goalPlan = new GoalPlan
+        {
+            UserId = userId,
+            TrainerId = model.TrainerId,
+            GoalName = model.GoalDescription,
+            StartDate = DateTime.UtcNow,
+            IsActive = false, // Pending approval
+            Status = "Pending",
+            CustomerDetails = new CustomerDetails
+            {
+                GoalDescription = model.GoalDescription,
+                AdditionalNotes = model.AdditionalNotes,
+                StartingWeight = model.StartingWeight,
+                TargetWeight = model.TargetWeight,
+                DateCreated = DateTime.UtcNow
+            }
+        };
+        
         try
         {
             _dbContext.GoalPlans.Add(goalPlan);
             await _dbContext.SaveChangesAsync();
-            return new OperationResult(true);
-        }
-        catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("IX_GoalPlans_TrainerId_UserId") == true)
-        {
-            // Catching unique constraint violation for DateLogged index
-            return new OperationResult(false, "An active Goal Plan with that trainer exists.");
+            return new OperationResult(true, "Goal Plan created successfully.");
         }
         catch (Exception ex)
         {
-            // Catch any other potential exception
             return new OperationResult(false, $"An error occurred while adding the log. Error: {ex.Message}");
         }
-        // var existingGoalPlan = await _dbContext.GoalPlans
-        //     .FirstOrDefaultAsync(gp => gp.UserId == customerId && gp.IsActive);
-        //
-        // if (existingGoalPlan != null)
-        // {
-        //     existingGoalPlan.TrainerId = trainerId;
-        // }
-        // else
-        // {
-        //     var newGoalPlan = new GoalPlan
-        //     {
-        //         UserId= customerId,
-        //         TrainerId = trainerId,
-        //         GoalName = "Weight Loss",
-        //         StartDate = DateTime.UtcNow,
-        //         IsActive = true
-        //     };
-        //
-        //     _dbContext.GoalPlans.Add(newGoalPlan);
-        // }
-        //
-        // return await _dbContext.SaveChangesAsync() > 0;
     }
 }

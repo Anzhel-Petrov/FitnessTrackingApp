@@ -20,29 +20,32 @@
         <div class="row">
             @foreach (var trainer in Model)
             {
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">@trainer.TrainerName</h5>
-                            <p class="card-text">
-                                <strong>Experience:</strong> @trainer.YearsOfExperience years<br />
-                                <strong>Rating:</strong> 
-                                <span class="text-warning">
-                                    @for (int i = 0; i < (int)trainer.AverageRating; i++)
-                                    {
-                                        <i class="bi bi-star-fill"></i> <!-- Bootstrap Star Icon -->
-                                    }
-                                </span>
-                            </p>
-                            <form asp-action="SubmitDetails" method="get">
-                                <input type="hidden" name="trainerId" value="@trainer.TrainerId" />
-                                <button type="submit" class="btn btn-primary">
-                                    Select Trainer
-                                </button>
-                            </form>
+                @if (!trainer.HasGoalPlan)
+                {
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">@trainer.TrainerName</h5>
+                                <p class="card-text">
+                                    <strong>Experience:</strong> @trainer.YearsOfExperience years<br />
+                                    <strong>Rating:</strong> 
+                                    <span class="text-warning">
+                                        @for (int i = 0; i < (int)trainer.AverageRating; i++)
+                                        {
+                                            <i class="bi bi-star-fill"></i> <!-- Bootstrap Star Icon -->
+                                        }
+                                    </span>
+                                </p>
+                                <form asp-action="SubmitDetails" method="get">
+                                    <input type="hidden" name="trainerId" value="@trainer.TrainerId" />
+                                    <button type="submit" class="btn btn-primary">
+                                        Select Trainer
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             }
         </div>
     }

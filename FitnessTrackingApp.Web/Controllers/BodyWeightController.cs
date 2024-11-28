@@ -76,9 +76,9 @@ namespace FitnessTrackingApp.Web.Controllers
 
             OperationResult result = await _bodyWeightService.AddBodyWeightLogAsync(model.NewLog, this.GetUserId());
             
-            if (!result.Success)
+            if (!result.IsSuccess)
             {
-                TempData["ErrorMessage"] = result.ErrorMessage;
+                TempData["ErrorMessage"] = result.Message;
                 return RedirectToAction(nameof(EditBodyWeightLogs));
             }
 
@@ -90,7 +90,7 @@ namespace FitnessTrackingApp.Web.Controllers
         {
             OperationResult result = await _bodyWeightService.DeleteBodyWeightLogAsync(id, this.GetUserId());
 
-            if (result.Success == false)
+            if (result.IsSuccess == false)
             {
                 
             }

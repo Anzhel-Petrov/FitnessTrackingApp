@@ -25,7 +25,7 @@ public class CustomerController : BaseController
     [HttpGet]
     public async Task<IActionResult> AvailableTrainers()
     {
-        var trainers = await _trainerService.GetAvailableTrainersAsync();
+        var trainers = await _trainerService.GetAvailableTrainersAsync(this.GetUserId());
         return View(trainers);
     }
     
@@ -47,44 +47,15 @@ public class CustomerController : BaseController
         {
             return View(model);
         }
-
-        // Create a new GoalPlan
-        var goalPlan = new GoalPlan
+        
+        var result = await _goalPlanService.CreateGoalPlanAsync(model, this.GetUserId());
+        
+        if (result.IsSuccess)
         {
-            UserId = this.GetUserId(), // Extension method to get the current user's ID
-            TrainerId = model.TrainerId,
-            GoalName = model.GoalDescription,
-            StartDate = DateTime.UtcNow,
-            IsActive = false, // Pending approval
-            Status = "Pending",
-            CustomerDetails = new CustomerDetails
-            {
-                GoalDescription = model.GoalDescription,
-                AdditionalNotes = model.AdditionalNotes,
-                StartingWeight = model.StartingWeight,
-                TargetWeight = model.TargetWeight,
-                DateCreated = DateTime.UtcNow
-            }
-        };
-
-        await _goalPlanService.CreateGoalPlanAsync(goalPlan);
-
-        return RedirectToAction("Dashboard", "Customer"); // Redirect to customer dashboard
+            return RedirectToAction(nameof(AvailableTrainers));
+        }
+        
+        ModelState.AddModelError(string.Empty, result.Message!);
+        return View(model);
     }
-
-    // [HttpPost]
-    // [ValidateAntiForgeryToken]
-    // public async Task<IActionResult> SelectTrainer(Guid trainerId)
-    // {
-    //     OperationResult result = await _goalPlanService.AssignTrainerToCustomerAsync(this.GetUserId(), trainerId);
-    //
-    //     if (result.Success == false)
-    //     {
-    //         TempData[ErrorMessage] = result.ErrorMessage;
-    //         return RedirectToAction(nameof(AvailableTrainers));
-    //     }
-    //
-    //     TempData[SuccessMessage] = TrainerSelectedSuccess;
-    //     return RedirectToAction(nameof(AvailableTrainers));
-    // }
 }

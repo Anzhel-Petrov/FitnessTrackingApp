@@ -23,7 +23,7 @@ public class TrainerService : ITrainerService
         return result;
     }
 
-    public async Task<IEnumerable<TrainerViewModel>> GetAvailableTrainersAsync()
+    public async Task<IEnumerable<TrainerViewModel>> GetAvailableTrainersAsync(Guid userId)
     {
         return await _dbContext.Trainers
             .Where(t => t.IsAvailable)
@@ -33,8 +33,10 @@ public class TrainerService : ITrainerService
                 TrainerId = t.Id,
                 TrainerName = t.User.UserName!,
                 YearsOfExperience = t.YearsOfExperience,
-                AverageRating = t.AverageRating
+                AverageRating = t.AverageRating,
+                HasGoalPlan = userId != Guid.Empty && _dbContext.GoalPlans.Any(gp => gp.UserId == userId && gp.TrainerId == t.Id && (gp.Status == "Pending" || gp.Status == "Active"))
             })
+            .AsNoTracking()
             .ToListAsync();
     }
 }
