@@ -17,13 +17,16 @@ public class GoalPlanService : IGoalPlanService
     }
     public async Task<OperationResult> CreateGoalPlanAsync(CustomerDetailsInputModel model, Guid userId)
     {
-        var existingActiveGoalPlan = await _dbContext.GoalPlans
-            .Where(gp => gp.TrainerId == model.TrainerId && gp.UserId == userId && gp.IsActive)
+        var existingGoalPlan = await _dbContext.GoalPlans
+            .Where(gp => gp.TrainerId == model.TrainerId && gp.UserId == userId)
             .FirstOrDefaultAsync();
 
-        if (existingActiveGoalPlan != null)
+        if (existingGoalPlan != null)
         {
-            return new OperationResult(false, "An active Goal Plan with this Trainer already exists.");
+            if (existingGoalPlan.IsActive) 
+                return new OperationResult(false, "An active Goal Plan with this Trainer already exists.");
+            if (existingGoalPlan.Status == "Pending")
+                return new OperationResult(false, "A pending Goal Plan request for Trainer already exists.");
         }
         
         var goalPlan = new GoalPlan

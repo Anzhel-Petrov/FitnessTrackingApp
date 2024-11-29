@@ -1,13 +1,8 @@
-﻿using System.Security.Claims;
-using FitnessTrackingApp.Common;
-using FitnessTrackingApp.Data.Models;
-using FitnessTrackingApp.Services.Data;
-using FitnessTrackingApp.Services.Data.Interfaces;
+﻿using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.Customer;
 using Microsoft.AspNetCore.Mvc;
 using static FitnessTrackingApp.Common.NotificationMessageConstants;
-using static FitnessTrackingApp.Common.ErrorMessageConstants;
-using static FitnessTrackingApp.Common.SuccessMessagesConstants;
+
 
 namespace FitnessTrackingApp.Web.Controllers;
 
@@ -48,14 +43,21 @@ public class CustomerController : BaseController
             return View(model);
         }
         
-        var result = await _goalPlanService.CreateGoalPlanAsync(model, this.GetUserId());
+        var userId = this.GetUserId();
+        
+        if (userId == Guid.Empty)
+        {
+            return Unauthorized();
+        }
+        
+        var result = await _goalPlanService.CreateGoalPlanAsync(model, userId);
         
         if (result.IsSuccess)
         {
             return RedirectToAction(nameof(AvailableTrainers));
         }
         
-        ModelState.AddModelError(string.Empty, result.Message!);
+        TempData[ErrorMessage] = result.Message;
         return View(model);
     }
 }

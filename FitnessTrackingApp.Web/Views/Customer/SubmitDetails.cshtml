@@ -1,6 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model FitnessTrackingApp.Web.ViewModels.Customer.CustomerDetailsInputModel
 
+@if (TempData["ErrorMessage"] != null)
+{
+<div class="alert alert-danger" role="alert">
+    @TempData["ErrorMessage"]
+</div>
+}
+
 <h2>Provide Your Details</h2>
 
 <form asp-action="SubmitDetails" method="post">
