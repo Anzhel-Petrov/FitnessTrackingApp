@@ -12,6 +12,7 @@ public class CustomerController : BaseController
     private readonly IGoalPlanService _goalPlanService;
 
     public CustomerController(ITrainerService trainerService, IGoalPlanService goalPlanService)
+        : base(trainerService)
     {
         _trainerService = trainerService;
         _goalPlanService = goalPlanService;

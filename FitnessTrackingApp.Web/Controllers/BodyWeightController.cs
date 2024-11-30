@@ -9,7 +9,8 @@ namespace FitnessTrackingApp.Web.Controllers
     {
         private readonly IBodyWeightService _bodyWeightService;
 
-        public BodyWeightController(IBodyWeightService bodyWeightService)
+        public BodyWeightController(IBodyWeightService bodyWeightService, ITrainerService trainerService)
+            : base(trainerService)
         {
             _bodyWeightService = bodyWeightService;
         }

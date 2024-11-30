@@ -11,7 +11,8 @@ public class GoalPlanController : BaseController
 {
     private readonly IGoalPlanService _goalPlanService;
 
-    public GoalPlanController(IGoalPlanService goalPlanService)
+    public GoalPlanController(IGoalPlanService goalPlanService, ITrainerService trainerService)
+        : base(trainerService)
     {
         _goalPlanService = goalPlanService;
     }

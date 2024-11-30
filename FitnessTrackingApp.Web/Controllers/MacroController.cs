@@ -8,7 +8,8 @@ public class MacroController : BaseController
     private readonly IMacroService _macroService;
     private readonly IBodyWeightService _bodyWeightService;
 
-    public MacroController(IMacroService macroService, IBodyWeightService bodyWeightService)
+    public MacroController(IMacroService macroService, IBodyWeightService bodyWeightService, ITrainerService trainerService)
+        : base(trainerService)
     {
         _macroService = macroService;
         _bodyWeightService = bodyWeightService;

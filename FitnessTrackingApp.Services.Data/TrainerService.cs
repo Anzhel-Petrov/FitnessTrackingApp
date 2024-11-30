@@ -16,6 +16,11 @@ public class TrainerService : ITrainerService
     
     public async Task<bool> TrainerExistsByUserIdAsync(string userId)
     {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return false;
+        }
+        
         bool result = await _dbContext
             .Trainers
             .AnyAsync(a => a.UserId.ToString() == userId);

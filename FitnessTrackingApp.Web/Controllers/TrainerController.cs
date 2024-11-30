@@ -10,6 +10,7 @@ public class TrainerController : BaseController
     private readonly ITrainerService _trainerService;
 
     public TrainerController(ITrainerService trainerService)
+        : base(trainerService)
     {
         _trainerService = trainerService;
     }
