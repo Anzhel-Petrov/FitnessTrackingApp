@@ -9,12 +9,15 @@
   <ItemGroup>
     <ProjectReference Include="..\FitnessTrackingApp.Common\FitnessTrackingApp.Common.csproj" />
     <ProjectReference Include="..\FitnessTrackingApp.Data.Models\FitnessTrackingApp.Data.Models.csproj" />
-    <ProjectReference Include="..\FitnessTrackingApp.Web\FitnessTrackingApp.Web.csproj" />
+    <ProjectReference Include="..\FitnessTrackingApp.Data\FitnessTrackingApp.Data.csproj" />
+    <ProjectReference Include="..\FitnessTrackingApp.Services.Data\FitnessTrackingApp.Services.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
   </ItemGroup>
 
 </Project>
