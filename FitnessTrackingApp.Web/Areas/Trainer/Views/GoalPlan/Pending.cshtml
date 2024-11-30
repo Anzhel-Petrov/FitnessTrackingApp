@@ -1,0 +1,27 @@
+﻿@model IEnumerable<FitnessTrackingApp.Web.ViewModels.Trainer.PendingGoalPlanViewModel>
+
+<h2>Pending Goal Plans</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Customer</th>
+        <th>Goal</th>
+        <th>Created On</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var plan in Model)
+    {
+        <tr>
+            <td>@plan.CustomerName</td>
+            <td>@plan.GoalDescription</td>
+            <td>@plan.CreatedOn.ToShortDateString()</td>
+            <td>
+                <a href="@Url.Action("Review", "GoalPlan", new { area = "Trainer", goalPlanId = plan.GoalPlanId })" class="btn btn-primary">Review</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -3,6 +3,7 @@ using FitnessTrackingApp.Data;
 using FitnessTrackingApp.Data.Models;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.Customer;
+using FitnessTrackingApp.Web.ViewModels.Trainer;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTrackingApp.Services.Data;
@@ -57,5 +58,26 @@ public class GoalPlanService : IGoalPlanService
         {
             return new OperationResult(false, $"An error occurred while adding the log. Error: {ex.Message}");
         }
+    }
+
+    public async Task<IEnumerable<PendingGoalPlanViewModel>> GetPendingGoalPlansAsync(Guid trainerId)
+    {
+        var trainerPrimaryKey = await _dbContext.Trainers
+            .Where(t => t.UserId == trainerId)
+            .Select(t => t.Id)
+            .FirstOrDefaultAsync();
+        
+        return await _dbContext.GoalPlans
+            .Where(gp => gp.TrainerId == trainerPrimaryKey && gp.Status == "Pending")
+            .Select(gp => new PendingGoalPlanViewModel
+            {
+                GoalPlanId = gp.Id,
+                CustomerName = gp.ApplicationUser.UserName ?? string.Empty,
+                GoalDescription = gp.CustomerDetails.GoalDescription,
+                CreatedOn = gp.StartDate,
+                Status = gp.Status
+            })
+            .AsNoTracking()
+            .ToListAsync();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using FitnessTrackingApp.Services.Data.Interfaces;
-using FitnessTrackingApp.Web.Infrastructure.Attributes;
 using FitnessTrackingApp.Web.ViewModels.Customer;
 using Microsoft.AspNetCore.Mvc;
 using static FitnessTrackingApp.Common.NotificationMessageConstants;
@@ -7,7 +6,6 @@ using static FitnessTrackingApp.Common.NotificationMessageConstants;
 
 namespace FitnessTrackingApp.Web.Controllers;
 
-[MustBeTrainer]
 public class CustomerController : BaseController
 {
     private readonly ITrainerService _trainerService;
