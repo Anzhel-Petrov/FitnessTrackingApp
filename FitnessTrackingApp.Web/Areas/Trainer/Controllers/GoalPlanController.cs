@@ -17,6 +17,7 @@ public class GoalPlanController : BaseController
         _goalPlanService = goalPlanService;
     }
     
+    // /Trainer/GoalPlan/Pending
     // Areas/Trainer/Views/GoalPlan/Pending.cshtml
     [HttpGet]
     public async Task<IActionResult> Pending()
@@ -25,5 +26,20 @@ public class GoalPlanController : BaseController
         var pendingPlans = await _goalPlanService.GetPendingGoalPlansAsync(trainerId);
 
         return View(pendingPlans); 
+    }
+    
+    // /Trainer/GoalPlan/Review/{goalPlanId}
+    // Areas/Trainer/Views/GoalPlan/Review.cshtml
+    [HttpGet]
+    public async Task<IActionResult> Review(long goalPlanId)
+    {
+        var goalPlanDetails = await _goalPlanService.GetGoalPlanDetailsAsync(goalPlanId);
+
+        if (goalPlanDetails == null)
+        {
+            return NotFound("Goal Plan not found.");
+        }
+
+        return View(goalPlanDetails);
     }
 }

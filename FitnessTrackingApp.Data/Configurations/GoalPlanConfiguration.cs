@@ -11,6 +11,10 @@ public class GoalPlanConfiguration : IEntityTypeConfiguration<GoalPlan>
     {
         builder.HasKey(gp => gp.Id);
         
+        builder.HasOne(gp => gp.CustomerDetails)
+            .WithOne(cd => cd.GoalPlan)
+            .IsRequired();
+        
         builder.HasOne(gp => gp.ApplicationUser)
             .WithMany()
             .HasForeignKey(gp => gp.UserId)

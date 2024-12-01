@@ -28,6 +28,7 @@
     <Folder Include="Areas\" />
     <Folder Include="Areas\Trainer\Data\" />
     <Folder Include="Areas\Trainer\Models\" />
+    <Folder Include="Areas\Trainer\Views\Shared\" />
   </ItemGroup>
 
 </Project>

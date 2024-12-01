@@ -1,17 +1,21 @@
-﻿
-@{
-    Layout = null;
-}
+﻿@model GoalPlanDetailsViewModel
 
-<!DOCTYPE html>
+<h2>Review Goal Plan</h2>
 
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
+<div class="card">
+    <div class="card-header">
+        Customer: @Model.CustomerName
+    </div>
+    <div class="card-body">
+        <p><strong>Goal:</strong> @Model.GoalDescription</p>
+        <p><strong>Current Weight:</strong> @Model.CurrentWeight kg</p>
+        <p><strong>Details:</strong> @Model.CustomerDetails</p>
+        <p><strong>Submitted On:</strong> @Model.SubmittedOn.ToShortDateString()</p>
+    </div>
 </div>
-</body>
-</html>
+
+<form asp-action="Process" asp-controller="GoalPlan" asp-area="Trainer" method="post">
+    <input type="hidden" name="goalPlanId" value="@Model.GoalPlanId" />
+    <button type="submit" name="approve" value="true" class="btn btn-success">Approve</button>
+    <button type="submit" name="approve" value="false" class="btn btn-danger">Reject</button>
+</form>

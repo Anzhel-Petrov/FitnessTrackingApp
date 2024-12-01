@@ -80,4 +80,20 @@ public class GoalPlanService : IGoalPlanService
             .AsNoTracking()
             .ToListAsync();
     }
+
+    public async Task<GoalPlanDetailsViewModel?> GetGoalPlanDetailsAsync(long goalPlanId)
+    {
+        return await _dbContext.GoalPlans
+            .Where(gp => gp.Id == goalPlanId)
+            .Select(gp => new GoalPlanDetailsViewModel
+            {
+                GoalPlanId = gp.Id,
+                CustomerName = gp.ApplicationUser.UserName ?? string.Empty,
+                GoalDescription = gp.CustomerDetails.GoalDescription,
+                CurrentWeight = gp.CustomerDetails.StartingWeight,
+                CustomerDetails = gp.CustomerDetails.AdditionalNotes ?? string.Empty,
+                SubmittedOn = gp.StartDate
+            })
+            .FirstOrDefaultAsync();
+    }
 }

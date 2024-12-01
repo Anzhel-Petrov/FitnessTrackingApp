@@ -9,4 +9,5 @@ public interface IGoalPlanService
 {
     Task<OperationResult> CreateGoalPlanAsync(CustomerDetailsInputModel model, Guid userId);
     Task<IEnumerable<PendingGoalPlanViewModel>> GetPendingGoalPlansAsync(Guid trainerId);
+    Task<GoalPlanDetailsViewModel?> GetGoalPlanDetailsAsync(long goalPlanId);
 }
