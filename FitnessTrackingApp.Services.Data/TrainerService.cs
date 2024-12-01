@@ -1,4 +1,5 @@
 ﻿using FitnessTrackingApp.Data;
+using FitnessTrackingApp.Data.Models.Enums;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.Trainer;
 using Microsoft.EntityFrameworkCore;
@@ -39,7 +40,8 @@ public class TrainerService : ITrainerService
                 TrainerName = t.User.UserName!,
                 YearsOfExperience = t.YearsOfExperience,
                 AverageRating = t.AverageRating,
-                HasGoalPlan = userId != Guid.Empty && _dbContext.GoalPlans.Any(gp => gp.UserId == userId && gp.TrainerId == t.Id && (gp.Status == "Pending" || gp.Status == "Active"))
+                HasGoalPlan = userId != Guid.Empty && _dbContext.GoalPlans
+                    .Any(gp => gp.UserId == userId && gp.TrainerId == t.Id && (gp.GoalPlanStatus == GoalPlanStatus.Pending || gp.GoalPlanStatus == GoalPlanStatus.Active))
             })
             .AsNoTracking()
             .ToListAsync();

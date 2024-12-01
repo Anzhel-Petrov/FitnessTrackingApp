@@ -4,6 +4,7 @@ using FitnessTrackingApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitnessTrackingApp.Data.Migrations
 {
     [DbContext(typeof(FitnessTrackingAppDbContext))]
-    partial class FitnessTrackingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241127192541_SeedTrainers")]
+    partial class SeedTrainers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,7 +95,7 @@ namespace FitnessTrackingApp.Data.Migrations
                         {
                             Id = new Guid("417ae2a4-ffbb-4e27-855e-d353004e0e91"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "99a268ec-2637-4653-b0ad-1dee129c3594",
+                            ConcurrencyStamp = "3e7b760b-318e-4b28-9c3a-1f4d7facac0a",
                             Email = "trainer@getfit.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -108,7 +111,7 @@ namespace FitnessTrackingApp.Data.Migrations
                         {
                             Id = new Guid("e61ce637-3ba1-44a2-8c05-b7c0595c3e5b"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "22896a7f-3f8e-401a-ad8c-4b1063160e99",
+                            ConcurrencyStamp = "7a5e7207-5281-4af1-b67a-9ac8917ad5e3",
                             Email = "trainer2@getfit.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -124,7 +127,7 @@ namespace FitnessTrackingApp.Data.Migrations
                         {
                             Id = new Guid("cba94579-9df9-4cda-bf3e-ff5f51048d4b"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9e67a96a-12ff-45be-bd12-2a0fafaabd40",
+                            ConcurrencyStamp = "d6eb572b-df69-46c1-ac67-78eb9bbd8ef9",
                             Email = "trainer3@getfit.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -140,7 +143,7 @@ namespace FitnessTrackingApp.Data.Migrations
                         {
                             Id = new Guid("90162da5-8408-493a-8dae-99995094cf09"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ef864b11-66f5-4eac-9b1b-742ae6ea59ff",
+                            ConcurrencyStamp = "56685257-adf4-4cf7-ae5c-65621f84f975",
                             Email = "trainer4@getfit.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -156,7 +159,7 @@ namespace FitnessTrackingApp.Data.Migrations
                         {
                             Id = new Guid("b0209e85-b41c-472b-a767-037253b72665"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4bc899c3-8a94-4d07-9302-7b13117ae13c",
+                            ConcurrencyStamp = "91d9611d-ba3a-471d-88ab-f36d524e58d8",
                             Email = "trainer5@getfit.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -302,13 +305,17 @@ namespace FitnessTrackingApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GoalPlanStatus")
+                    b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
-                    b.Property<DateTime?>("StartDate")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("TrainerId")
                         .HasColumnType("uniqueidentifier");
@@ -322,7 +329,7 @@ namespace FitnessTrackingApp.Data.Migrations
 
                     b.HasIndex("TrainerId", "UserId")
                         .IsUnique()
-                        .HasFilter("[GoalPlanStatus] = 1");
+                        .HasFilter("[IsActive] = 1");
 
                     b.ToTable("GoalPlans");
                 });

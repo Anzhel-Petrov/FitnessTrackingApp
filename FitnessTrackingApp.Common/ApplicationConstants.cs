@@ -11,8 +11,9 @@ public static class ApplicationConstants
     public const int CaloriesPerGramOfFat = 9;
     
     // GoalPlan
-    public const string OnlyOneActiveGoalPlan = "[IsActive] = 1";
-
+    public const string OnlyOnePendingGoalPlan = "[GoalPlanStatus] = 0";
+    public const string OnlyOneActiveGoalPlan = "[GoalPlanStatus] = 1";
+    
     // Customer Details
     public const int GoalDescriptionMaxLength = 100;
     public const int AdditionalNotesMaxLength = 1000;

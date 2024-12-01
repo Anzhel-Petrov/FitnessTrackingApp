@@ -42,4 +42,20 @@ public class GoalPlanController : BaseController
 
         return View(goalPlanDetails);
     }
+    
+    // Trainer/GoalPlan/Process/{goalPlanId}
+    [HttpPost]
+    public async Task<IActionResult> Process(long goalPlanId, bool approve)
+    {
+        var result = await _goalPlanService.ProcessGoalPlanAsync(goalPlanId, approve);
+
+        if (!result.IsSuccess)
+        {
+            TempData["Error"] = result.Message;
+            return RedirectToAction("Review", new { goalPlanId });
+        }
+
+        TempData["Success"] = approve ? "Goal Plan approved successfully!" : "Goal Plan rejected.";
+        return RedirectToAction("Pending");
+    }
 }

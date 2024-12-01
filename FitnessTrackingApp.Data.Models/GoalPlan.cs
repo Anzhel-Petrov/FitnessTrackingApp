@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FitnessTrackingApp.Data.Models.Enums;
 
 namespace FitnessTrackingApp.Data.Models;
 
@@ -22,14 +23,11 @@ public class GoalPlan
     [Required]
     public string GoalName { get; set; } = null!; // Consider making this an ENUM - WEight gain, Weight loss, Maintain weight
 
-    [Required]
-    public DateTime StartDate { get; set; }
+    public DateTime? StartDate { get; set; }
 
     public DateTime? EndDate { get; set; }
-    
-    public bool IsActive { get; set; }
 
-    public string Status { get; set; } = null!;
+    public GoalPlanStatus GoalPlanStatus { get; set; } = GoalPlanStatus.Pending;
 
     public CustomerDetails CustomerDetails { get; set; } = null!;
 

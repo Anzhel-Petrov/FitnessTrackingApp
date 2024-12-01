@@ -7,5 +7,5 @@ public class GoalPlanDetailsViewModel
     public string GoalDescription { get; set; } = null!;
     public decimal CurrentWeight { get; set; } 
     public string CustomerDetails { get; set; } = null!;
-    public DateTime SubmittedOn { get; set; }
+    public DateTime? SubmittedOn { get; set; }
 }

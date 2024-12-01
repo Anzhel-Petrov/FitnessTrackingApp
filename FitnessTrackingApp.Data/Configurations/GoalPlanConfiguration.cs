@@ -1,4 +1,5 @@
 ﻿using FitnessTrackingApp.Data.Models;
+using FitnessTrackingApp.Data.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using static FitnessTrackingApp.Common.ApplicationConstants;
@@ -26,9 +27,13 @@ public class GoalPlanConfiguration : IEntityTypeConfiguration<GoalPlan>
             .OnDelete(DeleteBehavior.Restrict);
         
         builder.HasIndex(gp => new { gp.TrainerId, gp.UserId })
+            .HasFilter(OnlyOnePendingGoalPlan)
+            .IsUnique();
+        
+        builder.HasIndex(gp => new { gp.TrainerId, gp.UserId })
             .HasFilter(OnlyOneActiveGoalPlan)
             .IsUnique();
         
-        builder.Property(gp => gp.IsActive).HasDefaultValue(false);
+        builder.Property(gp => gp.GoalPlanStatus).HasDefaultValue(GoalPlanStatus.Pending);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FitnessTrackingApp.Common;
 using FitnessTrackingApp.Data;
 using FitnessTrackingApp.Data.Models;
+using FitnessTrackingApp.Data.Models.Enums;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.Customer;
 using FitnessTrackingApp.Web.ViewModels.Trainer;
@@ -24,9 +25,9 @@ public class GoalPlanService : IGoalPlanService
 
         if (existingGoalPlan != null)
         {
-            if (existingGoalPlan.IsActive) 
+            if (existingGoalPlan.GoalPlanStatus == GoalPlanStatus.Active) 
                 return new OperationResult(false, "An active Goal Plan with this Trainer already exists.");
-            if (existingGoalPlan.Status == "Pending")
+            if (existingGoalPlan.GoalPlanStatus == GoalPlanStatus.Pending)
                 return new OperationResult(false, "A pending Goal Plan request for Trainer already exists.");
         }
         
@@ -35,9 +36,7 @@ public class GoalPlanService : IGoalPlanService
             UserId = userId,
             TrainerId = model.TrainerId,
             GoalName = model.GoalDescription,
-            StartDate = DateTime.UtcNow,
-            IsActive = false, // Pending approval
-            Status = "Pending",
+            StartDate = null,
             CustomerDetails = new CustomerDetails
             {
                 GoalDescription = model.GoalDescription,
@@ -68,14 +67,14 @@ public class GoalPlanService : IGoalPlanService
             .FirstOrDefaultAsync();
         
         return await _dbContext.GoalPlans
-            .Where(gp => gp.TrainerId == trainerPrimaryKey && gp.Status == "Pending")
+            .Where(gp => gp.TrainerId == trainerPrimaryKey && gp.GoalPlanStatus == GoalPlanStatus.Pending)
             .Select(gp => new PendingGoalPlanViewModel
             {
                 GoalPlanId = gp.Id,
                 CustomerName = gp.ApplicationUser.UserName ?? string.Empty,
                 GoalDescription = gp.CustomerDetails.GoalDescription,
-                CreatedOn = gp.StartDate,
-                Status = gp.Status
+                CreatedOn = gp.CustomerDetails.DateCreated,
+                Status = gp.GoalPlanStatus.ToString()
             })
             .AsNoTracking()
             .ToListAsync();
@@ -92,8 +91,25 @@ public class GoalPlanService : IGoalPlanService
                 GoalDescription = gp.CustomerDetails.GoalDescription,
                 CurrentWeight = gp.CustomerDetails.StartingWeight,
                 CustomerDetails = gp.CustomerDetails.AdditionalNotes ?? string.Empty,
-                SubmittedOn = gp.StartDate
+                SubmittedOn = DateTime.UtcNow
             })
             .FirstOrDefaultAsync();
+    }
+    
+    public async Task<OperationResult> ProcessGoalPlanAsync(long goalPlanId, bool approve)
+    {
+        var goalPlan = await _dbContext.GoalPlans.FindAsync(goalPlanId);
+
+        if (goalPlan == null)
+        {
+            return new OperationResult(false, "Goal Plan not found.");
+        }
+
+        goalPlan.GoalPlanStatus = approve ? GoalPlanStatus.Active : GoalPlanStatus.Rejected;
+        goalPlan.StartDate = DateTime.UtcNow;
+
+        await _dbContext.SaveChangesAsync();
+
+        return new OperationResult(true, approve ? "Goal Plan approved successfully!" : "Goal Plan rejected.");
     }
 }
