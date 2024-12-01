@@ -43,7 +43,7 @@ public class GoalPlanController : BaseController
         return View(goalPlanDetails);
     }
     
-    // Trainer/GoalPlan/Process/{goalPlanId}
+    // /Trainer/GoalPlan/Process/{goalPlanId}
     [HttpPost]
     public async Task<IActionResult> Process(long goalPlanId, bool approve)
     {

@@ -51,7 +51,7 @@ public class CustomerController : BaseController
             return Unauthorized();
         }
         
-        var result = await _goalPlanService.CreateGoalPlanAsync(model, userId);
+        var result = await _goalPlanService.CreateGoalPlanRequestAsync(model, userId);
         
         if (result.IsSuccess)
         {

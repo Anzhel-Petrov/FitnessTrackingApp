@@ -26,14 +26,26 @@ public class GoalPlanConfiguration : IEntityTypeConfiguration<GoalPlan>
             .HasForeignKey(gp => gp.TrainerId)
             .OnDelete(DeleteBehavior.Restrict);
         
-        builder.HasIndex(gp => new { gp.TrainerId, gp.UserId })
-            .HasFilter(OnlyOnePendingGoalPlan)
-            .IsUnique();
-        
-        builder.HasIndex(gp => new { gp.TrainerId, gp.UserId })
+        // Customer can have only one Active GoalPlan
+        builder.HasIndex(gp => gp.UserId)
             .HasFilter(OnlyOneActiveGoalPlan)
             .IsUnique();
         
+        // Customer can have only one Pending GoalPlan
+        builder.HasIndex(gp => gp.UserId)
+            .HasFilter(OnlyOnePendingGoalPlan)
+            .IsUnique();
+        
+        // Customer can have only one Pending GoalPlan (Pending request) with Trainer (a bit redundant)
+        // builder.HasIndex(gp => new { gp.TrainerId, gp.UserId })
+        //     .HasFilter(OnlyOnePendingGoalPlan)
+        //     .IsUnique();
+        
+        // Customer can have only one Active GoalPlan with Trainer (a bit redundant)
+        // builder.HasIndex(gp => new { gp.TrainerId, gp.UserId })
+        //     .HasFilter(OnlyOneActiveGoalPlan)
+        //     .IsUnique();
+
         builder.Property(gp => gp.GoalPlanStatus).HasDefaultValue(GoalPlanStatus.Pending);
     }
 }

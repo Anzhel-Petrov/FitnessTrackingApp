@@ -6,6 +6,8 @@ using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.Customer;
 using FitnessTrackingApp.Web.ViewModels.Trainer;
 using Microsoft.EntityFrameworkCore;
+using static FitnessTrackingApp.Common.ErrorMessageConstants;
+using static FitnessTrackingApp.Common.SuccessMessagesConstants;
 
 namespace FitnessTrackingApp.Services.Data;
 
@@ -17,7 +19,7 @@ public class GoalPlanService : IGoalPlanService
     {
         _dbContext = dbContext;
     }
-    public async Task<OperationResult> CreateGoalPlanAsync(CustomerDetailsInputModel model, Guid userId)
+    public async Task<OperationResult> CreateGoalPlanRequestAsync(CustomerDetailsInputModel model, Guid userId)
     {
         var existingGoalPlan = await _dbContext.GoalPlans
             .Where(gp => gp.TrainerId == model.TrainerId && gp.UserId == userId)
@@ -51,7 +53,7 @@ public class GoalPlanService : IGoalPlanService
         {
             _dbContext.GoalPlans.Add(goalPlan);
             await _dbContext.SaveChangesAsync();
-            return new OperationResult(true, "Goal Plan created successfully.");
+            return new OperationResult(true, GoalPlanRequestCreatedSuccess);
         }
         catch (Exception ex)
         {
@@ -102,7 +104,7 @@ public class GoalPlanService : IGoalPlanService
 
         if (goalPlan == null)
         {
-            return new OperationResult(false, "Goal Plan not found.");
+            return new OperationResult(false, GoalPlanNotFound);
         }
 
         goalPlan.GoalPlanStatus = approve ? GoalPlanStatus.Active : GoalPlanStatus.Rejected;
@@ -110,6 +112,6 @@ public class GoalPlanService : IGoalPlanService
 
         await _dbContext.SaveChangesAsync();
 
-        return new OperationResult(true, approve ? "Goal Plan approved successfully!" : "Goal Plan rejected.");
+        return new OperationResult(true, approve ? GoalPlanApprovedSuccess : GoalPlanRejectedSuccess);
     }
 }
