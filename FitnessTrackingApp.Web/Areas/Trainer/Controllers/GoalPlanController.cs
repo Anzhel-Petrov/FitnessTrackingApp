@@ -54,8 +54,7 @@ public class GoalPlanController : BaseController
             TempData["Error"] = result.Message;
             return RedirectToAction("Review", new { goalPlanId });
         }
-
-        TempData["Success"] = approve ? "Goal Plan approved successfully!" : "Goal Plan rejected.";
+        
         return RedirectToAction("Pending");
     }
 }

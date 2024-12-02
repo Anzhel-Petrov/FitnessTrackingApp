@@ -1,0 +1,19 @@
+﻿@model TrainerDashboardViewModel
+
+<h2>Trainer Dashboard</h2>
+
+<div>
+    <h3>Goal Plans Overview</h3>
+    <ul>
+        <li>
+            <strong>Pending Goal Plans:</strong> 
+            @Model.TotalPendingGoalPlansCount
+            <a href="@Url.Action("Pending", "GoalPlan", new { area = "Trainer" })" class="btn btn-primary btn-sm">View Pending</a>
+        </li>
+        <li>
+            <strong>Active Goal Plans:</strong> 
+            @Model.TotalActiveGoalPlansCount
+            <a href="@Url.Action("Active", "GoalPlan", new { area = "Trainer" })" class="btn btn-primary btn-sm">View Active</a>
+        </li>
+    </ul>
+</div>

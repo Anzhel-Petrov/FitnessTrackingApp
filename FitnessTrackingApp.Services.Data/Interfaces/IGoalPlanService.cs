@@ -11,4 +11,5 @@ public interface IGoalPlanService
     Task<IEnumerable<PendingGoalPlanViewModel>> GetPendingGoalPlansAsync(Guid trainerId);
     Task<GoalPlanDetailsViewModel?> GetGoalPlanDetailsAsync(long goalPlanId);
     Task<OperationResult> ProcessGoalPlanAsync(long goalPlanId, bool approve);
+    public Task<TrainerDashboardViewModel> GetStatisticsInfoAsync(Guid trainerId);
 }

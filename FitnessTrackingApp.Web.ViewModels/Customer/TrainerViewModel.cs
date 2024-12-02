@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace FitnessTrackingApp.Web.ViewModels.Trainer;
+namespace FitnessTrackingApp.Web.ViewModels.Customer;
 
 public class TrainerViewModel
 {

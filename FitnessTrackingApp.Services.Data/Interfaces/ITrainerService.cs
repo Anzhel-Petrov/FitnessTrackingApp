@@ -1,4 +1,5 @@
-﻿using FitnessTrackingApp.Web.ViewModels.Trainer;
+﻿using FitnessTrackingApp.Web.ViewModels.Customer;
+using FitnessTrackingApp.Web.ViewModels.Trainer;
 
 namespace FitnessTrackingApp.Services.Data.Interfaces;
 

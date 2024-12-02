@@ -36,12 +36,12 @@ public class GoalPlanConfiguration : IEntityTypeConfiguration<GoalPlan>
             .HasFilter(OnlyOnePendingGoalPlan)
             .IsUnique();
         
-        // Customer can have only one Pending GoalPlan (Pending request) with Trainer (a bit redundant)
+        // Customer can have only one Pending GoalPlan (Pending request) with specific Trainer (a bit redundant)
         // builder.HasIndex(gp => new { gp.TrainerId, gp.UserId })
         //     .HasFilter(OnlyOnePendingGoalPlan)
         //     .IsUnique();
         
-        // Customer can have only one Active GoalPlan with Trainer (a bit redundant)
+        // Customer can have only one Active GoalPlan with specific Trainer (a bit redundant)
         // builder.HasIndex(gp => new { gp.TrainerId, gp.UserId })
         //     .HasFilter(OnlyOneActiveGoalPlan)
         //     .IsUnique();

@@ -114,4 +114,25 @@ public class GoalPlanService : IGoalPlanService
 
         return new OperationResult(true, approve ? GoalPlanApprovedSuccess : GoalPlanRejectedSuccess);
     }
+
+    public async Task<TrainerDashboardViewModel> GetStatisticsInfoAsync(Guid trainerId)
+    {
+        TrainerDashboardViewModel model = new TrainerDashboardViewModel();
+        
+        var trainerPrimaryKey = await _dbContext.Trainers
+            .Where(t => t.UserId == trainerId)
+            .Select(t => t.Id)
+            .FirstOrDefaultAsync();
+
+        model.TotalActiveGoalPlansCount = await _dbContext.GoalPlans
+            .CountAsync(gp => gp.TrainerId == trainerPrimaryKey && gp.GoalPlanStatus == GoalPlanStatus.Active);
+
+        model.TotalPendingGoalPlansCount = await _dbContext.GoalPlans
+            .CountAsync(gp => gp.TrainerId == trainerPrimaryKey && gp.GoalPlanStatus == GoalPlanStatus.Pending);
+        
+        model.TotalCompletedGoalPlansCount = await _dbContext.GoalPlans
+            .CountAsync(gp => gp.TrainerId == trainerPrimaryKey && gp.GoalPlanStatus == GoalPlanStatus.Completed);
+        
+        return model;
+    }
 }
