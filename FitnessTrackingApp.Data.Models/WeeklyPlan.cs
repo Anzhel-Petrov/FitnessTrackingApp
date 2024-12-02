@@ -22,9 +22,8 @@ public class WeeklyPlan
 
     [ForeignKey(nameof(MacroId))]
     public Macro Macro { get; set; } = null!;
-
-    [Required]
-    public long CardioSessionId { get; set; }
+    
+    public long? CardioSessionId { get; set; }
 
     [ForeignKey(nameof(CardioSessionId))]
     public CardioSession? CardioSession { get; set; }

@@ -2,6 +2,7 @@
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.Controllers;
 using FitnessTrackingApp.Web.Infrastructure.Attributes;
+using FitnessTrackingApp.Web.ViewModels.WeeklyPlan;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTrackingApp.Web.Areas.Trainer.Controllers;
@@ -11,11 +12,13 @@ namespace FitnessTrackingApp.Web.Areas.Trainer.Controllers;
 public class GoalPlanController : BaseController
 {
     private readonly IGoalPlanService _goalPlanService;
+    private readonly IWeeklyPlanService _weeklyPlanService;
 
-    public GoalPlanController(IGoalPlanService goalPlanService, ITrainerService trainerService)
+    public GoalPlanController(IGoalPlanService goalPlanService, IWeeklyPlanService weeklyPlanService, ITrainerService trainerService)
         : base(trainerService)
     {
         _goalPlanService = goalPlanService;
+        _weeklyPlanService = weeklyPlanService;
     }
     
     // /Trainer/GoalPlan/Active
@@ -23,7 +26,7 @@ public class GoalPlanController : BaseController
     [HttpGet]
     public async Task<IActionResult> Active()
     {
-        var trainerId = this.GetUserId(); 
+        var trainerId = await this.GetTrainerId();
         var activePlans = await _goalPlanService.GetGoalPlanByStatusAsync(trainerId, GoalPlanStatus.Active);
 
         return View(activePlans); 
@@ -34,7 +37,7 @@ public class GoalPlanController : BaseController
     [HttpGet]
     public async Task<IActionResult> Pending()
     {
-        var trainerId = this.GetUserId(); 
+        var trainerId = await this.GetTrainerId(); 
         var pendingPlans = await _goalPlanService.GetGoalPlanByStatusAsync(trainerId, GoalPlanStatus.Pending);
 
         return View(pendingPlans); 
@@ -68,5 +71,34 @@ public class GoalPlanController : BaseController
         }
         
         return RedirectToAction("Pending");
+    }
+    
+    // /Trainer/GoalPlan/Assign/{goalPlanId}
+    [HttpGet]
+    public async Task<IActionResult> AssignWeeklyPlan(long goalPlanId)
+    {
+        var model = new AssignWeeklyPanViewModel() { GoalPlanId = goalPlanId };
+        return View(model);
+    }
+    
+    // /Trainer/GoalPlan/Assign/{goalPlanId}
+    [HttpPost]
+    public async Task<IActionResult> AssignWeeklyPlan(AssignWeeklyPanViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var trainerId = await this.GetTrainerId();
+        var result = await _weeklyPlanService.AssignWeeklyPlanAsync(model, trainerId);
+
+        if (!result.IsSuccess)
+        {
+            ModelState.AddModelError(string.Empty, result.Message);
+            return View(model);
+        }
+
+        return RedirectToAction("Index", "Dashboard", new { area = "Trainer" });
     }
 }

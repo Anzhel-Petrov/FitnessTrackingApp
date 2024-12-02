@@ -21,7 +21,7 @@ public class DashboardController : BaseController
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var trainerId = this.GetUserId();
+        var trainerId = await this.GetTrainerId();
 
         var dashBoardViewModel = await _goalPlanService.GetStatisticsInfoAsync(trainerId);
 

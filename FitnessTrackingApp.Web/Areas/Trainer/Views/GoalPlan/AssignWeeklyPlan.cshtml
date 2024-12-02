@@ -1,0 +1,38 @@
+﻿@model AssignWeeklyPanViewModel
+
+<h2>Assign Weekly Plan</h2>
+
+<form asp-action="AssignWeeklyPlan">
+    <input type="hidden" asp-for="GoalPlanId" />
+
+    <div>
+        <label>Calculated Daily Calories:</label>
+        <span>@Model.TotalDailyCalories</span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="TotalDailyCalories"></label>
+        <input asp-for="TotalDailyCalories" class="form-control" />
+        <span asp-validation-for="TotalDailyCalories" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DailyCarbohydrates"></label>
+        <input asp-for="DailyCarbohydrates" class="form-control" />
+        <span asp-validation-for="DailyCarbohydrates" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DailyProtein"></label>
+        <input asp-for="DailyProtein" class="form-control" />
+        <span asp-validation-for="DailyProtein" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DailyFat"></label>
+        <input asp-for="DailyFat" class="form-control" />
+        <span asp-validation-for="DailyFat" class="text-danger"></span>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Assign</button>
+</form>

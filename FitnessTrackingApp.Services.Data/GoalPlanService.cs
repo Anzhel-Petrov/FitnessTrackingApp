@@ -63,10 +63,8 @@ public class GoalPlanService : IGoalPlanService
 
     public async Task<IEnumerable<BaseGoalPlanViewModel>> GetGoalPlanByStatusAsync(Guid trainerId, GoalPlanStatus goalPlanStatus)
     {
-        var trainerPrimaryKey = await GetTrainerPrimaryKeyAsync(trainerId);
-        
         return await _dbContext.GoalPlans
-            .Where(gp => gp.TrainerId == trainerPrimaryKey && gp.GoalPlanStatus == goalPlanStatus)
+            .Where(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == goalPlanStatus)
             .Select(gp => new BaseGoalPlanViewModel
             {
                 GoalPlanId = gp.Id,
@@ -116,25 +114,15 @@ public class GoalPlanService : IGoalPlanService
     {
         TrainerDashboardViewModel model = new TrainerDashboardViewModel();
 
-        var trainerPrimaryKey = await GetTrainerPrimaryKeyAsync(trainerId);
-
         model.TotalActiveGoalPlansCount = await _dbContext.GoalPlans
-            .CountAsync(gp => gp.TrainerId == trainerPrimaryKey && gp.GoalPlanStatus == GoalPlanStatus.Active);
+            .CountAsync(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == GoalPlanStatus.Active);
 
         model.TotalPendingGoalPlansCount = await _dbContext.GoalPlans
-            .CountAsync(gp => gp.TrainerId == trainerPrimaryKey && gp.GoalPlanStatus == GoalPlanStatus.Pending);
+            .CountAsync(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == GoalPlanStatus.Pending);
         
         model.TotalCompletedGoalPlansCount = await _dbContext.GoalPlans
-            .CountAsync(gp => gp.TrainerId == trainerPrimaryKey && gp.GoalPlanStatus == GoalPlanStatus.Completed);
+            .CountAsync(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == GoalPlanStatus.Completed);
         
         return model;
-    }
-    
-    private async Task<Guid> GetTrainerPrimaryKeyAsync(Guid trainerUserId)
-    {
-        return await _dbContext.Trainers
-            .Where(t => t.UserId == trainerUserId)
-            .Select(t => t.Id)
-            .FirstOrDefaultAsync();
     }
 }

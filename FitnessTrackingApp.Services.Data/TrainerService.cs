@@ -46,4 +46,12 @@ public class TrainerService : ITrainerService
             .AsNoTracking()
             .ToListAsync();
     }
+    
+    public async Task<Guid> GetTrainerPrimaryKeyAsync(Guid trainerUserId)
+    {
+        return await _dbContext.Trainers
+            .Where(t => t.UserId == trainerUserId)
+            .Select(t => t.Id)
+            .FirstOrDefaultAsync();
+    }
 }

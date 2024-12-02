@@ -7,4 +7,5 @@ public interface ITrainerService
 {
     Task<bool> TrainerExistsByUserIdAsync(string userId);
     Task<IEnumerable<TrainerViewModel>> GetAvailableTrainersAsync(Guid userId);
+    Task<Guid> GetTrainerPrimaryKeyAsync(Guid trainerUserId);
 }

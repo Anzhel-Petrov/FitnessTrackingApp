@@ -38,5 +38,13 @@ namespace FitnessTrackingApp.Web.Controllers
             
             return isManager;
         }
+        
+        protected async Task<Guid> GetTrainerId()
+        {
+            Guid userId = this.GetUserId();
+            
+            return await this._trainerService
+                .GetTrainerPrimaryKeyAsync(userId);
+        }
     }
 }
