@@ -1,4 +1,5 @@
-﻿using FitnessTrackingApp.Services.Data.Interfaces;
+﻿using FitnessTrackingApp.Data.Models.Enums;
+using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.Controllers;
 using FitnessTrackingApp.Web.Infrastructure.Attributes;
 using Microsoft.AspNetCore.Mvc;
@@ -17,13 +18,24 @@ public class GoalPlanController : BaseController
         _goalPlanService = goalPlanService;
     }
     
+    // /Trainer/GoalPlan/Active
+    // Areas/Trainer/Views/GoalPlan/Active.cshtml
+    [HttpGet]
+    public async Task<IActionResult> Active()
+    {
+        var trainerId = this.GetUserId(); 
+        var activePlans = await _goalPlanService.GetGoalPlanByStatusAsync(trainerId, GoalPlanStatus.Active);
+
+        return View(activePlans); 
+    }
+    
     // /Trainer/GoalPlan/Pending
     // Areas/Trainer/Views/GoalPlan/Pending.cshtml
     [HttpGet]
     public async Task<IActionResult> Pending()
     {
         var trainerId = this.GetUserId(); 
-        var pendingPlans = await _goalPlanService.GetPendingGoalPlansAsync(trainerId);
+        var pendingPlans = await _goalPlanService.GetGoalPlanByStatusAsync(trainerId, GoalPlanStatus.Pending);
 
         return View(pendingPlans); 
     }

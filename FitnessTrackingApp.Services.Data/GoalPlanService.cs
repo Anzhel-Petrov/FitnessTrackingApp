@@ -61,16 +61,13 @@ public class GoalPlanService : IGoalPlanService
         }
     }
 
-    public async Task<IEnumerable<PendingGoalPlanViewModel>> GetPendingGoalPlansAsync(Guid trainerId)
+    public async Task<IEnumerable<BaseGoalPlanViewModel>> GetGoalPlanByStatusAsync(Guid trainerId, GoalPlanStatus goalPlanStatus)
     {
-        var trainerPrimaryKey = await _dbContext.Trainers
-            .Where(t => t.UserId == trainerId)
-            .Select(t => t.Id)
-            .FirstOrDefaultAsync();
+        var trainerPrimaryKey = await GetTrainerPrimaryKeyAsync(trainerId);
         
         return await _dbContext.GoalPlans
-            .Where(gp => gp.TrainerId == trainerPrimaryKey && gp.GoalPlanStatus == GoalPlanStatus.Pending)
-            .Select(gp => new PendingGoalPlanViewModel
+            .Where(gp => gp.TrainerId == trainerPrimaryKey && gp.GoalPlanStatus == goalPlanStatus)
+            .Select(gp => new BaseGoalPlanViewModel
             {
                 GoalPlanId = gp.Id,
                 CustomerName = gp.ApplicationUser.UserName ?? string.Empty,
@@ -118,11 +115,8 @@ public class GoalPlanService : IGoalPlanService
     public async Task<TrainerDashboardViewModel> GetStatisticsInfoAsync(Guid trainerId)
     {
         TrainerDashboardViewModel model = new TrainerDashboardViewModel();
-        
-        var trainerPrimaryKey = await _dbContext.Trainers
-            .Where(t => t.UserId == trainerId)
-            .Select(t => t.Id)
-            .FirstOrDefaultAsync();
+
+        var trainerPrimaryKey = await GetTrainerPrimaryKeyAsync(trainerId);
 
         model.TotalActiveGoalPlansCount = await _dbContext.GoalPlans
             .CountAsync(gp => gp.TrainerId == trainerPrimaryKey && gp.GoalPlanStatus == GoalPlanStatus.Active);
@@ -134,5 +128,13 @@ public class GoalPlanService : IGoalPlanService
             .CountAsync(gp => gp.TrainerId == trainerPrimaryKey && gp.GoalPlanStatus == GoalPlanStatus.Completed);
         
         return model;
+    }
+    
+    private async Task<Guid> GetTrainerPrimaryKeyAsync(Guid trainerUserId)
+    {
+        return await _dbContext.Trainers
+            .Where(t => t.UserId == trainerUserId)
+            .Select(t => t.Id)
+            .FirstOrDefaultAsync();
     }
 }

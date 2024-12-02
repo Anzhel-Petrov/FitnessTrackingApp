@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<BaseGoalPlanViewModel>
 
-<h2>Pending Goal Plans</h2>
+<h2>Active Goal Plans</h2>
 
 <table class="table">
     <thead>
@@ -19,7 +19,7 @@
             <td>@plan.GoalDescription</td>
             <td>@plan.CreatedOn.ToShortDateString()</td>
             <td>
-                <a href="@Url.Action("Review", "GoalPlan", new { area = "Trainer", goalPlanId = plan.GoalPlanId })" class="btn btn-primary">Review</a>
+                <a href="@Url.Action("AssignWeeklyPlan", "GoalPlan", new { area = "Trainer", goalPlanId = plan.GoalPlanId })" class="btn btn-primary">Assign Weekly Plan</a>
             </td>
         </tr>
     }
