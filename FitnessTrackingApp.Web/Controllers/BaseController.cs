@@ -24,7 +24,7 @@ namespace FitnessTrackingApp.Web.Controllers
         protected bool IsAuthenticated()
             => this.User.Identity?.IsAuthenticated ?? false;
         
-        protected async Task<bool> IsUserManagerAsync()
+        protected async Task<bool> IsUserTrainerAsync()
         {
             string? userId = this.User.GetUserId();
             
