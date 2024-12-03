@@ -8,7 +8,11 @@ public class BodyWeightLogConfiguration : IEntityTypeConfiguration<BodyWeightLog
 {
     public void Configure(EntityTypeBuilder<BodyWeightLog> builder)
     {
-        builder.HasIndex(l => new { l.DateLogged, l.UserId})
+        builder.HasIndex(l => new { l.DateLogged, l.GoalPlanId})
             .IsUnique();
+        
+        builder.HasOne(bwl => bwl.GoalPlan)
+            .WithMany(gp => gp.BodyWeightLogs)
+            .HasForeignKey(bwl => bwl.GoalPlanId);
     }
 }

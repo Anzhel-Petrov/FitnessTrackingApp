@@ -43,4 +43,9 @@ public class WeeklyPlanService : IWeeklyPlanService
 
         return new OperationResult(true, $"Weekly plan for week {weeklyPlan.Week} was added to Goal Plan.");
     }
+
+    public Task<IEnumerable<WeeklyPlanViewModel>> GetTrainerWeeklyPlansAsync(Guid trainerId)
+    {
+        throw new NotImplementedException();
+    }
 }

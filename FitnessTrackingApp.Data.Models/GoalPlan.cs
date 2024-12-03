@@ -30,6 +30,8 @@ public class GoalPlan
     public GoalPlanStatus GoalPlanStatus { get; set; } = GoalPlanStatus.Pending;
 
     public CustomerDetails CustomerDetails { get; set; } = null!;
+    
+    public ICollection<BodyWeightLog> BodyWeightLogs { get; set; } = new HashSet<BodyWeightLog>();
 
     public ICollection<WeeklyPlan> WeeklyPlans { get; set; } = new HashSet<WeeklyPlan>();
 }
