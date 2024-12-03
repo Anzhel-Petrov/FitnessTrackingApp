@@ -19,7 +19,7 @@ public class MustBeTrainerAttribute : Attribute, IAsyncActionFilter
             return;
         }
 
-        var userId = context.HttpContext.User.GetId();
+        var userId = context.HttpContext.User.GetUserId();
         if (string.IsNullOrEmpty(userId) || !await trainerService.TrainerExistsByUserIdAsync(userId))
         {
             context.Result = new StatusCodeResult(StatusCodes.Status401Unauthorized);

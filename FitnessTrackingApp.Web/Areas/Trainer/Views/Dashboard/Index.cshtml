@@ -2,18 +2,18 @@
 
 <h2>Trainer Dashboard</h2>
 
-<div>
+<div class="dashboard-section">
     <h3>Goal Plans Overview</h3>
-    <ul>
-        <li>
-            <strong>Pending Goal Plans:</strong> 
-            @Model.TotalPendingGoalPlansCount
+    <div class="overview-counters">
+        <div class="overview-counter pending">
+            <strong>Pending Goal Plans</strong>
+            <span>@Model.TotalPendingGoalPlansCount</span>
             <a href="@Url.Action("Pending", "GoalPlan", new { area = "Trainer" })" class="btn btn-primary btn-sm">View Pending</a>
-        </li>
-        <li>
-            <strong>Active Goal Plans:</strong> 
-            @Model.TotalActiveGoalPlansCount
+        </div>
+        <div class="overview-counter active">
+            <strong>Active Goal Plans</strong>
+            <span>@Model.TotalActiveGoalPlansCount</span>
             <a href="@Url.Action("Active", "GoalPlan", new { area = "Trainer" })" class="btn btn-primary btn-sm">View Active</a>
-        </li>
-    </ul>
+        </div>
+    </div>
 </div>

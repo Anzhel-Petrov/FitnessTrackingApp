@@ -44,8 +44,27 @@ public class WeeklyPlanService : IWeeklyPlanService
         return new OperationResult(true, $"Weekly plan for week {weeklyPlan.Week} was added to Goal Plan.");
     }
 
-    public Task<IEnumerable<WeeklyPlanViewModel>> GetTrainerWeeklyPlansAsync(Guid trainerId)
+    public async Task<IEnumerable<WeeklyPlanViewModel>> GetTrainerWeeklyPlansAsync(Guid trainerId)
     {
-        throw new NotImplementedException();
+        return await _dbContext.WeeklyPlans
+            .Where(wp => wp.GoalPlan.TrainerId == trainerId)
+            .OrderBy(wp => wp.Week)
+            .Select(wp => new WeeklyPlanViewModel
+            {
+                WeekNumber = wp.Week,
+                Carbohydrates = wp.Macro.DailyCarbohydrates,
+                Fat = wp.Macro.DailyFat,
+                Protein = wp.Macro.DailyProtein,
+                TotalDailyCalories = wp.Macro.TotalDailyCalories,
+                CardioSessions = wp.CardioSession != null ? wp.CardioSession.SessionsPerWeek : 0,
+                CardioType = wp.CardioSession != null ? wp.CardioSession.IsHIIT ? "HIIT" : "Steady-State" : "",
+                IsHIIT = wp.CardioSession != null && wp.CardioSession.IsHIIT,
+                Weight = wp.GoalPlan.BodyWeightLogs
+                    .OrderByDescending(bw => bw.DateLogged)
+                    .Select(bw => bw.CurrentWeight)
+                    .FirstOrDefault()
+            })
+            .AsNoTracking()
+            .ToListAsync();
     }
 }

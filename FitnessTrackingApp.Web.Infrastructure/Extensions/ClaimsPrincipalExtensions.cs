@@ -10,12 +10,12 @@ public static class ClaimsPrincipalExtensions
         return user.IsInRole(AdminRoleName);
     }
 
-    public static string? GetUserId(this ClaimsPrincipal? user)
+    public static string? GetUserName(this ClaimsPrincipal? user)
     {
         return user?.FindFirstValue(ClaimTypes.Name) ?? null;
     }
     
-    public static string? GetId(this ClaimsPrincipal? user)
+    public static string? GetUserId(this ClaimsPrincipal? user)
     {
         return user?.FindFirstValue(ClaimTypes.NameIdentifier) ?? null;
     }

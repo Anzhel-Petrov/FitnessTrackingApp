@@ -33,10 +33,10 @@ namespace FitnessTrackingApp.Web.Controllers
                 return false;
             }
             
-            bool isManager = await this._trainerService
+            bool isTrainer = await this._trainerService
                 .TrainerExistsByUserIdAsync(userId);
             
-            return isManager;
+            return isTrainer;
         }
         
         protected async Task<Guid> GetTrainerId()

@@ -9,6 +9,6 @@ public class WeeklyPlanViewModel
     public int TotalDailyCalories { get; set; }
     public int CardioSessions { get; set; }
     public string? CardioType { get; set; }
-    public double Weight { get; set; }
+    public decimal Weight { get; set; }
     public bool IsHIIT { get; set; } 
 }
