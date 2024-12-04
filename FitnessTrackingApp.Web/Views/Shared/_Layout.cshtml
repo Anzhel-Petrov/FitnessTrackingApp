@@ -1,6 +1,10 @@
 ﻿@using FitnessTrackingApp.Services.Data.Interfaces
 @using FitnessTrackingApp.Web.Infrastructure.Extensions
 @inject ITrainerService trainerService
+@{
+    var isTrainer = User?.Identity?.IsAuthenticated == true &&
+                    await trainerService.TrainerExistsByUserIdAsync(User.GetUserId()!);
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,10 +51,50 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Trainer Sidebar -->
+            @if (isTrainer)
+            {
+                <aside class="col-md-3 col-lg-2 bg-light border-end vh-100">
+                    <nav class="trainer-dashboard-menu p-3">
+                        <h5 class="text-center">Trainer Menu</h5>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="@Url.Action("Index", "Dashboard", new { area = "Trainer" })">
+                                    <i class="fas fa-home"></i> Dashboard Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Pending", "GoalPlan", new { area = "Trainer" })">
+                                    <i class="fas fa-clock"></i> Pending Goal Plans
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Active", "GoalPlan", new { area = "Trainer" })">
+                                    <i class="fas fa-tasks"></i> Active Goal Plans
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "WeeklyPlan", new { area = "Trainer" })">
+                                    <i class="fas fa-calendar-week"></i> Weekly Plans
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Customers", "WeeklyPan", new { area = "Trainer" })">
+                                    <i class="fas fa-users"></i> Customers
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </aside>
+            }
+
+            <!-- Main Content -->
+            <main role="main" class="@(isTrainer ? "col-md-9 col-lg-10" : "col-md-8 offset-md-2 col-lg-6 offset-lg-3") pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
