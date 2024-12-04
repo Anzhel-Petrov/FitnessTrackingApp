@@ -95,7 +95,7 @@ public class GoalPlanController : BaseController
 
         if (!result.IsSuccess)
         {
-            ModelState.AddModelError(string.Empty, result.Message);
+            TempData["ErrorMessage"] = result.Message;
             return View(model);
         }
 

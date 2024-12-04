@@ -2,6 +2,7 @@
 
 public class WeeklyPlanViewModel
 {
+    public string CustomerName { get; set; } = null!;
     public int WeekNumber { get; set; }
     public int Carbohydrates { get; set; }
     public int Fat { get; set; }

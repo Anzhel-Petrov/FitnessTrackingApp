@@ -76,8 +76,9 @@ public class GoalPlanService : IGoalPlanService
                 GoalPlanId = gp.Id,
                 CustomerName = gp.ApplicationUser.UserName ?? string.Empty,
                 GoalDescription = gp.CustomerDetails.GoalDescription,
-                CreatedOn = gp.CustomerDetails.DateCreated,
-                Status = gp.GoalPlanStatus.ToString()
+                CreatedOn = gp.CustomerDetails.DateCreated.ToString("dddd, dd MMMM yyyy"),
+                Status = gp.GoalPlanStatus.ToString(),
+                WeekCounter = gp.WeeklyPlans.Any() ? gp.WeeklyPlans.Max(wp => wp.Week) : 0
             })
             .AsNoTracking()
             .ToListAsync();

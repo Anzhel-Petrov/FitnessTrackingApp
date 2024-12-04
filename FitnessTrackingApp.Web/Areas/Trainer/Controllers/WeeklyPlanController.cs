@@ -19,10 +19,9 @@ public class WeeklyPlanController : BaseController
     // /Trainer/WeeklyPlan/Index
     // Areas/Trainer/Views/WeeklyPlan/Index.cshtml
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(long goalPlanId)
     {
-        var trainerId = await this.GetTrainerId();
-        var weeklyPlans = await _weeklyPlanService.GetTrainerWeeklyPlansAsync(trainerId);
+        var weeklyPlans = await _weeklyPlanService.GetTrainerWeeklyPlansAsync(goalPlanId);
         return View(weeklyPlans);
     }
 }

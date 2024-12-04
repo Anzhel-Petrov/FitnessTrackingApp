@@ -17,7 +17,7 @@
         <tr>
             <td>@plan.CustomerName</td>
             <td>@plan.GoalDescription</td>
-            <td>@plan.CreatedOn.ToShortDateString()</td>
+            <td>@plan.CreatedOn</td>
             <td>
                 <a href="@Url.Action("Review", "GoalPlan", new { area = "Trainer", goalPlanId = plan.GoalPlanId })" class="btn btn-primary">Review</a>
             </td>

@@ -19,11 +19,17 @@ public class WeeklyPlanService : IWeeklyPlanService
     public async Task<OperationResult> AssignWeeklyPlanAsync(AssignWeeklyPanViewModel model, Guid trainerId)
     {
         var goalPlan = await _dbContext.GoalPlans
+            .Include(goalPlan => goalPlan.WeeklyPlans)
             .FirstOrDefaultAsync(gp => gp.Id == model.GoalPlanId && gp.GoalPlanStatus == GoalPlanStatus.Active && gp.TrainerId == trainerId);
 
         if (goalPlan == null)
         {
             return new OperationResult(false, "Invalid or inactive goal plan.");
+        }
+
+        if (goalPlan.WeeklyPlans.Any(wp => wp.Week == model.Week))
+        {
+            return new OperationResult(false, "A week number for this weekly plan already exists.");
         }
         
         var weeklyPlan = new WeeklyPlan
@@ -44,13 +50,14 @@ public class WeeklyPlanService : IWeeklyPlanService
         return new OperationResult(true, $"Weekly plan for week {weeklyPlan.Week} was added to Goal Plan.");
     }
 
-    public async Task<IEnumerable<WeeklyPlanViewModel>> GetTrainerWeeklyPlansAsync(Guid trainerId)
+    public async Task<IEnumerable<WeeklyPlanViewModel>> GetTrainerWeeklyPlansAsync(long planId)
     {
         return await _dbContext.WeeklyPlans
-            .Where(wp => wp.GoalPlan.TrainerId == trainerId)
+            .Where(wp => wp.GoalPlanId == planId)
             .OrderBy(wp => wp.Week)
             .Select(wp => new WeeklyPlanViewModel
             {
+                CustomerName = wp.GoalPlan.ApplicationUser.UserName ?? string.Empty,
                 WeekNumber = wp.Week,
                 Carbohydrates = wp.Macro.DailyCarbohydrates,
                 Fat = wp.Macro.DailyFat,

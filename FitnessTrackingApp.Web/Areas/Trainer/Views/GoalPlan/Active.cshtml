@@ -17,8 +17,9 @@
         <tr>
             <td>@plan.CustomerName</td>
             <td>@plan.GoalDescription</td>
-            <td>@plan.CreatedOn.ToShortDateString()</td>
+            <td>@plan.CreatedOn</td>
             <td>
+                <a asp-area="Trainer" asp-controller="WeeklyPlan" asp-action="Index" asp-route-goalPlanId="@plan.GoalPlanId" class="btn btn-info">Details</a>
                 <a href="@Url.Action("AssignWeeklyPlan", "GoalPlan", new { area = "Trainer", goalPlanId = plan.GoalPlanId })" class="btn btn-primary">Assign Weekly Plan</a>
             </td>
         </tr>
