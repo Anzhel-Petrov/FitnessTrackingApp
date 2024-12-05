@@ -84,7 +84,19 @@ body {
 }
 
 .overview-counter.active span {
-  color: #28a745; /* Green for active plans */
+  color: #276cb8; /* Green for active plans */
+}
+
+.overview-counter.rejected span {
+  color: #b61f1f; /* Green for active plans */
+}
+
+.overview-counter.cancelled span {
+  color: #f10606; /* Green for active plans */
+}
+
+.overview-counter.completed span {
+  color: #18a31b; /* Green for active plans */
 }
 
 /* Responsive Design */

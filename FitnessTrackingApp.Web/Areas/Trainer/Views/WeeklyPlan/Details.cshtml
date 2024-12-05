@@ -1,6 +1,6 @@
-﻿@model IEnumerable<WeeklyPlanViewModel>
+﻿@model TrainerWeeklyPlanViewModel
 
-<h2>Weekly Plans</h2>
+<h2>Weekly Plans for customer: @Model.CustomerName</h2>
 
 <table class="table table-striped">
     <thead>
@@ -16,7 +16,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var plan in Model)
+    @foreach (var plan in Model.WeeklyPlanViewModels)
     {
         <tr>
             <td>@plan.WeekNumber</td>

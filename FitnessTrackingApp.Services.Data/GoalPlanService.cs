@@ -130,6 +130,12 @@ public class GoalPlanService : IGoalPlanService
         model.TotalCompletedGoalPlansCount = await _dbContext.GoalPlans
             .CountAsync(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == GoalPlanStatus.Completed);
         
+        model.TotalRejectedGoalPlansCount = await _dbContext.GoalPlans
+            .CountAsync(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == GoalPlanStatus.Rejected);
+        
+        model.TotalCancelledGoalPlansCount = await _dbContext.GoalPlans
+            .CountAsync(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == GoalPlanStatus.Cancelled);
+        
         return model;
     }
 }

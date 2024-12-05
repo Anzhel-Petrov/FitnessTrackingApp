@@ -16,8 +16,8 @@ public class DashboardController : BaseController
         _goalPlanService = goalPlanService;
     }
     
-    // /Trainer/Dashboard/Index
-    // Areas/Trainer/Views/DashBoard/Index.cshtml
+    // /Trainer/Dashboard/Details
+    // Areas/Trainer/Views/DashBoard/Details.cshtml
     [HttpGet]
     public async Task<IActionResult> Index()
     {
