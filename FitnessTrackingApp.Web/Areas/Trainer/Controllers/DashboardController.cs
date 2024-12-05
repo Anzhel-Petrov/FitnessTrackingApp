@@ -1,6 +1,8 @@
-﻿using FitnessTrackingApp.Services.Data.Interfaces;
+﻿using FitnessTrackingApp.Data.Models.Enums;
+using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.Controllers;
 using FitnessTrackingApp.Web.Infrastructure.Attributes;
+using FitnessTrackingApp.Web.ViewModels.Trainer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTrackingApp.Web.Areas.Trainer.Controllers;
@@ -19,12 +21,12 @@ public class DashboardController : BaseController
     // /Trainer/Dashboard/Details
     // Areas/Trainer/Views/DashBoard/Details.cshtml
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(GoalPlanStatus? goalPlanStatus)
     {
         var trainerId = await this.GetTrainerId();
 
-        var dashBoardViewModel = await _goalPlanService.GetStatisticsInfoAsync(trainerId);
+        var model = await _goalPlanService.GetStatisticsInfoAsync(trainerId, goalPlanStatus);
 
-        return View(dashBoardViewModel);
+        return View(model);
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static FitnessTrackingApp.Common.EntityValidationMessages;
+using static FitnessTrackingApp.Common.ApplicationConstants;
 
 namespace FitnessTrackingApp.Web.ViewModels.Customer;
 
@@ -8,19 +10,21 @@ public class CustomerDetailsInputModel
     public Guid TrainerId { get; set; }
 
     [Required]
+    [MaxLength(GoalDescriptionMaxLength)]
     [Display(Name = "Goal Description")]
     public string GoalDescription { get; set; } = null!;
 
     [Display(Name = "Additional Notes")]
+    [MaxLength(AdditionalNotesMaxLength)]
     public string AdditionalNotes { get; set; }  = null!;
 
     [Required]
-    [Range(30, 300, ErrorMessage = "Weight must be between 30 and 300 kg.")]
+    [Range(BodyWeightMinRange, BodyWeightMaxRange, ErrorMessage = CustomerDetailsWeight)]
     [Display(Name = "Starting Weight (kg)")]
     public decimal StartingWeight { get; set; }
  
     [Required]
-    [Range(30, 300, ErrorMessage = "Target weight must be between 30 and 300 kg.")]
+    [Range(BodyWeightMinRange, BodyWeightMaxRange, ErrorMessage = CustomerDetailsWeight)]
     [Display(Name = "Target Weight (kg)")]
     public decimal TargetWeight { get; set; }
 }

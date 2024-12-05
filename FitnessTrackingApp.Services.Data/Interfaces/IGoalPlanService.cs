@@ -9,8 +9,9 @@ namespace FitnessTrackingApp.Services.Data.Interfaces;
 public interface IGoalPlanService
 {
     Task<OperationResult> CreateGoalPlanRequestAsync(CustomerDetailsInputModel model, Guid userId);
-    Task<IEnumerable<BaseGoalPlanViewModel>> GetGoalPlanByStatusAsync(Guid trainerId, GoalPlanStatus goalPlanStatus);
+    Task<IEnumerable<BaseGoalPlanViewModel>> GetGoalPlanByStatusAsync(Guid trainerId, GoalPlanStatus? goalPlanStatus);
+    Task<IEnumerable<BaseGoalPlanViewModel>> GetAllGoalPlansByTrainerAsync(Guid trainerId);
     Task<GoalPlanDetailsViewModel?> GetGoalPlanDetailsAsync(long goalPlanId);
     Task<OperationResult> ProcessGoalPlanAsync(long goalPlanId, bool approve);
-    public Task<TrainerDashboardViewModel> GetStatisticsInfoAsync(Guid trainerId);
+    Task<TrainerDashboardViewModel> GetStatisticsInfoAsync(Guid trainerId, GoalPlanStatus? goalPlanStatus);
 }

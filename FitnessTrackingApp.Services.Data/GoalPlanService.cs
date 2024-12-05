@@ -67,7 +67,7 @@ public class GoalPlanService : IGoalPlanService
         }
     }
 
-    public async Task<IEnumerable<BaseGoalPlanViewModel>> GetGoalPlanByStatusAsync(Guid trainerId, GoalPlanStatus goalPlanStatus)
+    public async Task<IEnumerable<BaseGoalPlanViewModel>> GetGoalPlanByStatusAsync(Guid trainerId, GoalPlanStatus? goalPlanStatus)
     {
         return await _dbContext.GoalPlans
             .Where(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == goalPlanStatus)
@@ -78,7 +78,24 @@ public class GoalPlanService : IGoalPlanService
                 GoalDescription = gp.CustomerDetails.GoalDescription,
                 CreatedOn = gp.CustomerDetails.DateCreated.ToString("dddd, dd MMMM yyyy"),
                 Status = gp.GoalPlanStatus.ToString(),
-                WeekCounter = gp.WeeklyPlans.Any() ? gp.WeeklyPlans.Max(wp => wp.Week) : 0
+                WeekCounter = gp.WeeklyPlans.Count != 0 ? gp.WeeklyPlans.Max(wp => wp.Week) : 0
+            })
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<BaseGoalPlanViewModel>> GetAllGoalPlansByTrainerAsync(Guid trainerId)
+    {
+        return await _dbContext.GoalPlans
+            .Where(gp => gp.TrainerId == trainerId)
+            .Select(gp => new BaseGoalPlanViewModel
+            {
+                GoalPlanId = gp.Id,
+                CustomerName = gp.ApplicationUser.UserName ?? string.Empty,
+                GoalDescription = gp.CustomerDetails.GoalDescription,
+                CreatedOn = gp.CustomerDetails.DateCreated.ToString("dddd, dd MMMM yyyy"),
+                Status = gp.GoalPlanStatus.ToString(),
+                WeekCounter = gp.WeeklyPlans.Count != 0 ? gp.WeeklyPlans.Max(wp => wp.Week) : 0
             })
             .AsNoTracking()
             .ToListAsync();
@@ -117,25 +134,25 @@ public class GoalPlanService : IGoalPlanService
         return new OperationResult(true, approve ? GoalPlanApprovedSuccess : GoalPlanRejectedSuccess);
     }
 
-    public async Task<TrainerDashboardViewModel> GetStatisticsInfoAsync(Guid trainerId)
+    public async Task<TrainerDashboardViewModel> GetStatisticsInfoAsync(Guid trainerId, GoalPlanStatus? goalPlanStatus)
     {
-        TrainerDashboardViewModel model = new TrainerDashboardViewModel();
+        var allGoalPlans = (await GetAllGoalPlansByTrainerAsync(trainerId)).ToList();
+        
+        var filteredGoalPlans = goalPlanStatus.HasValue
+            ? allGoalPlans.Where(gp => Enum.Parse<GoalPlanStatus>(gp.Status) == goalPlanStatus.Value).ToList()
+            : allGoalPlans.ToList();
+        
+        TrainerDashboardViewModel model = new TrainerDashboardViewModel()
+        {
+            StatusGoalPlans = filteredGoalPlans,
+            TotalGoalPlansCount = allGoalPlans.Count,
+            TotalPendingGoalPlansCount = allGoalPlans.Count(gp => Enum.Parse<GoalPlanStatus>(gp.Status) == GoalPlanStatus.Pending),
+            TotalActiveGoalPlansCount = allGoalPlans.Count(gp => Enum.Parse<GoalPlanStatus>(gp.Status) == GoalPlanStatus.Active),
+            TotalCompletedGoalPlansCount = allGoalPlans.Count(gp => Enum.Parse<GoalPlanStatus>(gp.Status) == GoalPlanStatus.Completed),
+            TotalCancelledGoalPlansCount = allGoalPlans.Count(gp => Enum.Parse<GoalPlanStatus>(gp.Status) == GoalPlanStatus.Cancelled),
+            TotalRejectedGoalPlansCount = allGoalPlans.Count(gp => Enum.Parse<GoalPlanStatus>(gp.Status) == GoalPlanStatus.Rejected)
+        };
 
-        model.TotalActiveGoalPlansCount = await _dbContext.GoalPlans
-            .CountAsync(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == GoalPlanStatus.Active);
-
-        model.TotalPendingGoalPlansCount = await _dbContext.GoalPlans
-            .CountAsync(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == GoalPlanStatus.Pending);
-        
-        model.TotalCompletedGoalPlansCount = await _dbContext.GoalPlans
-            .CountAsync(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == GoalPlanStatus.Completed);
-        
-        model.TotalRejectedGoalPlansCount = await _dbContext.GoalPlans
-            .CountAsync(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == GoalPlanStatus.Rejected);
-        
-        model.TotalCancelledGoalPlansCount = await _dbContext.GoalPlans
-            .CountAsync(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == GoalPlanStatus.Cancelled);
-        
         return model;
     }
 }

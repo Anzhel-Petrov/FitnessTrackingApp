@@ -1,4 +1,5 @@
-﻿@model TrainerDashboardViewModel
+﻿@using FitnessTrackingApp.Data.Models.Enums
+@model TrainerDashboardViewModel
 
 <h2>Trainer Dashboard</h2>
 
@@ -9,32 +10,69 @@
         <div class="overview-counter pending">
             <strong>Pending Goal Plans</strong>
             <span>@Model.TotalPendingGoalPlansCount</span>
-            <a href="@Url.Action("Pending", "GoalPlan", new { area = "Trainer" })" class="btn btn-primary btn-sm">View Pending</a>
+            <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" asp-route-goalPlanStatus="@GoalPlanStatus.Pending" class="btn btn-primary btn-sm">View Pending</a>
         </div>
 
         <div class="overview-counter active">
             <strong>Active Goal Plans</strong>
             <span>@Model.TotalActiveGoalPlansCount</span>
-            <a href="@Url.Action("Active", "GoalPlan", new { area = "Trainer" })" class="btn btn-primary btn-sm">View Active</a>
+            <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" asp-route-goalPlanStatus="@GoalPlanStatus.Active" class="btn btn-primary btn-sm">View Active</a>
         </div>
 
         <div class="overview-counter completed">
             <strong>Completed Goal Plans</strong>
             <span>@Model.TotalCompletedGoalPlansCount</span>
-            <a href="@Url.Action("Active", "GoalPlan", new { area = "Trainer" })" class="btn btn-primary btn-sm">View Completed</a>
+            <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" asp-route-goalPlanStatus="@GoalPlanStatus.Completed" class="btn btn-primary btn-sm">View Completed</a>
         </div>
 
         <div class="overview-counter rejected">
             <strong>Rejected Goal Plans</strong>
             <span>@Model.TotalRejectedGoalPlansCount</span>
-            <a href="@Url.Action("Active", "GoalPlan", new { area = "Trainer" })" class="btn btn-primary btn-sm">View Rejected</a>
+            <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" asp-route-goalPlanStatus="@GoalPlanStatus.Rejected" class="btn btn-primary btn-sm">View Rejected</a>
         </div>
 
         <div class="overview-counter cancelled">
             <strong>Cancelled Goal Plans</strong>
             <span>@Model.TotalCancelledGoalPlansCount</span>
-            <a href="@Url.Action("Active", "GoalPlan", new { area = "Trainer" })" class="btn btn-primary btn-sm">View Cancelled</a>
+            <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" asp-route-goalPlanStatus="@GoalPlanStatus.Cancelled" class="btn btn-primary btn-sm">View Cancelled</a>
+        </div>
+
+        <div class="overview-counter all">
+            <strong>All Goal Plans</strong>
+            <span>@Model.TotalCancelledGoalPlansCount</span>
+            <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" asp-route-goalPlanStatus="@null" class="btn btn-primary btn-sm">View All</a>
         </div>
         
     </div>
 </div>
+
+@if (Model.StatusGoalPlans.Any())
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Status</th>
+            <th>Created On</th>
+            <th>Goal Description</th>
+            <th>Weeks</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var plan in Model.StatusGoalPlans)
+        {
+            <tr>
+                <td>@plan.CustomerName</td>
+                <td>@plan.Status</td>
+                <td>@plan.CreatedOn</td>
+                <td>@plan.GoalDescription</td>
+                <td>@plan.WeekCounter</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No goal plans found in that status.</p>
+}

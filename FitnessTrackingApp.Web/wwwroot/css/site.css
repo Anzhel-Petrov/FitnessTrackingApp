@@ -99,6 +99,11 @@ body {
   color: #18a31b; /* Green for active plans */
 }
 
+.overview-counter.all span {
+  color: #0e130e; /* Green for active plans */
+  margin-top: 1.7rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .overview-counter {
