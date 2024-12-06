@@ -27,4 +27,5 @@ public class WeeklyPlan
 
     [ForeignKey(nameof(CardioSessionId))]
     public CardioSession? CardioSession { get; set; }
+    public ICollection<BodyWeightLog> BodyWeightLogs { get; set; } = new HashSet<BodyWeightLog>();
 }

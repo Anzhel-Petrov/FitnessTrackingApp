@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FitnessTrackingApp.Data.Models.Enums;
 using static FitnessTrackingApp.Common.EntityValidationMessages;
 using static FitnessTrackingApp.Common.ApplicationConstants;
 

@@ -57,6 +57,7 @@ public class GoalPlanService : IGoalPlanService
             TrainerId = model.TrainerId,
             GoalName = model.GoalDescription,
             StartDate = null,
+            EndDate = null,
             CustomerDetails = new CustomerDetails
             {
                 GoalDescription = model.GoalDescription,

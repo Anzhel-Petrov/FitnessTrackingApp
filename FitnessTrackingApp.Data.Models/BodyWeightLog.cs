@@ -11,10 +11,10 @@ public class BodyWeightLog
     public long Id { get; set; }
 
     [Required]
-    public long GoalPlanId { get; set; }
+    public long WeeklyPlanId { get; set; }
 
-    [ForeignKey(nameof(GoalPlanId))]
-    public GoalPlan GoalPlan { get; set; } = null!;
+    [ForeignKey(nameof(WeeklyPlanId))]
+    public WeeklyPlan WeeklyPlan { get; set; } = null!;
 
     [Required]
     [DataType(DataType.Date)]

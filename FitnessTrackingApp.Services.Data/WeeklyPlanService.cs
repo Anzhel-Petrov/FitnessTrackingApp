@@ -91,7 +91,8 @@ public class WeeklyPlanService : IWeeklyPlanService
                         CardioSessions = bwp.CardioSession != null ? bwp.CardioSession.SessionsPerWeek : 0,
                         CardioType = bwp.CardioSession != null ? bwp.CardioSession.IsHIIT ? "HIIT" : "Steady-State" : "",
                         IsHIIT = bwp.CardioSession != null && bwp.CardioSession.IsHIIT,
-                        Weight = bwp.GoalPlan.BodyWeightLogs
+
+                        Weight = bwp.BodyWeightLogs
                             .OrderByDescending(bwl => bwl.DateLogged)
                             .Select(bwl => bwl.CurrentWeight)
                             .FirstOrDefault()

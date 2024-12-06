@@ -18,4 +18,9 @@ public static class ApplicationConstants
     public const int GoalDescriptionMaxLength = 100;
     public const int AdditionalNotesMaxLength = 1000;
 
+    // Weigh Goal Enum Display
+    public const string WeightLossDisplay = "Loose Weight";
+    public const string WeightGainDisplay = "Gain Weight";
+    public const string WeightMaintainDisplay = "Maintain Weight";
+
 }
