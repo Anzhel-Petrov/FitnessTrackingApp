@@ -1,4 +1,5 @@
-﻿using FitnessTrackingApp.Data.Models.Enums;
+﻿using FitnessTrackingApp.Common;
+using FitnessTrackingApp.Data.Models.Enums;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.Controllers;
 using FitnessTrackingApp.Web.Infrastructure.Attributes;
@@ -75,9 +76,17 @@ public class GoalPlanController : BaseController
     
     // /Trainer/GoalPlan/Assign/{goalPlanId}
     [HttpGet]
-    public async Task<IActionResult> AssignWeeklyPlan(long goalPlanId)
+    public async Task<IActionResult> AssignWeeklyPlan(long goalPlanId, int nextWeek)
     {
-        var model = new AssignWeeklyPanViewModel() { GoalPlanId = goalPlanId };
+        OperationResult result = await _goalPlanService.ExistsByIdAndStatusAsync(goalPlanId, GoalPlanStatus.Active);
+        
+        if (!result.IsSuccess)
+        {
+            TempData["ErrorMessage"] = result.Message;
+            return View();
+        }
+        
+        var model = new AssignWeeklyPanViewModel() { GoalPlanId = goalPlanId, Week = nextWeek };
         return View(model);
     }
     
@@ -99,6 +108,6 @@ public class GoalPlanController : BaseController
             return View(model);
         }
 
-        return RedirectToAction("Index", "Dashboard", new { area = "Trainer" });
+        return RedirectToAction("Details", "WeeklyPlan", new { area = "Trainer" , goalPlanId = model.GoalPlanId});
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static FitnessTrackingApp.Common.ApplicationConstants;
+using static FitnessTrackingApp.Common.EntityValidationMessages;
+using static FitnessTrackingApp.Common.EntityValidationConstant;
 
 namespace FitnessTrackingApp.Web.ViewModels.WeeklyPlan;
 
@@ -7,19 +8,20 @@ public class AssignWeeklyPanViewModel
 {
     public long GoalPlanId { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = WeekRequired)]
+    [Range(MinWeekRange, MaxWeekRange, ErrorMessage = WeekPlanWeekRange)]
     public int Week { get; set; }
-    
-    [Required]
-    public int TotalDailyCalories => CalculateTotalCalories();
 
     [Required]
+    [Range(MinMacroRange, MaxMacroRange, ErrorMessage = MacroRange)]
     public int DailyCarbohydrates { get; set; }
 
     [Required]
+    [Range(MinMacroRange, MaxMacroRange, ErrorMessage = MacroRange)]
     public int DailyProtein { get; set; }
 
     [Required]
+    [Range(MinMacroRange, MaxMacroRange, ErrorMessage = MacroRange)]
     public int DailyFat { get; set; }
 
     [Required]
@@ -28,9 +30,4 @@ public class AssignWeeklyPanViewModel
     public string? CardioType { get; set; }
     public int CaloriesToBurnPerSession { get; set; }
     public string? StrengthTrainingPlan { get; set; }
-    
-    private int CalculateTotalCalories()
-    {
-        return (DailyCarbohydrates * CaloriesPerGramOfCarbohydrates) + (DailyProtein * CaloriesPerGramOfProtein) + (DailyFat * CaloriesPerGramOfFat);
-    }
 }

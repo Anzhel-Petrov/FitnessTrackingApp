@@ -2,7 +2,6 @@
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.Controllers;
 using FitnessTrackingApp.Web.Infrastructure.Attributes;
-using FitnessTrackingApp.Web.ViewModels.Trainer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTrackingApp.Web.Areas.Trainer.Controllers;

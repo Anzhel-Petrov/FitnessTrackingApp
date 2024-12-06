@@ -9,7 +9,7 @@
         <th>Carb</th>
         <th>Fat</th>
         <th>Protein</th>
-        <th>ABW</th> <!-- Average Body Weight -->
+        <th>ABW</th>
         <th>Total Daily Calories</th>
         <th>Sessions</th>
         <th>HIIT</th>
@@ -31,3 +31,6 @@
     }
     </tbody>
 </table>
+<td>
+    <a asp-area="Trainer" asp-controller="GoalPlan" asp-action="AssignWeeklyPlan" asp-route-nextWeek="@Model.NextWeek" asp-route-goalPlanId="@Model.GoalPlanId" class="btn btn-primary">Assign Weekly Plan</a>
+</td>

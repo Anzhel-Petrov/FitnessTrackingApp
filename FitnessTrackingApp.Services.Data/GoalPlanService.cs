@@ -19,6 +19,18 @@ public class GoalPlanService : IGoalPlanService
     {
         _dbContext = dbContext;
     }
+
+    public async Task<OperationResult> ExistsByIdAndStatusAsync(long goalPlanId, GoalPlanStatus goalPlanStatus)
+    {
+        bool result = await _dbContext
+            .GoalPlans
+            .Where(gp => gp.GoalPlanStatus == goalPlanStatus)
+            .AnyAsync(gp => gp.Id == goalPlanId);
+
+        return result
+            ? new OperationResult(true) : new OperationResult(false, "Goal plan invalid or not active.");
+    }
+
     public async Task<OperationResult> CreateGoalPlanRequestAsync(CustomerDetailsInputModel model, Guid userId)
     {
         var existingGoalPlan = await _dbContext.GoalPlans

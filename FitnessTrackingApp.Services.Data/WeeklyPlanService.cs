@@ -50,12 +50,12 @@ public class WeeklyPlanService : IWeeklyPlanService
         return new OperationResult(true, $"Weekly plan for week {weeklyPlan.Week} was added to Goal Plan.");
     }
 
-    public async Task<TrainerWeeklyPlanViewModel?> GetWeeklyPlansByGoalPlaIdAsync(long planId)
+    public async Task<TrainerWeeklyPlanViewModel?> GetWeeklyPlansByGoalPlaIdAsync(long goalPlanId)
     {
         var goalPlan = await _dbContext.GoalPlans
             .Include(gp => gp.WeeklyPlans)
             .Include(goalPlan => goalPlan.ApplicationUser)
-            .FirstOrDefaultAsync(gp => gp.Id == planId);
+            .FirstOrDefaultAsync(gp => gp.Id == goalPlanId);
 
         if (goalPlan is null)
         {
@@ -67,16 +67,20 @@ public class WeeklyPlanService : IWeeklyPlanService
             return new TrainerWeeklyPlanViewModel
             {
                 CustomerName = goalPlan.ApplicationUser?.UserName ?? string.Empty,
+                GoalPlanId = goalPlanId,
+                NextWeek = 1,
                 WeeklyPlanViewModels = Array.Empty<WeeklyPlanViewModel>()
             };
         }
         
         return await _dbContext.WeeklyPlans
-            .Where(wp => wp.GoalPlanId == planId)
+            .Where(wp => wp.GoalPlanId == goalPlanId)
             .OrderBy(wp => wp.Week)
             .Select(wp => new TrainerWeeklyPlanViewModel
             {
                 CustomerName = wp.GoalPlan.ApplicationUser.UserName ?? string.Empty,
+                GoalPlanId = goalPlanId,
+                NextWeek = wp.GoalPlan.WeeklyPlans.Count != 0 ? wp.GoalPlan.WeeklyPlans.Max(w => w.Week) + 1 : 1,
                 WeeklyPlanViewModels = wp.GoalPlan.WeeklyPlans.Select(bwp => new WeeklyPlanViewModel()
                     {
                         WeekNumber = bwp.Week,
