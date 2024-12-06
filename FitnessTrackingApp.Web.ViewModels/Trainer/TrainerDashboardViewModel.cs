@@ -1,4 +1,6 @@
-﻿namespace FitnessTrackingApp.Web.ViewModels.Trainer;
+﻿using FitnessTrackingApp.Web.ViewModels.GoalPlan;
+
+namespace FitnessTrackingApp.Web.ViewModels.Trainer;
 
 public class TrainerDashboardViewModel
 {

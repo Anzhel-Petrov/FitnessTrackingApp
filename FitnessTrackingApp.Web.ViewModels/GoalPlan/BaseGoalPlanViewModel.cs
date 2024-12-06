@@ -1,4 +1,4 @@
-﻿namespace FitnessTrackingApp.Web.ViewModels.Trainer;
+﻿namespace FitnessTrackingApp.Web.ViewModels.GoalPlan;
 
 public class BaseGoalPlanViewModel
 {

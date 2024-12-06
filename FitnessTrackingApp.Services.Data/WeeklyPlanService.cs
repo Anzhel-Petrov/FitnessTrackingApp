@@ -50,7 +50,7 @@ public class WeeklyPlanService : IWeeklyPlanService
         return new OperationResult(true, $"Weekly plan for week {weeklyPlan.Week} was added to Goal Plan.");
     }
 
-    public async Task<TrainerWeeklyPlanViewModel?> GetWeeklyPlansByGoalPlaIdAsync(long goalPlanId)
+    public async Task<TrainerWeeklyPlanViewModel?> GetWeeklyPlansByGoalPlanIdAsync(long goalPlanId)
     {
         var goalPlan = await _dbContext.GoalPlans
             .Include(gp => gp.WeeklyPlans)
@@ -102,9 +102,38 @@ public class WeeklyPlanService : IWeeklyPlanService
             .AsNoTracking()
             .FirstOrDefaultAsync();
     }
-
-    public Task<IEnumerable<WeeklyPlanViewModel>> GetAllActiveWeeklyPlansAsync(long planId)
+    
+    public async Task<IEnumerable<WeeklyPlanViewModel>> GetAllWeeklyPlansForCustomerAsync(Guid customerId)
     {
-        throw new NotImplementedException();
+        // Retrieve the active GoalPlan for the customer
+        var activeGoalPlan = await _dbContext.GoalPlans
+            .FirstOrDefaultAsync(gp => gp.UserId == customerId && gp.GoalPlanStatus == GoalPlanStatus.Active);
+
+        if (activeGoalPlan == null)
+        {
+            throw new InvalidOperationException("No active GoalPlan found for the customer.");
+        }
+
+        // Return WeeklyPlans associated with the active GoalPlan
+        return await _dbContext.WeeklyPlans
+            .Where(wp => wp.GoalPlanId == activeGoalPlan.Id)
+            .OrderBy(wp => wp.Week)
+            .Select(wp => new WeeklyPlanViewModel()
+            {
+                WeekNumber = wp.Week,
+                Carbohydrates = wp.Macro.DailyCarbohydrates,
+                Fat = wp.Macro.DailyFat,
+                Protein = wp.Macro.DailyProtein,
+                TotalDailyCalories = wp.Macro.TotalDailyCalories,
+                CardioSessions = wp.CardioSession != null ? wp.CardioSession.SessionsPerWeek : 0,
+                CardioType = wp.CardioSession != null ? wp.CardioSession.IsHIIT ? "HIIT" : "Steady-State" : "",
+                IsHIIT = wp.CardioSession != null && wp.CardioSession.IsHIIT,
+
+                Weight = wp.BodyWeightLogs
+                    .OrderByDescending(bwl => bwl.DateLogged)
+                    .Select(bwl => bwl.CurrentWeight)
+                    .FirstOrDefault()
+            })
+            .ToListAsync();
     }
 }

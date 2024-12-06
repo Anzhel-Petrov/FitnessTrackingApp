@@ -1,0 +1,33 @@
+﻿@model IEnumerable<WeeklyPlanViewModel>
+
+<h2>Weekly Plans</h2>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Week</th>
+        <th>Carb</th>
+        <th>Fat</th>
+        <th>Protein</th>
+        <th>ABW</th>
+        <th>Total Daily Calories</th>
+        <th>Sessions</th>
+        <th>HIIT</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var plan in Model)
+    {
+        <tr>
+            <td>@plan.WeekNumber</td>
+            <td>@plan.Carbohydrates</td>
+            <td>@plan.Fat</td>
+            <td>@plan.Protein</td>
+            <td>@plan.Weight.ToString("0.0") kg</td>
+            <td>@plan.TotalDailyCalories</td>
+            <td>@plan.CardioSessions x / wk (@plan.CardioType)</td>
+            <td>@(plan.IsHIIT ? "Yes" : "No")</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -6,6 +6,6 @@ namespace FitnessTrackingApp.Services.Data.Interfaces;
 public interface IWeeklyPlanService
 {
     Task<OperationResult> AssignWeeklyPlanAsync(AssignWeeklyPanViewModel model, Guid trainerId);
-    Task<TrainerWeeklyPlanViewModel?> GetWeeklyPlansByGoalPlaIdAsync(long goalPlanId);
-    Task<IEnumerable<WeeklyPlanViewModel>> GetAllActiveWeeklyPlansAsync(long goalPlanId);
+    Task<TrainerWeeklyPlanViewModel?> GetWeeklyPlansByGoalPlanIdAsync(long goalPlanId);
+    Task<IEnumerable<WeeklyPlanViewModel>> GetAllWeeklyPlansForCustomerAsync(Guid customerId);
 }

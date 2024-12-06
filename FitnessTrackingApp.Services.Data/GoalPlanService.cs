@@ -4,6 +4,7 @@ using FitnessTrackingApp.Data.Models;
 using FitnessTrackingApp.Data.Models.Enums;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.Customer;
+using FitnessTrackingApp.Web.ViewModels.GoalPlan;
 using FitnessTrackingApp.Web.ViewModels.Trainer;
 using Microsoft.EntityFrameworkCore;
 using static FitnessTrackingApp.Common.ErrorMessageConstants;

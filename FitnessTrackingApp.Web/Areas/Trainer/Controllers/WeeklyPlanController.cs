@@ -22,7 +22,7 @@ public class WeeklyPlanController : BaseController
     [HttpGet]
     public async Task<IActionResult> Details(long goalPlanId)
     {
-        var weeklyPlans = await _weeklyPlanService.GetWeeklyPlansByGoalPlaIdAsync(goalPlanId);
+        var weeklyPlans = await _weeklyPlanService.GetWeeklyPlansByGoalPlanIdAsync(goalPlanId);
         
         if (weeklyPlans == null)
         {

@@ -10,12 +10,17 @@ public class CustomerController : BaseController
 {
     private readonly ITrainerService _trainerService;
     private readonly IGoalPlanService _goalPlanService;
+    private readonly IWeeklyPlanService _weeklyPlanService;
 
-    public CustomerController(ITrainerService trainerService, IGoalPlanService goalPlanService)
+    public CustomerController(
+        ITrainerService trainerService,
+        IGoalPlanService goalPlanService,
+        IWeeklyPlanService weeklyPlanService)
         : base(trainerService)
     {
         _trainerService = trainerService;
         _goalPlanService = goalPlanService;
+        _weeklyPlanService = weeklyPlanService;
     }
 
     [HttpGet]
@@ -59,6 +64,14 @@ public class CustomerController : BaseController
         }
         
         TempData[ErrorMessage] = result.Message;
+        return View(model);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> AllWeeklyPlans()
+    {
+        var model = await _weeklyPlanService.GetAllWeeklyPlansForCustomerAsync(this.GetUserId());
+            
         return View(model);
     }
 }

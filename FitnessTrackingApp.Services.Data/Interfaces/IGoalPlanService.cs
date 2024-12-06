@@ -1,7 +1,7 @@
 ﻿using FitnessTrackingApp.Common;
-using FitnessTrackingApp.Data.Models;
 using FitnessTrackingApp.Data.Models.Enums;
 using FitnessTrackingApp.Web.ViewModels.Customer;
+using FitnessTrackingApp.Web.ViewModels.GoalPlan;
 using FitnessTrackingApp.Web.ViewModels.Trainer;
 
 namespace FitnessTrackingApp.Services.Data.Interfaces;
