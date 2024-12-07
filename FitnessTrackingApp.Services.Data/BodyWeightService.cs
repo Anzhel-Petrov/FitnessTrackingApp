@@ -156,34 +156,19 @@ public class BodyWeightService : IBodyWeightService
             await _dbContext.SaveChangesAsync();
             return new OperationResult(true);
         }
-        catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("IX_BodyWeightLogs_DateLogged") == true)
-        {
-            // Catching unique constraint violation for DateLogged index
-            return new OperationResult(false, "A log entry for this date already exists.");
-        }
         catch (Exception ex)
         {
             // Catch any other potential exception
             return new OperationResult(false, $"An error occurred while adding the log. Error: {ex.Message}");
         }
-
-        // await _dbContext.BodyWeightLogs.AddAsync(log);
-        // var result = await _dbContext.SaveChangesAsync();
-        //
-        // if (result == 0)
-        // {
-        //     return new OperationResult(false, "Error adding body weight goal!");
-        // }
-        //
-        // return new OperationResult(true);
     }
     
-    public async Task<OperationResult> DeleteBodyWeightLogAsync(long logId, Guid userId)
+    public async Task<OperationResult> DeleteBodyWeightLogAsync(long logId, long weeklyPlanId, Guid userId)
     {
         BodyWeightLog? log = await _dbContext.BodyWeightLogs
             .Include(wp => wp.WeeklyPlan)
             .ThenInclude(gp => gp.GoalPlan)
-            .FirstOrDefaultAsync(l => l.Id == logId && l.WeeklyPlan.GoalPlan.UserId == userId);
+            .FirstOrDefaultAsync(l => l.Id == logId && l.WeeklyPlan.Id == weeklyPlanId && l.WeeklyPlan.GoalPlan.UserId == userId);
 
         if (log == null)
         {

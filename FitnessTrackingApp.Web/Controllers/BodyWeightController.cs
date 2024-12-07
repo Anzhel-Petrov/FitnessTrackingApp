@@ -88,7 +88,7 @@ namespace FitnessTrackingApp.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveLog(long id)
         {
-            OperationResult result = await _bodyWeightService.DeleteBodyWeightLogAsync(id, this.GetUserId());
+            OperationResult result = await _bodyWeightService.DeleteBodyWeightLogAsync(id, 1, this.GetUserId());
 
             if (result.IsSuccess == false)
             {

@@ -25,7 +25,7 @@
             <td>@log.Weight</td>
             <td>
                 <a asp-action="" asp-route-id="@log.Id" class="btn btn-primary btn-sm">Edit</a>
-                <form asp-action="RemoveLog" asp-route-id="@log.Id" method="post" style="display:inline;">
+                <form asp-action="RemoveLog" asp-route-logId="@log.Id" asp-route-weeklyPlanId="@Model.WeeklyPlanId" method="post" style="display:inline;">
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
             </td>

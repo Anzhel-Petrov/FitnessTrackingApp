@@ -110,10 +110,23 @@ public class CustomerController : BaseController
         if (!result.IsSuccess)
         {
             TempData["ErrorMessage"] = result.Message;
-            model.Logs = await _bodyWeightService.GetWeeklyPlanLogsAsync(this.GetUserId(), model.WeeklyPlanId);
-            return View(nameof(WeeklyPlanDetails), model);
         }
-        
-        return RedirectToAction(nameof(WeeklyPlanDetails), new { weeklyPlanId = model.WeeklyPlanId });
+
+        model.Logs = await _bodyWeightService.GetWeeklyPlanLogsAsync(this.GetUserId(), model.WeeklyPlanId);
+        return View(nameof(WeeklyPlanDetails), model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RemoveLog(long logId, long weeklyPlanId)
+    {
+        OperationResult result = await _bodyWeightService.DeleteBodyWeightLogAsync(logId, weeklyPlanId, this.GetUserId());
+
+        if (result.IsSuccess == false)
+        {
+
+        }
+
+
+        return RedirectToAction(nameof(WeeklyPlanDetails), new { weeklyPlanId = weeklyPlanId});
     }
 }

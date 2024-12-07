@@ -15,5 +15,5 @@ public interface IBodyWeightService
     public Task<BodyWeightLog?> GetLastBodyWeightLogAsync(Guid userId);
     public Task<BodyWeightLogsViewModel> GetBodyWeightLogsViewModelAsync(Guid userId, long weeklyPlanId);
     public Task<OperationResult> AddBodyWeightLogAsync(BodyWeightLogViewModel logViewModel, long weeklyPlanId, Guid userId);
-    public Task<OperationResult> DeleteBodyWeightLogAsync(long logId, Guid userId);
+    public Task<OperationResult> DeleteBodyWeightLogAsync(long logId, long weeklyPlanId, Guid userId);
 }
