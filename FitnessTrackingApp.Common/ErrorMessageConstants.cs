@@ -8,6 +8,4 @@ public static class ErrorMessageConstants
         "Could not assign the Trainer. Please try again.";
     public static string GoalPlanNotFound =>
         "Goal Plan not found.";
-
-
 }

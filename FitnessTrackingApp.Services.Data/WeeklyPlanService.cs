@@ -103,23 +103,22 @@ public class WeeklyPlanService : IWeeklyPlanService
             .FirstOrDefaultAsync();
     }
     
-    public async Task<IEnumerable<WeeklyPlanViewModel>> GetAllWeeklyPlansForCustomerAsync(Guid customerId)
+    public async Task<IEnumerable<WeeklyPlanViewModel>?> GetAllWeeklyPlansForCustomerAsync(Guid customerId)
     {
-        // Retrieve the active GoalPlan for the customer
-        var activeGoalPlan = await _dbContext.GoalPlans
+        GoalPlan? activeGoalPlan = await _dbContext.GoalPlans
             .FirstOrDefaultAsync(gp => gp.UserId == customerId && gp.GoalPlanStatus == GoalPlanStatus.Active);
 
         if (activeGoalPlan == null)
         {
-            throw new InvalidOperationException("No active GoalPlan found for the customer.");
+            return null;
         }
-
-        // Return WeeklyPlans associated with the active GoalPlan
+        
         return await _dbContext.WeeklyPlans
             .Where(wp => wp.GoalPlanId == activeGoalPlan.Id)
             .OrderBy(wp => wp.Week)
             .Select(wp => new WeeklyPlanViewModel()
             {
+                WeeklyPlanId = wp.Id,
                 WeekNumber = wp.Week,
                 Carbohydrates = wp.Macro.DailyCarbohydrates,
                 Fat = wp.Macro.DailyFat,

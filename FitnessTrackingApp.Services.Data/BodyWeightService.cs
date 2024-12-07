@@ -94,6 +94,23 @@ public class BodyWeightService : IBodyWeightService
             .ToListAsync();
     }
 
+    public async Task<List<BodyWeightLogViewModel>> GetWeeklyPlanLogsAsync(Guid userId, long weeklyPlanId)
+    {
+        return await _dbContext.BodyWeightLogs
+            .Include(wp => wp.WeeklyPlan)
+            .ThenInclude(gp => gp.GoalPlan)
+            .Where(log => log.WeeklyPlan.GoalPlan.UserId == userId && log.WeeklyPlanId == weeklyPlanId)
+            .OrderByDescending(log => log.DateLogged)
+            .Select(log => new BodyWeightLogViewModel()
+            {
+                Id = log.Id,
+                UserId = log.WeeklyPlan.GoalPlan.UserId,
+                LogDate = log.DateLogged,
+                Weight = log.CurrentWeight
+            })
+            .ToListAsync();
+    }
+
     public async Task<BodyWeightLog?> GetLastBodyWeightLogAsync(Guid userId)
     {
         return await _dbContext.BodyWeightLogs
@@ -103,22 +120,23 @@ public class BodyWeightService : IBodyWeightService
             .LastOrDefaultAsync(log => log.WeeklyPlan.GoalPlan.UserId == userId);
     }
 
-    public async Task<BodyWeightLogsViewModel> GetBodyWeightLogsViewModelAsync(Guid userId)
+    public async Task<BodyWeightLogsViewModel> GetBodyWeightLogsViewModelAsync(Guid userId, long weeklyPlanId)
     {
-        var logs = await GetAllBodyWeightLogsAsync(userId);
+        var logs = await GetWeeklyPlanLogsAsync(userId, weeklyPlanId);
         return new BodyWeightLogsViewModel
         {
+            WeeklyPlanId = weeklyPlanId,
             Logs = logs,
             NewLog = new BodyWeightLogViewModel()
         };
     }
 
-    public async Task<OperationResult> AddBodyWeightLogAsync(BodyWeightLogViewModel logViewModel, Guid userId)
+    public async Task<OperationResult> AddBodyWeightLogAsync(BodyWeightLogViewModel logViewModel, long weeklyPlanId, Guid userId)
     {
         var existingDateLog = await _dbContext.BodyWeightLogs
             .Include(wp => wp.WeeklyPlan)
             .ThenInclude(gp => gp.GoalPlan)
-            .FirstOrDefaultAsync(l => l.WeeklyPlan.GoalPlan.UserId == userId);
+            .FirstOrDefaultAsync(l => l.WeeklyPlan.GoalPlan.UserId == userId && l.DateLogged == logViewModel.LogDate && l.WeeklyPlan.Id == weeklyPlanId);
         
         if (existingDateLog != null)
         {
@@ -127,7 +145,7 @@ public class BodyWeightService : IBodyWeightService
 
         var log = new BodyWeightLog()
         {
-            WeeklyPlanId = existingDateLog!.WeeklyPlanId,
+            WeeklyPlanId = weeklyPlanId,
             DateLogged = logViewModel.LogDate,
             CurrentWeight = logViewModel.Weight
         };
