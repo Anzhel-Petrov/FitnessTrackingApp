@@ -1,40 +1,94 @@
 ﻿@model AssignWeeklyPanViewModel
 
-@if (TempData["ErrorMessage"] != null)
-{
-<div class="alert alert-danger" role="alert">
-    @TempData["ErrorMessage"]
-</div>
+@{
+    ViewData["Title"] = "Assign Weekly Plan";
 }
 
 <h2>Assign Weekly Plan</h2>
 
-<form asp-action="AssignWeeklyPlan">
-    <input type="hidden" asp-for="GoalPlanId" />
+<div class="container">
+    <form asp-action="AssignWeeklyPlan" method="post">
+        <input type="hidden" asp-for="GoalPlanId" />
 
-    <div class="form-group">
-        <label asp-for="Week"></label>
-        <input asp-for="Week" class="form-control" />
-        <span asp-validation-for="Week" class="text-danger"></span>
-    </div>
-    
-    <div class="form-group">
-        <label asp-for="DailyProtein"></label>
-        <input asp-for="DailyProtein" class="form-control" />
-        <span asp-validation-for="DailyProtein" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="Week" class="form-label"></label>
+            <input asp-for="Week" class="form-control" />
+            <span asp-validation-for="Week" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="DailyCarbohydrates"></label>
-        <input asp-for="DailyCarbohydrates" class="form-control" />
-        <span asp-validation-for="DailyCarbohydrates" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="DailyCarbohydrates" class="form-label"></label>
+            <input asp-for="DailyCarbohydrates" class="form-control" />
+            <span asp-validation-for="DailyCarbohydrates" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="DailyFat"></label>
-        <input asp-for="DailyFat" class="form-control" />
-        <span asp-validation-for="DailyFat" class="text-danger"></span>
-    </div>
-    
-    <button type="submit" class="btn btn-primary">Assign</button>
-</form>
+        <div class="form-group">
+            <label asp-for="DailyProtein" class="form-label"></label>
+            <input asp-for="DailyProtein" class="form-control" />
+            <span asp-validation-for="DailyProtein" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DailyFat" class="form-label"></label>
+            <input asp-for="DailyFat" class="form-control" />
+            <span asp-validation-for="DailyFat" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="StartDate" class="form-label"></label>
+            <input asp-for="StartDate" class="form-control" onchange="updateEndDate()" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EndDate" class="form-label"></label>
+            <input asp-for="EndDate" class="form-control" readonly />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CardioSessionsPerWeek" class="form-label"></label>
+            <input asp-for="CardioSessionsPerWeek" class="form-control" />
+            <span asp-validation-for="CardioSessionsPerWeek" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IsHIIT" class="form-label"></label>
+            <input asp-for="IsHIIT" class="form-control" />
+            <span asp-validation-for="IsHIIT" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CaloriesToBurnPerSession" class="form-label"></label>
+            <input asp-for="CaloriesToBurnPerSession" class="form-control" />
+            <span asp-validation-for="CaloriesToBurnPerSession" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="StrengthTrainingPlan" class="form-label"></label>
+            <textarea asp-for="StrengthTrainingPlan" class="form-control"></textarea>
+            <span asp-validation-for="StrengthTrainingPlan" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Assign Plan</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function updateEndDate() {
+            const startDateInput = document.querySelector('input[name="StartDate"]');
+            const endDateInput = document.querySelector('input[name="EndDate"]');
+
+            if (startDateInput && endDateInput) {
+                const startDate = new Date(startDateInput.value);
+                const endDate = new Date(startDate);
+                endDate.setDate(startDate.getDate() + 7);
+                endDateInput.value = endDate.toISOString().split('T')[0]; // Format as yyyy-MM-dd
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateEndDate();
+        });
+    </script>
+}

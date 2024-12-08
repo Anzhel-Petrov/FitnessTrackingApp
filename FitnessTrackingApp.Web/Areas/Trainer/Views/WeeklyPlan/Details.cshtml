@@ -6,12 +6,15 @@
     <thead>
     <tr>
         <th>Week</th>
-        <th>Carb</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Carbs</th>
         <th>Fat</th>
         <th>Protein</th>
         <th>ABW</th>
         <th>Total Daily Calories</th>
         <th>Sessions</th>
+        <th>Calories per Session</th>
         <th>HIIT</th>
     </tr>
     </thead>
@@ -20,13 +23,16 @@
     {
         <tr>
             <td>@plan.WeekNumber</td>
+            <td>@plan.StartDate.ToShortDateString()</td>
+            <td>@plan.EndDate.ToShortDateString()</td>
             <td>@plan.Carbohydrates</td>
             <td>@plan.Fat</td>
             <td>@plan.Protein</td>
             <td>@plan.Weight.ToString("0.0") kg</td>
             <td>@plan.TotalDailyCalories</td>
-            <td>@plan.CardioSessions x / wk (@plan.CardioType)</td>
-            <td>@(plan.IsHIIT ? "Yes" : "No")</td>
+            <td>@plan.CardioSessionsPerWeek x / wk (@plan.CardioType)</td>
+            <td>@plan.CaloriesToBurnPerSession</td>
+            <td>@(plan.IsHIIT.HasValue ? (plan.IsHIIT.Value ? "Yes" : "No") : "N/A")</td>
         </tr>
     }
     </tbody>

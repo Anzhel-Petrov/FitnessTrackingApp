@@ -16,6 +16,12 @@ public class WeeklyPlan
 
     [Required]
     public int Week { get; set; }
+    
+    [DataType(DataType.Date)]
+    public DateTime StartDate { get; set; }
+
+    [DataType(DataType.Date)]
+    public DateTime EndDate { get; set; }
 
     [Required]
     public long MacroId { get; set; }

@@ -1,6 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model FitnessTrackingApp.Web.ViewModels.User.LoginViewModel
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 @{
     ViewData["Title"] = "Log in";
 }

@@ -34,13 +34,16 @@ else
         {
             <tr>
                 <td>@plan.WeekNumber</td>
+                <td>@plan.StartDate.ToShortDateString()</td>
+                <td>@plan.EndDate.ToShortDateString()</td>
                 <td>@plan.Carbohydrates</td>
                 <td>@plan.Fat</td>
                 <td>@plan.Protein</td>
                 <td>@plan.Weight.ToString("0.0") kg</td>
                 <td>@plan.TotalDailyCalories</td>
-                <td>@plan.CardioSessions x / wk (@plan.CardioType)</td>
-                <td>@(plan.IsHIIT ? "Yes" : "No")</td>
+                <td>@plan.CardioSessionsPerWeek x / wk (@plan.CardioType)</td>
+                <td>@plan.CaloriesToBurnPerSession</td>
+                <td>@(plan.IsHIIT.HasValue ? (plan.IsHIIT.Value ? "Yes" : "No") : "N/A")</td>
                 <td>
                     <a asp-action="WeeklyPlanDetails" asp-route-weeklyPlanId="@plan.WeeklyPlanId" class="btn btn-primary btn-sm">Details</a>
                 </td>
@@ -49,3 +52,56 @@ else
         </tbody>
     </table>
 }
+
+<div>
+    <h3>Progress Chart</h3>
+    <canvas id="progressChart" width="400" height="200"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the data passed from the model
+        const weekNumbers = @Html.Raw(Json.Serialize(Model.Select(wp => wp.WeekNumber)));
+        const averageWeights = @Html.Raw(Json.Serialize(Model.Select(wp => wp.Weight)));
+
+        // Render the chart
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        new Chart(ctx, 
+            {
+            type: 'line', // Line chart
+            data: 
+            {
+                labels: weekNumbers, // X-axis labels
+                datasets: [{
+                    label: 'Average Weight (lbs)',
+                    data: averageWeights, // Y-axis data
+                    borderColor: 'rgba(75, 192, 192, 1)', // Line color
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color
+                    borderWidth: 2,
+                    pointRadius: 5,
+                    pointBackgroundColor: 'white',
+                    pointBorderColor: 'rgba(75, 192, 192, 1)',
+                    tension: 0.4 // Smooth the line
+                }]
+            },
+            options: 
+            {
+                responsive: true,
+                plugins: {
+                    legend: { display: true, position: 'top' },
+                    tooltip: { enabled: true }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Week Number' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Weight (lbs)' },
+                        beginAtZero: false // Adjust as necessary
+                    }
+                }
+            }
+        });
+    });
+</script>

@@ -24,10 +24,16 @@ public class AssignWeeklyPanViewModel
     [Range(MinMacroRange, MaxMacroRange, ErrorMessage = MacroRange)]
     public int DailyFat { get; set; }
 
+    [DataType(DataType.Date)]
+    public DateTime StartDate { get; set; } = DateTime.UtcNow;
+
+    [DataType(DataType.Date)]
+    public DateTime EndDate { get; set; }
+
     [Required]
     public int CardioSessionsPerWeek { get; set; }
 
-    public string? CardioType { get; set; }
+    public bool IsHIIT { get; set; }
     public int CaloriesToBurnPerSession { get; set; }
     public string? StrengthTrainingPlan { get; set; }
 }

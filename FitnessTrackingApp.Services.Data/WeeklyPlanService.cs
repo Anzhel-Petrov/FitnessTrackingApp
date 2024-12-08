@@ -36,6 +36,14 @@ public class WeeklyPlanService : IWeeklyPlanService
         {
             GoalPlanId = model.GoalPlanId,
             Week = model.Week,
+            StartDate = model.StartDate,
+            EndDate = model.EndDate,
+            CardioSession = new CardioSession()
+            {
+                SessionsPerWeek = model.CardioSessionsPerWeek,
+                Calories = model.CaloriesToBurnPerSession,
+                IsHIIT = model.IsHIIT
+            },
             Macro = new Macro()
             {
                 DailyCarbohydrates = model.DailyCarbohydrates,
@@ -84,11 +92,13 @@ public class WeeklyPlanService : IWeeklyPlanService
                 WeeklyPlanViewModels = wp.GoalPlan.WeeklyPlans.Select(bwp => new WeeklyPlanViewModel()
                     {
                         WeekNumber = bwp.Week,
+                        StartDate = bwp.StartDate,
+                        EndDate = bwp.EndDate,
                         Carbohydrates = bwp.Macro.DailyCarbohydrates,
                         Fat = bwp.Macro.DailyFat,
                         Protein = bwp.Macro.DailyProtein,
                         TotalDailyCalories = bwp.Macro.TotalDailyCalories,
-                        CardioSessions = bwp.CardioSession != null ? bwp.CardioSession.SessionsPerWeek : 0,
+                        CardioSessionsPerWeek = bwp.CardioSession != null ? bwp.CardioSession.SessionsPerWeek : 0,
                         CardioType = bwp.CardioSession != null ? bwp.CardioSession.IsHIIT ? "HIIT" : "Steady-State" : "",
                         IsHIIT = bwp.CardioSession != null && bwp.CardioSession.IsHIIT,
 
@@ -124,7 +134,7 @@ public class WeeklyPlanService : IWeeklyPlanService
                 Fat = wp.Macro.DailyFat,
                 Protein = wp.Macro.DailyProtein,
                 TotalDailyCalories = wp.Macro.TotalDailyCalories,
-                CardioSessions = wp.CardioSession != null ? wp.CardioSession.SessionsPerWeek : 0,
+                CardioSessionsPerWeek = wp.CardioSession != null ? wp.CardioSession.SessionsPerWeek : 0,
                 CardioType = wp.CardioSession != null ? wp.CardioSession.IsHIIT ? "HIIT" : "Steady-State" : "",
                 IsHIIT = wp.CardioSession != null && wp.CardioSession.IsHIIT,
 
