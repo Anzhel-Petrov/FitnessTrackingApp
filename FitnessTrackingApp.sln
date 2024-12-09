@@ -21,7 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{AA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessTrackingApp.Services.Data", "FitnessTrackingApp.Services.Data\FitnessTrackingApp.Services.Data.csproj", "{BA337587-A324-4BFC-922F-63DD2CCE7D2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitnessTrackingApp.Web.Infrastructure", "FitnessTrackingApp.Web.Infrastructure\FitnessTrackingApp.Web.Infrastructure.csproj", "{C7E807C9-CEB2-498D-9BD4-ACD56A9530F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessTrackingApp.Web.Infrastructure", "FitnessTrackingApp.Web.Infrastructure\FitnessTrackingApp.Web.Infrastructure.csproj", "{C7E807C9-CEB2-498D-9BD4-ACD56A9530F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BD1CC699-7150-47EF-814E-FDB044AC787C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitnessTrackingApp.Services.Tests", "FitnessTrackingApp.Services.Tests\FitnessTrackingApp.Services.Tests.csproj", "{CC91BA0D-7227-4D0E-9EB6-E7DED9B4249A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,10 @@ Global
 		{C7E807C9-CEB2-498D-9BD4-ACD56A9530F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7E807C9-CEB2-498D-9BD4-ACD56A9530F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7E807C9-CEB2-498D-9BD4-ACD56A9530F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC91BA0D-7227-4D0E-9EB6-E7DED9B4249A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC91BA0D-7227-4D0E-9EB6-E7DED9B4249A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC91BA0D-7227-4D0E-9EB6-E7DED9B4249A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC91BA0D-7227-4D0E-9EB6-E7DED9B4249A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +76,7 @@ Global
 		{D48B7AA5-7BCA-48FB-B55D-5A6336379A8C} = {8828C709-A75B-4B62-8A73-56C3B3C669A4}
 		{BA337587-A324-4BFC-922F-63DD2CCE7D2D} = {AA0575C9-1486-41AE-AC75-79F8720C381F}
 		{C7E807C9-CEB2-498D-9BD4-ACD56A9530F0} = {46201116-D961-4FD4-92C3-52166B07F2ED}
+		{CC91BA0D-7227-4D0E-9EB6-E7DED9B4249A} = {BD1CC699-7150-47EF-814E-FDB044AC787C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AA8513C1-7B50-4B1F-936D-A1D169664D20}

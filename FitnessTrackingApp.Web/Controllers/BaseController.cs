@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using FitnessTrackingApp.Data;
-using FitnessTrackingApp.Services.Data;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.Infrastructure.Extensions;
 
