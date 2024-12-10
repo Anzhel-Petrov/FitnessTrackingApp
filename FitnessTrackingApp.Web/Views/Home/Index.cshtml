@@ -1,8 +1,62 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracking App - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to <span>Fitness Tracker</span></h1>
+            <p>Your personal journey to health and wellness starts here.</p>
+            <a href="/register" class="btn-primary">Get Started</a>
+        </div>
+    </header>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <main>
+        <section class="features">
+            <h2>Why Choose Fitness Tracker?</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h3>Track Progress</h3>
+                    <p>Monitor your workouts, body weight, and nutrition with ease.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Personalized Goals</h3>
+                    <p>Set your goals and stay motivated with customized plans.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Connect with Trainers</h3>
+                    <p>Get expert guidance and insights from certified trainers.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <h2>Join the Fitness Revolution!</h2>
+            <p>Take the first step toward a healthier you. Sign up now and transform your life.</p>
+            <a href="/register" class="btn-secondary">Join Now</a>
+        </section>
+
+        <section class="testimonials">
+            <h2>What Our Users Say</h2>
+            <div class="testimonial-list">
+                <div class="testimonial-item">
+                    <p>"Fitness Tracker helped me lose 10kg in 3 months. The tools and guidance are amazing!"</p>
+                    <span>- Alex P.</span>
+                </div>
+                <div class="testimonial-item">
+                    <p>"The best app for fitness enthusiasts. The trainer dashboard is a game changer!"</p>
+                    <span>- Lisa M.</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Fitness Tracker. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
