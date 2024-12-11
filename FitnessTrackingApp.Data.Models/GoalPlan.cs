@@ -23,7 +23,7 @@ public class GoalPlan
     public Trainer Trainer { get; set; } = null!;
 
     [Required]
-    public string GoalName { get; set; } = null!; // Consider making this an ENUM - WEight gain, Weight loss, Maintain weight
+    public GoalType GoalType { get; set; }
 
     [Range(BodyWeightMinRange, BodyWeightMaxRange)]
     [Precision(5, 2)]

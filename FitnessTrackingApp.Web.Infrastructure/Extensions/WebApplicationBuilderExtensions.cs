@@ -1,4 +1,5 @@
 ﻿using FitnessTrackingApp.Data.Models;
+using FitnessTrackingApp.Data.Models.Enums;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;

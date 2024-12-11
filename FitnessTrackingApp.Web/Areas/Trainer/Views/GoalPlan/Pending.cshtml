@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TrainerGoalPlanViewModel>
+﻿@using FitnessTrackingApp.Web.Infrastructure.Extensions
+@model IEnumerable<TrainerGoalPlanViewModel>
 
 <h2>Pending Goal Plans</h2>
 
@@ -16,7 +17,7 @@
     {
         <tr>
             <td>@plan.CustomerName</td>
-            <td>@plan.GoalDescription</td>
+            <td>@plan.GoalType.GetDisplayName()</td>
             <td>@plan.CreatedOn</td>
             <td>
                 <a asp-action="Review" asp-controller="GoalPlan" asp-area="Trainer" asp-route-goalPlanId="@plan.GoalPlanId" class="btn btn-primary">Review</a>

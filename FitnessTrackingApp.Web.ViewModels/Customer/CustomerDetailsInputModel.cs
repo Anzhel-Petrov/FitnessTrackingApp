@@ -11,11 +11,10 @@ public class CustomerDetailsInputModel
     public Guid TrainerId { get; set; }
 
     [Required]
-    [MaxLength(GoalDescriptionMaxLength)]
-    [Display(Name = "Goal Description")]
-    public string GoalDescription { get; set; } = null!;
+    [Display(Name = "What is Your goal?")]
+    public GoalType GoalType { get; set; }
 
-    [Display(Name = "Additional Notes")]
+    [Display(Name = "Additional information: your activity, fitness history, sports, etc.")]
     [MaxLength(AdditionalNotesMaxLength)]
     public string AdditionalNotes { get; set; }  = null!;
 

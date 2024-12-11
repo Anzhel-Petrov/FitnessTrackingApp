@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TrainerGoalPlanViewModel>
+﻿@using FitnessTrackingApp.Web.Infrastructure.Extensions
+@model IEnumerable<TrainerGoalPlanViewModel>
 
 @if (TempData["ErrorMessage"] != null)
 {
@@ -23,7 +24,7 @@
     {
         <tr>
             <td>@plan.CustomerName</td>
-            <td>@plan.GoalDescription</td>
+            <td>@plan.GoalType.GetDisplayName()</td>
             <td>@plan.CreatedOn</td>
             <td>
                 <a asp-area="Trainer" asp-controller="WeeklyPlan" asp-action="Details" asp-route-goalPlanId="@plan.GoalPlanId" class="btn btn-info">Details</a>

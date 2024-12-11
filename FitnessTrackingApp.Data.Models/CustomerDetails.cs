@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FitnessTrackingApp.Data.Models.Enums;
 using static FitnessTrackingApp.Common.ApplicationConstants;
 
 namespace FitnessTrackingApp.Data.Models;
@@ -17,8 +18,7 @@ public class CustomerDetails
     public GoalPlan GoalPlan { get; set; } = null!;
 
     [Required]
-    [MaxLength(GoalDescriptionMaxLength)]
-    public string GoalDescription { get; set; } = null!;
+    public GoalType GoalType { get; set; }
 
     [MaxLength(AdditionalNotesMaxLength)]
     public string? AdditionalNotes { get; set; }

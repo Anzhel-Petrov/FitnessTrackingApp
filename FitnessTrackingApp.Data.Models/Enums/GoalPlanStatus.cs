@@ -6,5 +6,6 @@ public enum GoalPlanStatus
     Active = 1,
     Rejected = 2, // Rejected by Trainer - Pending -> Rejected
     Completed = 3,
-    Cancelled = 4 // Cancelled by Customer
+    Cancelled = 4, // Cancelled by Customer
+    OnHold = 5
 }

@@ -1,9 +1,11 @@
-﻿namespace FitnessTrackingApp.Web.ViewModels.GoalPlan;
+﻿using FitnessTrackingApp.Data.Models.Enums;
+
+namespace FitnessTrackingApp.Web.ViewModels.GoalPlan;
 
 public abstract class BaseGoalPlanViewModel
 {
     public long GoalPlanId { get; set; }
-    public string GoalDescription { get; set; } = null!;
+    public GoalType GoalType { get; set; }
     public string CreatedOn { get; set; } = null!;
     public string Status { get; set; } = null!;
 

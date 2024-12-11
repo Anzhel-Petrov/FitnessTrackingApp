@@ -51,17 +51,17 @@ public class GoalPlanService : IGoalPlanService
                 else
                     return new OperationResult(false, "A pending Goal Plan request already exists.");
         }
-        
+
         var goalPlan = new GoalPlan
         {
             UserId = userId,
             TrainerId = model.TrainerId,
-            GoalName = model.GoalDescription,
+            GoalType = model.GoalType,
             StartDate = null,
             EndDate = null,
             CustomerDetails = new CustomerDetails
             {
-                GoalDescription = model.GoalDescription,
+                GoalType = model.GoalType,
                 AdditionalNotes = model.AdditionalNotes,
                 StartingWeight = model.StartingWeight,
                 TargetWeight = model.TargetWeight,
@@ -95,7 +95,7 @@ public class GoalPlanService : IGoalPlanService
             .Select(gp => new TrainerGoalPlanViewModel
             {
                 GoalPlanId = gp.Id,
-                GoalDescription = gp.CustomerDetails.GoalDescription,
+                GoalType = gp.CustomerDetails.GoalType,
                 CreatedOn = gp.CustomerDetails.DateCreated.ToString("dddd, dd MMMM yyyy"),
                 Status = gp.GoalPlanStatus.ToString(),
                 WeekCounter = gp.WeeklyPlans.Count != 0 ? gp.WeeklyPlans.Max(wp => wp.Week) : 0,
@@ -113,7 +113,7 @@ public class GoalPlanService : IGoalPlanService
             {
                 GoalPlanId = gp.Id,
                 TrainerName = gp.Trainer.User.UserName ?? string.Empty,
-                GoalDescription = gp.CustomerDetails.GoalDescription,
+                GoalType = gp.CustomerDetails.GoalType,
                 CreatedOn = gp.CustomerDetails.DateCreated.ToString("dddd, dd MMMM yyyy"),
                 Status = gp.GoalPlanStatus.ToString(),
             })
@@ -129,7 +129,7 @@ public class GoalPlanService : IGoalPlanService
             {
                 GoalPlanId = gp.Id,
                 CustomerName = gp.ApplicationUser.UserName ?? string.Empty,
-                GoalDescription = gp.CustomerDetails.GoalDescription,
+                GoalType = gp.CustomerDetails.GoalType,
                 CurrentWeight = gp.CustomerDetails.StartingWeight,
                 CustomerDetails = gp.CustomerDetails.AdditionalNotes ?? string.Empty,
                 SubmittedOn = DateTime.UtcNow
