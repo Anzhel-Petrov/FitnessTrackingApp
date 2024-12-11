@@ -10,8 +10,9 @@ public interface IGoalPlanService
 {
     Task<OperationResult> ExistsByIdAndStatusAsync(long goalPlanId, GoalPlanStatus goalPlanStatus);
     Task<OperationResult> CreateGoalPlanRequestAsync(CustomerDetailsInputModel model, Guid userId);
-    Task<IEnumerable<BaseGoalPlanViewModel>> GetGoalPlanByStatusAsync(Guid trainerId, GoalPlanStatus? goalPlanStatus);
-    Task<IEnumerable<BaseGoalPlanViewModel>> GetAllGoalPlansByTrainerAsync(Guid trainerId);
+    Task<IEnumerable<TrainerGoalPlanViewModel>> GetTrainerGoalPlansByStatusAsync(Guid trainerId, GoalPlanStatus? goalPlanStatus);
+    Task<IEnumerable<TrainerGoalPlanViewModel>> GetAllTrainerGoalPlansByIdAsync(Guid trainerId);
+    Task<IEnumerable<CustomerGoalPlanViewModel>> GetAllCustomerGoalPlansByIdAsync(Guid userId);
     Task<GoalPlanDetailsViewModel?> GetGoalPlanDetailsAsync(long goalPlanId);
     Task<OperationResult> ProcessGoalPlanAsync(long goalPlanId, bool approve);
     Task<TrainerDashboardViewModel> GetStatisticsInfoAsync(Guid trainerId, GoalPlanStatus? goalPlanStatus);

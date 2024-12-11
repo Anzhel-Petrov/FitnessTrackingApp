@@ -6,7 +6,7 @@ public class TrainerDashboardViewModel
 {
     public TrainerDashboardViewModel()
     {
-        StatusGoalPlans = new List<BaseGoalPlanViewModel>();
+        StatusGoalPlans = new List<TrainerGoalPlanViewModel>();
     }
     public int TotalGoalPlansCount { get; set; }
     public int TotalActiveGoalPlansCount { get; set; }
@@ -14,5 +14,5 @@ public class TrainerDashboardViewModel
     public int TotalCompletedGoalPlansCount { get; set; }
     public int TotalRejectedGoalPlansCount { get; set; }
     public int TotalCancelledGoalPlansCount { get; set; }
-    public IEnumerable<BaseGoalPlanViewModel> StatusGoalPlans { get; set; }
+    public List<TrainerGoalPlanViewModel> StatusGoalPlans { get; set; }
 }

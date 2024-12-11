@@ -81,35 +81,41 @@ public class GoalPlanService : IGoalPlanService
         }
     }
 
-    public async Task<IEnumerable<BaseGoalPlanViewModel>> GetGoalPlanByStatusAsync(Guid trainerId, GoalPlanStatus? goalPlanStatus)
+    public async Task<IEnumerable<TrainerGoalPlanViewModel>> GetTrainerGoalPlansByStatusAsync(Guid trainerId, GoalPlanStatus? goalPlanStatus)
+    {
+        var allTrainerGoalPlans = await GetAllTrainerGoalPlansByIdAsync(trainerId);
+
+        return allTrainerGoalPlans.Where(gp => gp.Status == goalPlanStatus.ToString());
+    }
+
+    public async Task<IEnumerable<TrainerGoalPlanViewModel>> GetAllTrainerGoalPlansByIdAsync(Guid trainerId)
     {
         return await _dbContext.GoalPlans
-            .Where(gp => gp.TrainerId == trainerId && gp.GoalPlanStatus == goalPlanStatus)
-            .Select(gp => new BaseGoalPlanViewModel
+            .Where(gp => gp.TrainerId == trainerId)
+            .Select(gp => new TrainerGoalPlanViewModel
             {
                 GoalPlanId = gp.Id,
-                CustomerName = gp.ApplicationUser.UserName ?? string.Empty,
                 GoalDescription = gp.CustomerDetails.GoalDescription,
                 CreatedOn = gp.CustomerDetails.DateCreated.ToString("dddd, dd MMMM yyyy"),
                 Status = gp.GoalPlanStatus.ToString(),
-                WeekCounter = gp.WeeklyPlans.Count != 0 ? gp.WeeklyPlans.Max(wp => wp.Week) : 0
+                WeekCounter = gp.WeeklyPlans.Count != 0 ? gp.WeeklyPlans.Max(wp => wp.Week) : 0,
+                CustomerName = gp.ApplicationUser.UserName ?? string.Empty
             })
             .AsNoTracking()
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<BaseGoalPlanViewModel>> GetAllGoalPlansByTrainerAsync(Guid trainerId)
+    public async Task<IEnumerable<CustomerGoalPlanViewModel>> GetAllCustomerGoalPlansByIdAsync(Guid userId)
     {
         return await _dbContext.GoalPlans
-            .Where(gp => gp.TrainerId == trainerId)
-            .Select(gp => new BaseGoalPlanViewModel
+            .Where(gp => gp.ApplicationUser.Id == userId)
+            .Select(gp => new CustomerGoalPlanViewModel()
             {
                 GoalPlanId = gp.Id,
-                CustomerName = gp.ApplicationUser.UserName ?? string.Empty,
+                TrainerName = gp.Trainer.User.UserName ?? string.Empty,
                 GoalDescription = gp.CustomerDetails.GoalDescription,
                 CreatedOn = gp.CustomerDetails.DateCreated.ToString("dddd, dd MMMM yyyy"),
                 Status = gp.GoalPlanStatus.ToString(),
-                WeekCounter = gp.WeeklyPlans.Count != 0 ? gp.WeeklyPlans.Max(wp => wp.Week) : 0
             })
             .AsNoTracking()
             .ToListAsync();
@@ -150,7 +156,7 @@ public class GoalPlanService : IGoalPlanService
 
     public async Task<TrainerDashboardViewModel> GetStatisticsInfoAsync(Guid trainerId, GoalPlanStatus? goalPlanStatus)
     {
-        var allGoalPlans = (await GetAllGoalPlansByTrainerAsync(trainerId)).ToList();
+        var allGoalPlans = (await GetAllTrainerGoalPlansByIdAsync(trainerId)).ToList();
         
         var filteredGoalPlans = goalPlanStatus.HasValue
             ? allGoalPlans.Where(gp => Enum.Parse<GoalPlanStatus>(gp.Status) == goalPlanStatus.Value).ToList()

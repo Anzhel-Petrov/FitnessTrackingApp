@@ -28,7 +28,7 @@ public class GoalPlanController : BaseController
     public async Task<IActionResult> Active()
     {
         var trainerId = await this.GetTrainerId();
-        var activePlans = await _goalPlanService.GetGoalPlanByStatusAsync(trainerId, GoalPlanStatus.Active);
+        var activePlans = await _goalPlanService.GetTrainerGoalPlansByStatusAsync(trainerId, GoalPlanStatus.Active);
 
         return View(activePlans); 
     }
@@ -39,7 +39,7 @@ public class GoalPlanController : BaseController
     public async Task<IActionResult> Pending()
     {
         var trainerId = await this.GetTrainerId(); 
-        var pendingPlans = await _goalPlanService.GetGoalPlanByStatusAsync(trainerId, GoalPlanStatus.Pending);
+        var pendingPlans = await _goalPlanService.GetTrainerGoalPlansByStatusAsync(trainerId, GoalPlanStatus.Pending);
 
         return View(pendingPlans); 
     }

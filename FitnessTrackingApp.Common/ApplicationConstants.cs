@@ -2,6 +2,8 @@
 
 public static class ApplicationConstants
 {
+    public const int ReleaseYear = 2024;
+
     public const float BodyWeightMinRange = 30f;
     public const float BodyWeightMaxRange = 300f;
     
