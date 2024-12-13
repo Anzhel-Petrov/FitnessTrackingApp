@@ -14,9 +14,10 @@
         <p><strong>Submitted On:</strong> @Model.SubmittedOn?.ToShortDateString()</p>
     </div>
 </div>
-
-<form asp-action="Process" asp-controller="GoalPlan" asp-area="Trainer" method="post">
-    <input type="hidden" name="goalPlanId" value="@Model.GoalPlanId" />
-    <button type="submit" name="approve" value="true" class="btn btn-success">Approve</button>
-    <button type="submit" name="approve" value="false" class="btn btn-danger">Reject</button>
-</form>
+<td>
+    <a asp-area="Trainer" asp-controller="GoalPlan" asp-action="Reject" asp-route-goalPlanId="@Model.GoalPlanId" class="btn btn-danger">Reject</a>
+    <form asp-action="Approve" asp-controller="GoalPlan" asp-area="Trainer" method="post" style="display:inline;">
+        <input type="hidden" name="goalPlanId" value="@Model.GoalPlanId" />
+        <button type="submit" class="btn btn-success">Approve</button>
+    </form>
+</td>

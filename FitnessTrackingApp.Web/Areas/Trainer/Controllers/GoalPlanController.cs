@@ -3,6 +3,7 @@ using FitnessTrackingApp.Data.Models.Enums;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.Controllers;
 using FitnessTrackingApp.Web.Infrastructure.Attributes;
+using FitnessTrackingApp.Web.ViewModels.GoalPlan;
 using FitnessTrackingApp.Web.ViewModels.WeeklyPlan;
 using Microsoft.AspNetCore.Mvc;
 
@@ -59,11 +60,11 @@ public class GoalPlanController : BaseController
         return View(goalPlanDetails);
     }
     
-    // /Trainer/GoalPlan/Process/{goalPlanId}
+    // /Trainer/GoalPlan/Approve/{goalPlanId}
     [HttpPost]
-    public async Task<IActionResult> Process(long goalPlanId, bool approve)
+    public async Task<IActionResult> Approve(long goalPlanId)
     {
-        var result = await _goalPlanService.ProcessGoalPlanAsync(goalPlanId, approve);
+        var result = await _goalPlanService.ApproveGoalPlanAsync(goalPlanId);
 
         if (!result.IsSuccess)
         {
@@ -72,6 +73,65 @@ public class GoalPlanController : BaseController
         }
         
         return RedirectToAction("Pending");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Reject(long goalPlanId)
+    {
+        var goalPlan = await _goalPlanService.FindGoalPlanByIdAsync(goalPlanId);
+
+        if (goalPlan == null)
+        {
+            return NotFound();
+        }
+
+        if (goalPlan.GoalPlanStatus is GoalPlanStatus.Cancelled or GoalPlanStatus.Rejected)
+        {
+            return BadRequest();
+        }
+
+        if (!await this.IsUserTrainerAsync() || goalPlan.TrainerId != await this.GetTrainerId())
+        {
+            return Unauthorized();
+        }
+
+        var viewModel = new RejectGoalPlanViewModel
+        {
+            GoalPlanId = goalPlan.Id,
+        };
+
+        return View(viewModel);
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Reject(RejectGoalPlanViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var goalPlan = await _goalPlanService.FindGoalPlanByIdAsync(model.GoalPlanId);
+
+        if (goalPlan == null)
+        {
+            return NotFound();
+        }
+
+        if (goalPlan.GoalPlanStatus is GoalPlanStatus.Cancelled or GoalPlanStatus.Rejected)
+        {
+            return BadRequest();
+        }
+
+        if (!await this.IsUserTrainerAsync() || goalPlan.TrainerId != await this.GetTrainerId())
+        {
+            return Unauthorized();
+        }
+
+        var result = await _goalPlanService.RejectGoalPlanAsync(model.GoalPlanId, model.RejectionReason);
+
+        return RedirectToAction(nameof(Index)); // Redirect to the appropriate Trainer dashboard or list
     }
     
     // /Trainer/GoalPlan/Assign/{goalPlanId}

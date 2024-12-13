@@ -16,6 +16,8 @@
         <th>Customer</th>
         <th>Goal</th>
         <th>Created On</th>
+        <th>Start Weight</th>
+        <th>Goal Weight</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -23,10 +25,14 @@
     @foreach (var plan in Model)
     {
         <tr>
-            <td>@plan.CustomerName</td>
-            <td>@plan.GoalType.GetDisplayName()</td>
-            <td>@plan.CreatedOn</td>
+                <td>@plan.CustomerName</td>
+                <td>@plan.GoalType.GetDisplayName()</td>
+                <td>@plan.CreatedOn</td>
+                <td>@plan.CurrentWeight</td>
+                <td>@plan.GoalWeight</td>
+                <td>@plan.CreatedOn</td>
             <td>
+                <a asp-area="Trainer" asp-controller="GoalPlan" asp-action="Reject" asp-route-goalPlanId="@plan.GoalPlanId" class="btn btn-danger">Reject</a>
                 <a asp-area="Trainer" asp-controller="WeeklyPlan" asp-action="Details" asp-route-goalPlanId="@plan.GoalPlanId" class="btn btn-info">Details</a>
             </td>
         </tr>

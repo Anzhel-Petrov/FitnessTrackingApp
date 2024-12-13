@@ -62,6 +62,11 @@ public class CustomerController : BaseController
         {
             return Unauthorized();
         }
+
+        if (model.TrainerId == Guid.Empty)
+        {
+            return BadRequest();
+        }
         
         var result = await _goalPlanService.CreateGoalPlanRequestAsync(model, userId);
         

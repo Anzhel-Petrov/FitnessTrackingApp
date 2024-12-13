@@ -10,7 +10,7 @@ public class CustomerDetailsInputModel
     [Required]
     public Guid TrainerId { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = GoalPlanTypeRequired)]
     [Display(Name = "What is Your goal?")]
     public GoalType GoalType { get; set; }
 

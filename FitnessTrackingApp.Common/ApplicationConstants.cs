@@ -15,9 +15,10 @@ public static class ApplicationConstants
     // GoalPlan
     public const string OnlyOnePendingGoalPlan = "[GoalPlanStatus] = 0";
     public const string OnlyOneActiveGoalPlan = "[GoalPlanStatus] = 1";
+    public const int RejectionReasonMinLength = 10;
+    public const int RejectionReasonMaxLength = 500;
     
     // Customer Details
-    public const int GoalDescriptionMaxLength = 100;
     public const int AdditionalNotesMaxLength = 1000;
 
     // Weigh Goal Enum Display

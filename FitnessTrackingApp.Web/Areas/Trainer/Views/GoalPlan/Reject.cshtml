@@ -1,0 +1,30 @@
+﻿@model RejectGoalPlanViewModel
+
+@{
+    ViewData["Title"] = "Reject Goal Plan";
+}
+
+<h1>Reject Goal Plan</h1>
+
+<p>
+    Are you sure you want to reject the goal plan request?
+</p>
+
+<form asp-action="Reject" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="GoalPlanId" />
+
+    <div class="form-group">
+        <label asp-for="RejectionReason" class="form-label">Rejection Reason</label>
+        <textarea asp-for="RejectionReason" class="form-control" rows="4" placeholder="Enter the reason for rejection" required></textarea>
+        <span asp-validation-for="RejectionReason" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-danger">Reject</button>
+    <a asp-action="Review" asp-route-goalPlanId="@Model.GoalPlanId" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

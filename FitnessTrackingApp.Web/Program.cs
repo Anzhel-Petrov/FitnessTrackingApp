@@ -3,6 +3,7 @@ using FitnessTrackingApp.Data.Models;
 using FitnessTrackingApp.Services.Data;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTrackingApp.Web
@@ -55,7 +56,10 @@ namespace FitnessTrackingApp.Web
             builder.Services.AddScoped<IWeeklyPlanService, WeeklyPlanService>();
 
             // Add services to the container.
-            builder.Services.AddMvc();
+            builder.Services.AddControllersWithViews(cfg =>
+            {
+                cfg.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
 
             WebApplication app = builder.Build();
 
@@ -88,8 +92,6 @@ namespace FitnessTrackingApp.Web
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
-            app.MapRazorPages();
 
             app.Run();
         }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FitnessTrackingApp.Common;
 using FitnessTrackingApp.Data.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using static FitnessTrackingApp.Common.ApplicationConstants;
@@ -22,15 +23,16 @@ public class GoalPlan
     [ForeignKey(nameof(TrainerId))]
     public Trainer Trainer { get; set; } = null!;
 
-    [Required]
-    public GoalType GoalType { get; set; }
+    public GoalType? GoalType { get; set; }
 
     [Range(BodyWeightMinRange, BodyWeightMaxRange)]
     [Precision(5, 2)]
+    [BodyWeightPrecision(5,2)]
     public decimal GoalWeigh { get; set; }
 
     [Range(BodyWeightMinRange, BodyWeightMaxRange)]
     [Precision(5, 2)]
+    [BodyWeightPrecision(5, 2)]
     public decimal CurrentWeight { get; set; }
 
     [DataType(DataType.Date)]
@@ -42,6 +44,9 @@ public class GoalPlan
     public GoalPlanStatus GoalPlanStatus { get; set; } = GoalPlanStatus.Pending;
 
     public CustomerDetails CustomerDetails { get; set; } = null!;
+
+    [MaxLength(RejectionReasonMaxLength)]
+    public string? RejectionReason { get; set; }
 
     public ICollection<WeeklyPlan> WeeklyPlans { get; set; } = new HashSet<WeeklyPlan>();
 }

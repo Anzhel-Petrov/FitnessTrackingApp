@@ -9,6 +9,8 @@
         <th>Customer</th>
         <th>Goal</th>
         <th>Created On</th>
+        <th>Start Weight</th>
+        <th>Goal Weight</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -18,6 +20,9 @@
         <tr>
             <td>@plan.CustomerName</td>
             <td>@plan.GoalType.GetDisplayName()</td>
+            <td>@plan.CreatedOn</td>
+            <td>@plan.CurrentWeight</td>
+            <td>@plan.GoalWeight</td>
             <td>@plan.CreatedOn</td>
             <td>
                 <a asp-action="Review" asp-controller="GoalPlan" asp-area="Trainer" asp-route-goalPlanId="@plan.GoalPlanId" class="btn btn-primary">Review</a>
