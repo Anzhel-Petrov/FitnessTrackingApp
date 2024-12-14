@@ -9,26 +9,43 @@ namespace FitnessTrackingApp.Web.Infrastructure.Extensions;
 
 public static class WebApplicationBuilderExtensions
 {
-    public static IApplicationBuilder SeedUserRole(this IApplicationBuilder app, string userId)
+    public static IApplicationBuilder SeedRoles(this IApplicationBuilder app)
     {
         using IServiceScope scopedServices = app.ApplicationServices.CreateScope();
 
         //Get DI container service provider
         IServiceProvider serviceProvider = scopedServices.ServiceProvider;
-        UserManager<ApplicationUser> userManagaer = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         RoleManager<IdentityRole<Guid>> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+        string[] roleNames = [TrainerRoleName, CustomerRoleName , AdminRoleName];
 
         Task.Run(async () =>
             {
-                if (await roleManager.RoleExistsAsync(AdminRoleName))
+                var allRolesExist = true;
+                foreach (var roleName in roleNames)
                 {
-                    return;
+                    if (!await roleManager.RoleExistsAsync(roleName))
+                    {
+                        allRolesExist = false;
+                        break;
+                    }
                 }
-                IdentityRole<Guid> role = new IdentityRole<Guid>(AdminRoleName);
-                await roleManager.CreateAsync(role);
 
-                ApplicationUser userToFind = await userManagaer.FindByIdAsync(userId);
-                await userManagaer.AddToRoleAsync(userToFind, AdminRoleName);
+                if (allRolesExist)
+                    return;
+                {
+                    foreach (var roleName in roleNames)
+                    {
+                        if (!await roleManager.RoleExistsAsync(roleName))
+                        {
+                            IdentityRole<Guid> newRole = new IdentityRole<Guid>(roleName);
+                            await roleManager.CreateAsync(newRole);
+                        }
+                    }
+                }
+
+                //ApplicationUser userToFind = await userManager.FindByIdAsync(userId);
+                //await userManager.AddToRoleAsync(userToFind, AdminRoleName);
 
             })
             .GetAwaiter()

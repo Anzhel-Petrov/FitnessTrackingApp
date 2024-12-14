@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 using static FitnessTrackingApp.Common.NotificationMessageConstants;
 using static FitnessTrackingApp.Common.ErrorMessageConstants;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
+using System.Data;
 
 namespace FitnessTrackingApp.Web.Controllers
 {
@@ -59,6 +61,7 @@ namespace FitnessTrackingApp.Web.Controllers
             }
 
             await this._signInManager.SignInAsync(user, false);
+            await this._userManager.AddToRoleAsync(user, CustomerRoleName);
 
             return RedirectToAction("Index", "Home");
         }

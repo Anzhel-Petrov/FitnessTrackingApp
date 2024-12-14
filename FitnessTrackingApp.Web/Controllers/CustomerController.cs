@@ -6,10 +6,13 @@ using FitnessTrackingApp.Web.ViewModels.WeeklyPlan;
 using Microsoft.AspNetCore.Mvc;
 using static FitnessTrackingApp.Common.NotificationMessageConstants;
 using static FitnessTrackingApp.Common.ErrorMessageConstants;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace FitnessTrackingApp.Web.Controllers;
 
+[Authorize(Roles = CustomerRoleName)]
 public class CustomerController : BaseController
 {
     private readonly ITrainerService _trainerService;
@@ -63,7 +66,7 @@ public class CustomerController : BaseController
             return Unauthorized();
         }
 
-        if (model.TrainerId == Guid.Empty)
+        if (!await _trainerService.TrainerExistsByUserIdAsync(model.TrainerId.ToString()))
         {
             return BadRequest();
         }

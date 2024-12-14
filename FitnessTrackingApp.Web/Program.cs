@@ -2,6 +2,7 @@ using FitnessTrackingApp.Data;
 using FitnessTrackingApp.Data.Models;
 using FitnessTrackingApp.Services.Data;
 using FitnessTrackingApp.Services.Data.Interfaces;
+using FitnessTrackingApp.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -84,6 +85,8 @@ namespace FitnessTrackingApp.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.SeedRoles();
 
             app.MapControllerRoute(
                 name: "Areas",
