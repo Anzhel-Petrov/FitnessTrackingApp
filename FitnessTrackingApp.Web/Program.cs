@@ -64,6 +64,8 @@ namespace FitnessTrackingApp.Web
 
             WebApplication app = builder.Build();
 
+            app.SeedRoles();
+
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -76,6 +78,7 @@ namespace FitnessTrackingApp.Web
             {
                 app.UseMigrationsEndPoint();
                 app.UseDeveloperExceptionPage();
+                app.AddTrainersAndAdminToRole();
             }
 
             app.UseHttpsRedirection();
@@ -85,8 +88,6 @@ namespace FitnessTrackingApp.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.SeedRoles();
 
             app.MapControllerRoute(
                 name: "Areas",

@@ -3,6 +3,7 @@ using FitnessTrackingApp.Services.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using FitnessTrackingApp.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
 namespace FitnessTrackingApp.Web.Controllers
 {
@@ -16,11 +17,11 @@ namespace FitnessTrackingApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            if (await this.IsUserTrainerAsync())
+            if (this.User.IsInRole(TrainerRoleName))
             {
                 return this.RedirectToAction("Index", "Dashboard", new { Area = "Trainer" });
             }
-            
+
             return View();
         }
 

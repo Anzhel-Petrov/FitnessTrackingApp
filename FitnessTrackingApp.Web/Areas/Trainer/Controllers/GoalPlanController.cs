@@ -2,15 +2,16 @@
 using FitnessTrackingApp.Data.Models.Enums;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.Controllers;
-using FitnessTrackingApp.Web.Infrastructure.Attributes;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 using FitnessTrackingApp.Web.ViewModels.GoalPlan;
 using FitnessTrackingApp.Web.ViewModels.WeeklyPlan;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTrackingApp.Web.Areas.Trainer.Controllers;
 
-[Area("Trainer")]
-[MustBeTrainer]
+[Area(TrainerAreaName)]
+[Authorize(Roles = TrainerRoleName)]
 public class GoalPlanController : BaseController
 {
     private readonly IGoalPlanService _goalPlanService;

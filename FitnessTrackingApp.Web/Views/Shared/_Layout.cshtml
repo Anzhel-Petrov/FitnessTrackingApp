@@ -1,6 +1,4 @@
-﻿@using FitnessTrackingApp.Services.Data.Interfaces
-@using FitnessTrackingApp.Web.Infrastructure.Extensions
-@inject ITrainerService TrainerService
+﻿@using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 @using static FitnessTrackingApp.Common.ApplicationConstants;
 
 @{
@@ -8,7 +6,9 @@
     string footerNote = (ReleaseYear == currentYear) ?
         $"{currentYear}" : $"{ReleaseYear} - {currentYear}";
     var isTrainer = User?.Identity?.IsAuthenticated == true &&
-                    await TrainerService.TrainerExistsByUserIdAsync(User.GetUserId()!);
+                    this.User.IsInRole(TrainerRoleName);
+    var isCustomer = User?.Identity?.IsAuthenticated == true &&
+                    this.User.IsInRole(CustomerRoleName);
 }
 
 <!DOCTYPE html>
@@ -35,20 +35,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @if (this.User?.Identity?.IsAuthenticated ?? false)
+                        @if (isCustomer)
                         {
-                            @if (!isTrainer)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="BodyWeight" asp-action="Index">Body Weight Tracking</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="AvailableTrainers">Available Trainers</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="AllWeeklyPlans">All Weekly Plans</a>
-                                </li>
-                            }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="BodyWeight" asp-action="Index">Body Weight Tracking</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="AvailableTrainers">Available Trainers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="AllWeeklyPlans">All Weekly Plans</a>
+                            </li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />

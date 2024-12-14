@@ -1,5 +1,4 @@
 ﻿using FitnessTrackingApp.Data.Models;
-using FitnessTrackingApp.Data.Models.Enums;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +8,8 @@ namespace FitnessTrackingApp.Web.Infrastructure.Extensions;
 
 public static class WebApplicationBuilderExtensions
 {
+    private static readonly string[] RoleNames = [TrainerRoleName, CustomerRoleName, AdminRoleName];
+
     public static IApplicationBuilder SeedRoles(this IApplicationBuilder app)
     {
         using IServiceScope scopedServices = app.ApplicationServices.CreateScope();
@@ -17,12 +18,12 @@ public static class WebApplicationBuilderExtensions
         IServiceProvider serviceProvider = scopedServices.ServiceProvider;
         UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         RoleManager<IdentityRole<Guid>> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-        string[] roleNames = [TrainerRoleName, CustomerRoleName , AdminRoleName];
+        
 
         Task.Run(async () =>
             {
                 var allRolesExist = true;
-                foreach (var roleName in roleNames)
+                foreach (var roleName in RoleNames)
                 {
                     if (!await roleManager.RoleExistsAsync(roleName))
                     {
@@ -34,7 +35,7 @@ public static class WebApplicationBuilderExtensions
                 if (allRolesExist)
                     return;
                 {
-                    foreach (var roleName in roleNames)
+                    foreach (var roleName in RoleNames)
                     {
                         if (!await roleManager.RoleExistsAsync(roleName))
                         {
@@ -43,14 +44,49 @@ public static class WebApplicationBuilderExtensions
                         }
                     }
                 }
-
-                //ApplicationUser userToFind = await userManager.FindByIdAsync(userId);
-                //await userManager.AddToRoleAsync(userToFind, AdminRoleName);
-
             })
             .GetAwaiter()
             .GetResult();
         // To do chaining
+        return app;
+    }
+
+    public static IApplicationBuilder AddTrainersAndAdminToRole(this IApplicationBuilder app)
+    {
+        using IServiceScope scopedServices = app.ApplicationServices.CreateScope();
+
+        //Get DI container service provider
+        IServiceProvider serviceProvider = scopedServices.ServiceProvider;
+        UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        RoleManager<IdentityRole<Guid>> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+
+        Task.Run(async () =>
+            {
+                if (await roleManager.RoleExistsAsync(TrainerRoleName))
+                {
+                    foreach (var trainerId in TrainerIds)
+                    {
+                        var userToFind = await userManager.FindByIdAsync(trainerId);
+
+                        if (userToFind != null)
+                        {
+                            if (!await userManager.IsInRoleAsync(userToFind, TrainerRoleName))
+                            {
+                                await userManager.AddToRoleAsync(userToFind, TrainerRoleName);
+                            }
+                        }
+                    }
+                }
+
+                //if (await roleManager.RoleExistsAsync(AdminRoleName))
+                //{
+                //    ApplicationUser userToFind = await userManager.FindByIdAsync(adminId);
+                //    await userManager.AddToRoleAsync(userToFind, AdminRoleName);
+                //}
+            })
+            .GetAwaiter()
+            .GetResult();
+
         return app;
     }
 }
