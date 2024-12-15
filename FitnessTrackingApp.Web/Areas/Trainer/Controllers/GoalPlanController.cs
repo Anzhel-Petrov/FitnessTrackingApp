@@ -91,7 +91,7 @@ public class GoalPlanController : BaseController
             return BadRequest();
         }
 
-        if (!await this.IsUserTrainerAsync() || goalPlan.TrainerId != await this.GetTrainerId())
+        if (!this.IsTrainer() || goalPlan.TrainerId != await this.GetTrainerId())
         {
             return Unauthorized();
         }
@@ -125,7 +125,7 @@ public class GoalPlanController : BaseController
             return BadRequest();
         }
 
-        if (!await this.IsUserTrainerAsync() || goalPlan.TrainerId != await this.GetTrainerId())
+        if (!this.IsTrainer() || goalPlan.TrainerId != await this.GetTrainerId())
         {
             return Unauthorized();
         }

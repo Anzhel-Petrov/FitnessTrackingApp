@@ -20,12 +20,15 @@ else
         <thead>
         <tr>
             <th>Week</th>
+            <th>Start Date</th>
+            <th>End Date</th>
             <th>Carb</th>
             <th>Fat</th>
             <th>Protein</th>
-            <th>ABW</th>
             <th>Total Daily Calories</th>
-            <th>Sessions</th>
+            <th>ABW</th>
+            <th>Cardio Sessions</th>
+            <th>Calories per Session</th>
             <th>HIIT</th>
         </tr>
         </thead>
@@ -39,13 +42,13 @@ else
                 <td>@plan.Carbohydrates</td>
                 <td>@plan.Fat</td>
                 <td>@plan.Protein</td>
-                <td>@plan.Weight.ToString("0.0") kg</td>
                 <td>@plan.TotalDailyCalories</td>
+                <td>@plan.Weight.ToString("0.0") kg</td>
                 <td>@plan.CardioSessionsPerWeek x / wk (@plan.CardioType)</td>
                 <td>@plan.CaloriesToBurnPerSession</td>
                 <td>@(plan.IsHIIT.HasValue ? (plan.IsHIIT.Value ? "Yes" : "No") : "N/A")</td>
                 <td>
-                    <a asp-action="WeeklyPlanDetails" asp-route-weeklyPlanId="@plan.WeeklyPlanId" class="btn btn-primary btn-sm">Details</a>
+                        <a asp-action="WeeklyPlanDetails" asp-route-weeklyPlanId="@plan.WeeklyPlanId" class="btn btn-primary btn-sm">Details</a>
                 </td>
             </tr>
         }

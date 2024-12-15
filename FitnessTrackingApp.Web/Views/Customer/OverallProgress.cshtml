@@ -1,0 +1,144 @@
+﻿@model FitnessTrackingApp.Web.ViewModels.BodyWeight.OverallProgressViewModel
+
+<h2>Body Weigh Index</h2>
+
+<div class="row my-3">
+    <div class="col">
+        <div class="card mheight-100">
+            <div class="card-header py-3">
+                <h5 class="card-subtitle">Most Recent Bodyweight</h5>
+            </div>
+            <div class="card-body d-flex align-items-center">
+                <div class="w-100">
+                    <h4 class="card-title text-center">
+                        120kg
+                    </h4>
+                    <div class="card-text text-center">
+                        18-Dec-2024
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col">
+        <div class="card mb-2">
+            <div class="card-header py-3">
+                <h5 class="card-subtitle">This Week's Progress</h5>
+            </div>
+            <div class="card-body d-flex align-items-center">
+                <div class="w-100">
+                    <h4 class="card-title text-center">
+                        10
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header py-3">
+                <h5 class="card-subtitle">Daily Average (This Week)</h5>
+            </div>
+            <div class="card-body d-flex align-items-center">
+                <div class="w-100">
+                    <h4 class="card-title text-center">
+                        3
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card mb-2">
+            <div class="card-header py-3">
+                <h5 class="card-subtitle">Current Month's Progress</h5>
+            </div>
+            <div class="card-body d-flex align-items-center">
+                <div class="w-100">
+                    <h4 class="card-title text-center">
+                        15
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header py-3">
+                <h5 class="card-subtitle">Daily Average (This Month)</h5>
+            </div>
+            <div class="card-body d-flex align-items-center">
+                <div class="w-100">
+                    <h4 class="card-title text-center">
+                        7
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card mb-2">
+            <div class="card-header py-3">
+                <h5 class="card-subtitle">All Time Progress</h5>
+            </div>
+            <div class="card-body d-flex align-items-center">
+                <div class="w-100">
+                    <h4 class="card-title text-center">
+                        23
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header py-3">
+                <h5 class="card-subtitle">Weekly Average (All Time)</h5>
+            </div>
+            <div class="card-body d-flex align-items-center">
+                <div class="w-100">
+                    <h4 class="card-title text-center">
+                        40
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h3>This Week</h3>
+    <canvas id="weeklyChart"></canvas>
+
+    <h3>This Month</h3>
+    <canvas id="monthlyChart"></canvas>
+</div>
+
+@* <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+    var weeklyChart = new Chart(weeklyCtx, {
+        type: 'line',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.WeeklyRecords.Select(r => r.DateLogged.ToShortDateString()))),
+            datasets: [{
+                label: 'Weight (kg)',
+                data: @Html.Raw(Json.Serialize(Model.WeeklyRecords.Select(r => r.CurrentWeight))),
+                borderColor: 'blue',
+                fill: false
+            }]
+        }
+    });
+
+    var monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+    var monthlyChart = new Chart(monthlyCtx, {
+        type: 'line',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.MonthlyRecords.Select(r => r.DateLogged.ToShortDateString()))),
+            datasets: [{
+                label: 'Weight (kg)',
+                data: @Html.Raw(Json.Serialize(Model.MonthlyRecords.Select(r => r.CurrentWeight))),
+                borderColor: 'green',
+                fill: false
+            }]
+        }
+    });
+</script> *@

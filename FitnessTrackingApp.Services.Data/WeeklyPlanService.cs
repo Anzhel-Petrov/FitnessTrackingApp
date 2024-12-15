@@ -16,6 +16,15 @@ public class WeeklyPlanService : IWeeklyPlanService
     {
         _dbContext = dbContext;
     }
+
+    public async Task<WeeklyPlan?> GetWeeklyPlanByIdAsync(long weeklyPlanId)
+    {
+        return await _dbContext.WeeklyPlans
+            .Include(wp => wp.GoalPlan)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(wp => wp.Id == weeklyPlanId);
+    }
+
     public async Task<OperationResult> AssignWeeklyPlanAsync(AssignWeeklyPanViewModel model, Guid trainerId)
     {
         var goalPlan = await _dbContext.GoalPlans
@@ -129,6 +138,8 @@ public class WeeklyPlanService : IWeeklyPlanService
             .Select(wp => new WeeklyPlanViewModel()
             {
                 WeeklyPlanId = wp.Id,
+                StartDate = wp.StartDate,
+                EndDate = wp.EndDate,
                 WeekNumber = wp.Week,
                 Carbohydrates = wp.Macro.DailyCarbohydrates,
                 Fat = wp.Macro.DailyFat,
@@ -136,6 +147,7 @@ public class WeeklyPlanService : IWeeklyPlanService
                 TotalDailyCalories = wp.Macro.TotalDailyCalories,
                 CardioSessionsPerWeek = wp.CardioSession != null ? wp.CardioSession.SessionsPerWeek : 0,
                 CardioType = wp.CardioSession != null ? wp.CardioSession.IsHIIT ? "HIIT" : "Steady-State" : "",
+                CaloriesToBurnPerSession = wp.CardioSession != null ? wp.CardioSession.Calories : 0,
                 IsHIIT = wp.CardioSession != null && wp.CardioSession.IsHIIT,
 
                 Weight = wp.BodyWeightLogs

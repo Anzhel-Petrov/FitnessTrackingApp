@@ -60,9 +60,9 @@ namespace FitnessTrackingApp.Web.Controllers
                 return this.View(registerViewModel);
             }
 
-            await this._signInManager.SignInAsync(user, false);
             await this._userManager.AddToRoleAsync(user, CustomerRoleName);
-
+            await this._signInManager.SignInAsync(user, false);
+            
             return RedirectToAction("Index", "Home");
         }
 

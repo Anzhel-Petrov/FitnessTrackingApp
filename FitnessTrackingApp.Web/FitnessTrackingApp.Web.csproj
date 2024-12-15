@@ -30,4 +30,8 @@
     <Folder Include="Areas\Trainer\Views\Shared\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Trainer\Index.cshtml" />
+  </ItemGroup>
+
 </Project>

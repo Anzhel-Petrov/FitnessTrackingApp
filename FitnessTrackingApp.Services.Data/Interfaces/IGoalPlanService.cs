@@ -19,4 +19,5 @@ public interface IGoalPlanService
     Task<OperationResult> ApproveGoalPlanAsync(long goalPlanId);
     Task<OperationResult> RejectGoalPlanAsync(long goalPlanId, string rejectReason);
     Task<TrainerDashboardViewModel> GetStatisticsInfoAsync(Guid trainerId, GoalPlanStatus? goalPlanStatus);
+    Task<decimal> GetGoalWeight(Guid userId);
 }

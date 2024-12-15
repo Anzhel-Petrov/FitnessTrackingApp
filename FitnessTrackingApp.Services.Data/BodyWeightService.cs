@@ -123,6 +123,7 @@ public class BodyWeightService : IBodyWeightService
     public async Task<BodyWeightLogsViewModel> GetBodyWeightLogsViewModelAsync(Guid userId, long weeklyPlanId)
     {
         var logs = await GetWeeklyPlanLogsAsync(userId, weeklyPlanId);
+
         return new BodyWeightLogsViewModel
         {
             WeeklyPlanId = weeklyPlanId,
@@ -136,11 +137,11 @@ public class BodyWeightService : IBodyWeightService
         var existingDateLog = await _dbContext.BodyWeightLogs
             .Include(wp => wp.WeeklyPlan)
             .ThenInclude(gp => gp.GoalPlan)
-            .FirstOrDefaultAsync(l => l.WeeklyPlan.GoalPlan.UserId == userId && l.DateLogged == logViewModel.LogDate && l.WeeklyPlan.Id == weeklyPlanId);
+            .FirstOrDefaultAsync(l => l.WeeklyPlan.GoalPlan.UserId == userId && l.DateLogged == logViewModel.LogDate);
         
         if (existingDateLog != null)
         {
-            return new OperationResult(false, "A weight is already logged for that date!");
+            return new OperationResult(false, $"A weight is already logged for that date in week {existingDateLog.WeeklyPlan.Week}!");
         }
 
         var log = new BodyWeightLog()

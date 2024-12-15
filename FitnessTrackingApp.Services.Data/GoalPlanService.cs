@@ -220,4 +220,14 @@ public class GoalPlanService : IGoalPlanService
 
         return model;
     }
+
+    public async Task<decimal> GetGoalWeight(Guid userId)
+    {
+        var goalPlans = await _dbContext.GoalPlans
+            .Where(gp => gp.UserId == userId && 
+                         (gp.GoalPlanStatus == GoalPlanStatus.Active || gp.GoalPlanStatus == GoalPlanStatus.Completed))
+            .ToListAsync();
+
+        return goalPlans != null && goalPlans.Any() ? goalPlans.Min(gp => gp.GoalWeigh) : 0m;
+    }
 }

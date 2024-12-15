@@ -29,6 +29,20 @@ public class TrainerService : ITrainerService
         return result;
     }
 
+    public async Task<bool> TrainerExistsByIdAsync(string userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return false;
+        }
+        
+        bool result = await _dbContext
+            .Trainers
+            .AnyAsync(a => a.Id.ToString() == userId);
+
+        return result;
+    }
+
     public async Task<IEnumerable<TrainerViewModel>> GetAvailableTrainersAsync(Guid userId)
     {
         return await _dbContext.Trainers

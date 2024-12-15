@@ -2,12 +2,15 @@
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.BodyWeight;
 using FitnessTrackingApp.Web.ViewModels.Customer;
+using FitnessTrackingApp.Web.ViewModels.GoalPlan;
 using FitnessTrackingApp.Web.ViewModels.WeeklyPlan;
 using Microsoft.AspNetCore.Mvc;
 using static FitnessTrackingApp.Common.NotificationMessageConstants;
 using static FitnessTrackingApp.Common.ErrorMessageConstants;
 using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using FitnessTrackingApp.Data.Models;
 
 
 namespace FitnessTrackingApp.Web.Controllers;
@@ -66,7 +69,7 @@ public class CustomerController : BaseController
             return Unauthorized();
         }
 
-        if (!await _trainerService.TrainerExistsByUserIdAsync(model.TrainerId.ToString()))
+        if (!await _trainerService.TrainerExistsByIdAsync(model.TrainerId.ToString()))
         {
             return BadRequest();
         }
@@ -99,7 +102,21 @@ public class CustomerController : BaseController
     [HttpGet]
     public async Task<IActionResult> WeeklyPlanDetails(long weeklyPlanId)
     {
+        var weeklyPlan = await _weeklyPlanService.GetWeeklyPlanByIdAsync(weeklyPlanId);
+
+        if (weeklyPlan == null)
+        {
+            return NotFound();
+        }
+
+        if (weeklyPlan.GoalPlan.UserId != this.GetUserId())
+        {
+            return Unauthorized();
+        }
+
         var bodyWeightLogs = await _bodyWeightService.GetBodyWeightLogsViewModelAsync(this.GetUserId(), weeklyPlanId);
+        bodyWeightLogs.WeeklyPlanStartDate = weeklyPlan.StartDate;
+        bodyWeightLogs.WeeklyPlanEndDate = weeklyPlan.EndDate;
 
         return View(bodyWeightLogs);
     }
@@ -107,9 +124,18 @@ public class CustomerController : BaseController
     [HttpPost]
     public async Task<IActionResult> AddLog(BodyWeightLogsViewModel model)
     {
+        var weeklyPlan = await _weeklyPlanService.GetWeeklyPlanByIdAsync(model.WeeklyPlanId);
+
+        if (weeklyPlan == null)
+        {
+            return NotFound();
+        }
+
         if (!ModelState.IsValid)
         {
             model.Logs = await _bodyWeightService.GetWeeklyPlanLogsAsync(this.GetUserId(), model.WeeklyPlanId);
+            model.WeeklyPlanStartDate = weeklyPlan.StartDate;
+            model.WeeklyPlanEndDate = weeklyPlan.EndDate;
             return View(nameof(WeeklyPlanDetails), model);
         }
 
@@ -134,7 +160,33 @@ public class CustomerController : BaseController
 
         }
 
-
         return RedirectToAction(nameof(WeeklyPlanDetails), new { weeklyPlanId = weeklyPlanId});
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> OverallProgress()
+    {
+        //var currentUserId = this.GetUserId();
+            
+        //var bodyWeightGoal = await _goalPlanService.GetGoalWeight(currentUserId);
+
+        //var weeklyBodyWeightProgress = await _bodyWeightService.GetWeeklyBodyWeightLogsAsync(currentUserId);
+
+        //var monthlyBodyWeightProgress = await _bodyWeightService.GetMonthlyBodyWeightLogsAsync(currentUserId);
+
+        //var lastLoggedBodyWeight = weeklyBodyWeightProgress.Select(l => l.CurrentWeight).LastOrDefault();
+
+        //var lastBodyWeightLoggedDate = weeklyBodyWeightProgress.Select(l => l.DateLogged).LastOrDefault();
+
+        //OverallProgressViewModel bodyWeightDetailsViewModel = new OverallProgressViewModel()
+        //{
+        //    BodyWeightGoal = bodyWeightGoal,
+        //    MonthlyRecords = monthlyBodyWeightProgress,
+        //    WeeklyRecords = weeklyBodyWeightProgress,
+        //    MostRecentWeight = lastLoggedBodyWeight,
+        //    MostRecentWeightDate = lastBodyWeightLoggedDate,
+        //};
+
+        return View(new OverallProgressViewModel());
     }
 }

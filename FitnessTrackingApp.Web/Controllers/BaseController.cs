@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.Infrastructure.Extensions;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
 namespace FitnessTrackingApp.Web.Controllers
 {
@@ -22,19 +23,9 @@ namespace FitnessTrackingApp.Web.Controllers
         protected bool IsAuthenticated()
             => this.User.Identity?.IsAuthenticated ?? false;
         
-        protected async Task<bool> IsUserTrainerAsync()
+        protected bool IsTrainer()
         {
-            string? userId = this.User.GetUserId();
-            
-            if (string.IsNullOrWhiteSpace(userId))
-            {
-                return false;
-            }
-            
-            bool isTrainer = await this._trainerService
-                .TrainerExistsByUserIdAsync(userId);
-            
-            return isTrainer;
+            return User.IsInRole(TrainerRoleName);
         }
         
         protected async Task<Guid> GetTrainerId()

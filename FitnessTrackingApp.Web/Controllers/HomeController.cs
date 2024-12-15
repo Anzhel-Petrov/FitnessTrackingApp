@@ -17,7 +17,7 @@ namespace FitnessTrackingApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            if (this.User.IsInRole(TrainerRoleName))
+            if (this.IsTrainer())
             {
                 return this.RedirectToAction("Index", "Dashboard", new { Area = "Trainer" });
             }
