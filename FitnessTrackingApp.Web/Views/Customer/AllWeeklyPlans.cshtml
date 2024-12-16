@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WeeklyPlanViewModel>
+﻿@model WeeklyPlanIndexViewModel
 
 @if (TempData["ErrorMessage"] != null)
 {
@@ -8,7 +8,7 @@
 }
 
 <h2>Weekly Plans</h2>
-@if (!Model.Any())
+@if (!Model.WeeklyPlans.Any())
 {
     <p>There is no active Goal Plan yet.</p>
     <p>Make sure to check our awesome trainers!</p>
@@ -33,7 +33,7 @@ else
         </tr>
         </thead>
         <tbody>
-        @foreach (var plan in Model)
+        @foreach (var plan in Model.WeeklyPlans)
         {
             <tr>
                 <td>@plan.WeekNumber</td>
@@ -56,6 +56,40 @@ else
     </table>
 }
 
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination">
+        @if (Model.CurrentPage  > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="AllWeeklyPlans"
+                   asp-route-currentPage="@( Model.CurrentPage - 1 )">
+                    Previous
+                </a>
+            </li>
+        }
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == (int)Model.CurrentPage! ? "active" : "")">
+                <a class="page-link" asp-action="AllWeeklyPlans"
+                   asp-route-currentPage="@i">
+                    @i
+                </a>
+            </li>
+        }
+
+        @if (Model.CurrentPage < Model.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="AllWeeklyPlans"
+                   asp-route-currentPage="@( Model.CurrentPage + 1 )">
+                    Next
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
+
 <div>
     <h3>Progress Chart</h3>
     <canvas id="progressChart" width="400" height="200"></canvas>
@@ -65,8 +99,8 @@ else
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Get the data passed from the model
-        const weekNumbers = @Html.Raw(Json.Serialize(Model.Select(wp => wp.WeekNumber)));
-        const averageWeights = @Html.Raw(Json.Serialize(Model.Select(wp => wp.Weight)));
+        const weekNumbers = @Html.Raw(Json.Serialize(Model.WeeklyPlans.Select(wp => wp.WeekNumber)));
+        const averageWeights = @Html.Raw(Json.Serialize(Model.WeeklyPlans.Select(wp => wp.Weight)));
 
         // Render the chart
         const ctx = document.getElementById('progressChart').getContext('2d');

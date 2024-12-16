@@ -86,16 +86,16 @@ public class CustomerController : BaseController
     }
     
     [HttpGet]
-    public async Task<IActionResult> AllWeeklyPlans()
+    public async Task<IActionResult> AllWeeklyPlans(int currentPage)
     {
-        var model = await _weeklyPlanService.GetAllWeeklyPlansForCustomerAsync(this.GetUserId());
+        var model = await _weeklyPlanService.GetAllWeeklyPlansForCustomerAsync(this.GetUserId(), currentPage);
 
         if (model == null)
         {
             //TempData[ErrorMessage] = ActiveGoalPlanNotFound;
-            model = new List<WeeklyPlanViewModel>();
+            model = new WeeklyPlanIndexViewModel();
         }
-            
+
         return View(model);
     }
     

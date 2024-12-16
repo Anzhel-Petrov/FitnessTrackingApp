@@ -17,7 +17,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Fitness Tracking App</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+@*     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+    <link rel="stylesheet" href="~/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FitnessTrackingApp.Web.styles.css" asp-append-version="true" />
 </head>
@@ -99,12 +100,15 @@
         </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            <p>&copy; @footerNote Fitness Track App | <strong>Get in the Best Shape in Your Life With Ease!</strong></p>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<!-- Footer -->
+<footer class="footer bg-light py-1 mt-2">
+    <div class="container text-center">
+        <span class="text-muted">&copy; 2024 MyApp. All Rights Reserved.</span>
+    </div>
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

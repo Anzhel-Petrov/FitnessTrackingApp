@@ -1,57 +1,59 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Tracking App - Home</title>
-</head>
-<body>
-    <header class="hero-section">
-        <div class="hero-content">
-            <h1>Welcome to <span>Fitness Tracker</span></h1>
-            <p>Your personal journey to health and wellness starts here.</p>
-            <a asp-area="" asp-controller="User" asp-action="Register" class="btn-primary">Get started</a>
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container mt-5">
+    <!-- Hero Section -->
+    <div class="jumbotron bg-primary text-white text-center p-5 rounded">
+        <h1 class="display-4">Welcome to MyApp!</h1>
+        <p class="lead">Track your progress, achieve your goals, and connect with your trainer seamlessly.</p>
+        <hr class="my-4">
+        <p>Start your fitness journey today with personalized goal plans and progress tracking.</p>
+        <a class="btn btn-light btn-lg" asp-area="" asp-controller="User" asp-action="Register">Get Started</a>
+        <a class="btn btn-outline-light btn-lg" asp-area="" asp-controller="User" asp-action="Login">Log In</a>
+    </div>
+
+    <!-- Feature Section -->
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Track Body Weight</h5>
+                    <p class="card-text">Log your daily or weekly weight and visualize your progress with intuitive charts.</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary" asp-area="" asp-controller="Customer" asp-action="AllWeeklyPlans">Track Now</a>
+                </div>
+            </div>
         </div>
-    </header>
-
-    <main>
-        <section class="features">
-            <h2>Why Choose Fitness Tracker?</h2>
-            <div class="feature-list">
-                <div class="feature-item">
-                    <h3>Track Progress</h3>
-                    <p>Monitor your workouts, body weight, and nutrition with ease.</p>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Set Goal Plans</h5>
+                    <p class="card-text">Collaborate with trainers to set realistic fitness goals and milestones.</p>
                 </div>
-                <div class="feature-item">
-                    <h3>Personalized Goals</h3>
-                    <p>Set your goals and stay motivated with customized plans.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Connect with Trainers</h3>
-                    <p>Get expert guidance and insights from certified trainers.</p>
+                <div class="card-footer">
+                    <a class="btn btn-primary" asp-area="" asp-controller="Customer" asp-action="AvailableTrainers">Select a Trainer</a>
                 </div>
             </div>
-        </section>
-
-        <section class="cta">
-            <h2>Join the Fitness Revolution!</h2>
-            <p>Take the first step toward a healthier you. Sign up now and transform your life.</p>
-            <a asp-area="" asp-controller="User" asp-action="Register" class="btn-secondary">Join Now</a>
-        </section>
-
-        <section class="testimonials">
-            <h2>What Our Users Say</h2>
-            <div class="testimonial-list">
-                <div class="testimonial-item">
-                    <p>"Fitness Tracker helped me lose 10kg in 3 months. The tools and guidance are amazing!"</p>
-                    <span>- Alex P.</span>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Monitor Weekly Plans</h5>
+                    <p class="card-text">Follow weekly exercise and nutrition plans designed by your trainer.</p>
                 </div>
-                <div class="testimonial-item">
-                    <p>"The best app for fitness enthusiasts. The trainer dashboard is a game changer!"</p>
-                    <span>- Lisa M.</span>
+                <div class="card-footer">
+                    <a class="btn btn-primary" asp-area="" asp-controller="Customer" asp-action="AllWeeklyPlans">Explore Plans</a>
                 </div>
             </div>
-        </section>
-    </main>
-</body>
-</html>
+        </div>
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="text-center mt-5 mb-4">
+        <h2>Ready to Transform Your Fitness?</h2>
+        <p class="lead">Join now and start achieving your fitness goals with professional guidance!</p>
+        <a class="btn btn-success btn-lg" asp-area="" asp-controller="User" asp-action="Register">Sign Up Today</a>
+    </div>
+</div>

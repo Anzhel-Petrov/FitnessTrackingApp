@@ -5,6 +5,7 @@ using FitnessTrackingApp.Data.Models.Enums;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.WeeklyPlan;
 using Microsoft.EntityFrameworkCore;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
 namespace FitnessTrackingApp.Services.Data;
 
@@ -122,7 +123,7 @@ public class WeeklyPlanService : IWeeklyPlanService
             .FirstOrDefaultAsync();
     }
     
-    public async Task<IEnumerable<WeeklyPlanViewModel>?> GetAllWeeklyPlansForCustomerAsync(Guid customerId)
+    public async Task<WeeklyPlanIndexViewModel> GetAllWeeklyPlansForCustomerAsync(Guid customerId, int currentPage)
     {
         GoalPlan? activeGoalPlan = await _dbContext.GoalPlans
             .FirstOrDefaultAsync(gp => gp.UserId == customerId && gp.GoalPlanStatus == GoalPlanStatus.Active);
@@ -132,7 +133,7 @@ public class WeeklyPlanService : IWeeklyPlanService
             return null;
         }
         
-        return await _dbContext.WeeklyPlans
+        var allWeeklyPlans = await _dbContext.WeeklyPlans
             .Where(wp => wp.GoalPlanId == activeGoalPlan.Id)
             .OrderBy(wp => wp.Week)
             .Select(wp => new WeeklyPlanViewModel()
@@ -156,5 +157,21 @@ public class WeeklyPlanService : IWeeklyPlanService
                     .FirstOrDefault()
             })
             .ToListAsync();
+
+        WeeklyPlanIndexViewModel weeklyPlanIndexViewModel = new WeeklyPlanIndexViewModel();
+
+        weeklyPlanIndexViewModel.TotalPages = (int)Math.Ceiling(allWeeklyPlans.Count() / (double)weeklyPlanIndexViewModel.WeeklyPlansPerPage!);
+
+        if (currentPage > weeklyPlanIndexViewModel.TotalPages)
+        {
+            currentPage = weeklyPlanIndexViewModel.TotalPages;
+        }
+
+        weeklyPlanIndexViewModel.CurrentPage = currentPage == 0 ? weeklyPlanIndexViewModel.CurrentPage : currentPage;
+
+        weeklyPlanIndexViewModel.WeeklyPlans = allWeeklyPlans.Skip(weeklyPlanIndexViewModel.WeeklyPlansPerPage * (currentPage - 1))
+            .Take(PlansPerPage);
+
+        return weeklyPlanIndexViewModel;
     }
 }
