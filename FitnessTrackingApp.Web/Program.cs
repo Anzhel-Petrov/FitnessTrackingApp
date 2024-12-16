@@ -78,7 +78,7 @@ namespace FitnessTrackingApp.Web
             {
                 app.UseMigrationsEndPoint();
                 app.UseDeveloperExceptionPage();
-                app.AddTrainersAndAdminToRole();
+                app.AddUsersToRoles();
             }
 
             app.UseHttpsRedirection();

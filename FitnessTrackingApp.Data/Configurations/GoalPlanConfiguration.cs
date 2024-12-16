@@ -1,5 +1,6 @@
 ﻿using FitnessTrackingApp.Data.Models;
 using FitnessTrackingApp.Data.Models.Enums;
+using FitnessTrackingApp.Data.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using static FitnessTrackingApp.Common.ApplicationConstants;
@@ -8,6 +9,12 @@ namespace FitnessTrackingApp.Data.Configurations;
 
 public class GoalPlanConfiguration : IEntityTypeConfiguration<GoalPlan>
 {
+    private readonly GoalPlanSeeder _seeder;
+
+    public GoalPlanConfiguration()
+    {
+        _seeder = new GoalPlanSeeder();
+    }
     public void Configure(EntityTypeBuilder<GoalPlan> builder)
     {
         builder.HasKey(gp => gp.Id);
@@ -47,5 +54,7 @@ public class GoalPlanConfiguration : IEntityTypeConfiguration<GoalPlan>
         //     .IsUnique();
 
         builder.Property(gp => gp.GoalPlanStatus).HasDefaultValue(GoalPlanStatus.Pending);
+
+        builder.HasData(_seeder.GenerateGoalPlans());
     }
 }

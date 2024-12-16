@@ -65,7 +65,25 @@ public class TrainerServiceTests
     }
 
     [Test]
-    public async Task GetAvailableTrainersAsync_Should_Return_Correct()
+    public async Task TrainerExistsByIdAsync_Should_Return_True()
+    {
+        var trainerId = "d8da2c4e-44f5-427d-b6f5-0dccfa1e2a46";
+
+        var result = await this._trainerService.TrainerExistsByIdAsync(trainerId);
+
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public async Task TrainerExistsByIdAsync_Should_Return_False()
+    {
+        var result = await this._trainerService.TrainerExistsByIdAsync(Guid.NewGuid().ToString());
+
+        Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public async Task GetAvailableTrainersAsync_Should_Return_Only_Available_Trainers()
     {
         var result = (await this._trainerService.GetAvailableTrainersAsync(Guid.NewGuid())).ToList();
 

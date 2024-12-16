@@ -62,7 +62,29 @@ public class ApplicationUserSeeder
                 EmailConfirmed = true,
                 PasswordHash = "AQAAAAIAAYagAAAAEBlaW8OGa3wuT5fTPou0rvz6TpIbQo8fuiXX64BxjqQDguHMTGANK8dsSA2yotbUig==",
                 SecurityStamp = "KLUU7OY42MOI2B6YKLLUTT5KTZX5P4SN"
-            }
+            },
+            new ApplicationUser()
+            {
+                Id = Guid.Parse("93A51770-AD3D-4D2C-8EC9-87D500D1B713"),
+                UserName = "admin@getfit.com",
+                NormalizedUserName = "ADMIN@GETFIT.COM",
+                Email = "admin@getfit.com",
+                NormalizedEmail = "ADMIN@GETFIT.COM",
+                EmailConfirmed = true,
+                PasswordHash = "AQAAAAIAAYagAAAAEBC45dsFm0ECylQOM9W7nso0B7mQTTQnZyY1ZPiVZkLCj8f2pn7zHAutjf30zz4duA==",
+                SecurityStamp = "KWLDFGGAHH2FVG4LKU6VYF6DTO5HF6XQ"
+            },
+            new ApplicationUser()
+            {
+                Id = Guid.Parse("998CD43D-18C0-45A1-8945-AD10A045879C"),
+                UserName = "customer@getfit.com",
+                NormalizedUserName = "CUSTOMER@GETFIT.COM",
+                Email = "customer@getfit.com",
+                NormalizedEmail = "CUSTOMER@GETFIT.COM",
+                EmailConfirmed = true,
+                PasswordHash = "AQAAAAIAAYagAAAAEEGajbY5tkobSYD+nF2Gg7/r5/1jfdmmZ9EwiLi8CuuoEBPjTLnUK4NKkgukS1WMug==",
+                SecurityStamp = "XSQNL6UP4MS75TOZ6ZSUU2KWLYQ544CH"
+            },
         };
     }
 }

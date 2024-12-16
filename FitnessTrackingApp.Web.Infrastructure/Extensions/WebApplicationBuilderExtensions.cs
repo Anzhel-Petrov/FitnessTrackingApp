@@ -22,7 +22,7 @@ public static class WebApplicationBuilderExtensions
 
         Task.Run(async () =>
             {
-                var allRolesExist = true;
+                bool allRolesExist = true;
                 foreach (var roleName in RoleNames)
                 {
                     if (!await roleManager.RoleExistsAsync(roleName))
@@ -51,7 +51,7 @@ public static class WebApplicationBuilderExtensions
         return app;
     }
 
-    public static IApplicationBuilder AddTrainersAndAdminToRole(this IApplicationBuilder app)
+    public static IApplicationBuilder AddUsersToRoles(this IApplicationBuilder app)
     {
         using IServiceScope scopedServices = app.ApplicationServices.CreateScope();
 
@@ -66,7 +66,7 @@ public static class WebApplicationBuilderExtensions
                 {
                     foreach (var trainerId in TrainerIds)
                     {
-                        var userToFind = await userManager.FindByIdAsync(trainerId);
+                        ApplicationUser? userToFind = await userManager.FindByIdAsync(trainerId);
 
                         if (userToFind != null)
                         {
@@ -78,11 +78,20 @@ public static class WebApplicationBuilderExtensions
                     }
                 }
 
-                //if (await roleManager.RoleExistsAsync(AdminRoleName))
-                //{
-                //    ApplicationUser userToFind = await userManager.FindByIdAsync(adminId);
-                //    await userManager.AddToRoleAsync(userToFind, AdminRoleName);
-                //}
+                if (await roleManager.RoleExistsAsync(AdminRoleName))
+                {
+                    ApplicationUser? userToFind = await userManager.FindByIdAsync(AdminId);
+                    if (userToFind != null)
+                        await userManager.AddToRoleAsync(userToFind, AdminRoleName);
+                }
+
+                if (await roleManager.RoleExistsAsync(CustomerRoleName))
+                {
+                    ApplicationUser? userToFind = await userManager.FindByIdAsync(CustomerId);
+                    if (userToFind != null)
+                        await userManager.AddToRoleAsync(userToFind, CustomerRoleName);
+                }
+
             })
             .GetAwaiter()
             .GetResult();
