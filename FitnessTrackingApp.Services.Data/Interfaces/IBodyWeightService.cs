@@ -7,7 +7,6 @@ namespace FitnessTrackingApp.Services.Data.Interfaces;
 public interface IBodyWeightService
 {
     public Task<BodyWeightGoal?> GetBodyWeightGoalAsync(Guid userId);
-    public Task<OperationResult> AddBodyWeightGoalAsync(Guid userId, decimal goalWeight);
     public Task<IEnumerable<BodyWeightLog>> GetWeeklyBodyWeightLogsAsync(Guid userId);
     public Task<IEnumerable<BodyWeightLog>> GetMonthlyBodyWeightLogsAsync(Guid userId);
     public Task<List<BodyWeightLogViewModel>> GetAllBodyWeightLogsAsync(Guid userId);

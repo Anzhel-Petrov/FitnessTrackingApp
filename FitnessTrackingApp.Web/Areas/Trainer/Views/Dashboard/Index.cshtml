@@ -6,87 +6,81 @@
 }
 
 <div class="container mt-4">
-    <!-- Dashboard Header -->
-    <div class="text-center mb-5">
-        <h1 class="display-4 text-primary">Trainer Dashboard</h1>
-        <p class="lead">Monitor and manage all customer goal plans effectively.</p>
-    </div>
-
     <!-- Goal Plans Overview Cards -->
     <div class="row">
         <!-- Pending Goal Plans -->
-        <div class="col-md-4 mb-4">
-            <div class="card text-white bg-warning shadow h-100">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Pending Goal Plans</h5>
-                    <p class="display-4">@Model.TotalPendingGoalPlansCount</p>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-warning shadow-sm">
+                <div class="card-body text-center p-3">
+                    <h6 class="card-title mb-2">Pending Goal Plans</h6>
+                    <p class="display-6 mb-0">@Model.TotalPendingGoalPlansCount</p>
                 </div>
-                <div class="card-footer text-center">
+                <div class="card-footer text-center py-2">
                     <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" asp-route-goalPlanStatus="@GoalPlanStatus.Pending" class="btn btn-light btn-sm">View Pending</a>
                 </div>
             </div>
         </div>
 
         <!-- Active Goal Plans -->
-        <div class="col-md-4 mb-4">
-            <div class="card text-white bg-primary shadow h-100">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Active Goal Plans</h5>
-                    <p class="display-4">@Model.TotalActiveGoalPlansCount</p>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-primary shadow-sm">
+                <div class="card-body text-center p-3">
+                    <h6 class="card-title mb-2">Active Goal Plans</h6>
+                    <p class="display-6 mb-0">@Model.TotalActiveGoalPlansCount</p>
                 </div>
-                <div class="card-footer text-center">
+                <div class="card-footer text-center py-2">
                     <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" asp-route-goalPlanStatus="@GoalPlanStatus.Active" class="btn btn-light btn-sm">View Active</a>
                 </div>
             </div>
         </div>
 
         <!-- Completed Goal Plans -->
-        <div class="col-md-4 mb-4">
-            <div class="card text-white bg-success shadow h-100">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Completed Goal Plans</h5>
-                    <p class="display-4">@Model.TotalCompletedGoalPlansCount</p>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-success shadow-sm">
+                <div class="card-body text-center p-3">
+                    <h6 class="card-title">Completed Goal Plans</h6>
+                    <p class="display-6 mb-0">@Model.TotalCompletedGoalPlansCount</p>
                 </div>
-                <div class="card-footer text-center">
+                <div class="card-footer text-center py-2">
                     <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" asp-route-goalPlanStatus="@GoalPlanStatus.Completed" class="btn btn-light btn-sm">View Completed</a>
                 </div>
             </div>
         </div>
 
         <!-- Rejected Goal Plans -->
-        <div class="col-md-4 mb-4">
-            <div class="card text-white bg-danger shadow h-100">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Rejected Goal Plans</h5>
-                    <p class="display-4">@Model.TotalRejectedGoalPlansCount</p>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-danger shadow-sm">
+                <div class="card-body text-center p-3">
+                    <h6 class="card-title">Rejected Goal Plans</h6>
+                    <p class="display-6 mb-0">@Model.TotalRejectedGoalPlansCount</p>
                 </div>
-                <div class="card-footer text-center">
+                <div class="card-footer text-center py-2">
                     <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" asp-route-goalPlanStatus="@GoalPlanStatus.Rejected" class="btn btn-light btn-sm">View Rejected</a>
                 </div>
             </div>
         </div>
 
         <!-- Cancelled Goal Plans -->
-        <div class="col-md-4 mb-4">
-            <div class="card text-white bg-secondary shadow h-100">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Cancelled Goal Plans</h5>
-                    <p class="display-4">@Model.TotalCancelledGoalPlansCount</p>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-secondary shadow-sm">
+                <div class="card-body text-center p-3">
+                    <h6 class="card-title">Cancelled Goal Plans</h6>
+                    <p class="display-6 mb-0">@Model.TotalCancelledGoalPlansCount</p>
                 </div>
-                <div class="card-footer text-center">
+                <div class="card-footer text-center py-2">
                     <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" asp-route-goalPlanStatus="@GoalPlanStatus.Cancelled" class="btn btn-light btn-sm">View Cancelled</a>
                 </div>
             </div>
         </div>
 
         <!-- All Goal Plans -->
-        <div class="col-md-4 mb-4">
+        <div class="col-md-4 mb-3">
             <div class="card text-white bg-info shadow h-100">
-                <div class="card-body text-center">
-                    <h5 class="card-title">All Goal Plans</h5>
-                    <p class="display-4">@Model.TotalGoalPlansCount</p>
+                <div class="card-body text-center p-3">
+                    <h6 class="card-title">All Goal Plans</h6>
+                    <p class="display-6 mb-0">@Model.TotalGoalPlansCount</p>
                 </div>
-                <div class="card-footer text-center">
+                <div class="card-footer text-center py-2">
                     <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" asp-route-goalPlanStatus="@null" class="btn btn-light btn-sm">View All</a>
                 </div>
             </div>

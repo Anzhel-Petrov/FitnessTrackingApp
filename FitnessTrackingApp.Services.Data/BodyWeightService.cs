@@ -23,43 +23,13 @@ public class BodyWeightService : IBodyWeightService
         return bodyWeightGoal;
     }
 
-    public async Task<OperationResult> AddBodyWeightGoalAsync(Guid userId, decimal goalWeight)
-    {
-        var existingWeightGoal = await _dbContext.BodyWeightGoals
-            .FirstOrDefaultAsync(g => g.IsActive && g.UserId == userId);
-
-        if (existingWeightGoal != null && existingWeightGoal.IsActive)
-        {
-            existingWeightGoal.IsActive = false;  // Deactivate the current goal
-            _dbContext.BodyWeightGoals.Update(existingWeightGoal);
-        }
-
-        BodyWeightGoal newBodyWeightGoal = new BodyWeightGoal()
-        {
-            UserId = userId,
-            GoalWeight = goalWeight,
-            IsActive = true,
-            DateAdded = DateTime.Today
-        };
-
-        _dbContext.BodyWeightGoals.Add(newBodyWeightGoal);
-        var result = await _dbContext.SaveChangesAsync();
-
-        if (result == 0)
-        {
-            return new OperationResult(false,"Error adding new body weight goal!");
-        }
-        
-        return new OperationResult(true);
-    }
-
     public async Task<IEnumerable<BodyWeightLog>> GetWeeklyBodyWeightLogsAsync(Guid userId)
     {
         var startOfWeek = DateTime.Today.AddDays(-7);
         return await _dbContext.BodyWeightLogs
             .Include(wp => wp.WeeklyPlan)
             .ThenInclude(gp => gp.GoalPlan)
-            .Where(log => log.WeeklyPlan.GoalPlan.UserId == userId && log.DateLogged >= startOfWeek)
+            .Where(log => log.WeeklyPlan.GoalPlan.UserId == userId && log.DateLogged >= startOfWeek && log.DateLogged <= DateTime.Today)
             .OrderBy(log => log.DateLogged)
             .AsNoTracking()
             .ToListAsync();
@@ -71,7 +41,7 @@ public class BodyWeightService : IBodyWeightService
         return await _dbContext.BodyWeightLogs
             .Include(wp => wp.WeeklyPlan)
             .ThenInclude(gp => gp.GoalPlan)
-            .Where(log => log.WeeklyPlan.GoalPlan.UserId == userId && log.DateLogged >= startOfMonth)
+            .Where(log => log.WeeklyPlan.GoalPlan.UserId == userId && log.DateLogged >= startOfMonth && log.DateLogged <= DateTime.Today)
             .OrderBy(log => log.DateLogged)
             .AsNoTracking()
             .ToListAsync();

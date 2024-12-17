@@ -166,27 +166,27 @@ public class CustomerController : BaseController
     [HttpGet]
     public async Task<IActionResult> OverallProgress()
     {
-        //var currentUserId = this.GetUserId();
-            
-        //var bodyWeightGoal = await _goalPlanService.GetGoalWeight(currentUserId);
+        var currentUserId = this.GetUserId();
 
-        //var weeklyBodyWeightProgress = await _bodyWeightService.GetWeeklyBodyWeightLogsAsync(currentUserId);
+        var bodyWeightGoal = await _bodyWeightService.GetBodyWeightGoalAsync(currentUserId);
 
-        //var monthlyBodyWeightProgress = await _bodyWeightService.GetMonthlyBodyWeightLogsAsync(currentUserId);
+        var weeklyBodyWeightProgress = await _bodyWeightService.GetWeeklyBodyWeightLogsAsync(currentUserId);
 
-        //var lastLoggedBodyWeight = weeklyBodyWeightProgress.Select(l => l.CurrentWeight).LastOrDefault();
+        var monthlyBodyWeightProgress = await _bodyWeightService.GetMonthlyBodyWeightLogsAsync(currentUserId);
 
-        //var lastBodyWeightLoggedDate = weeklyBodyWeightProgress.Select(l => l.DateLogged).LastOrDefault();
+        var lastLoggedBodyWeight = weeklyBodyWeightProgress.Select(l => l.CurrentWeight).LastOrDefault();
 
-        //OverallProgressViewModel bodyWeightDetailsViewModel = new OverallProgressViewModel()
-        //{
-        //    BodyWeightGoal = bodyWeightGoal,
-        //    MonthlyRecords = monthlyBodyWeightProgress,
-        //    WeeklyRecords = weeklyBodyWeightProgress,
-        //    MostRecentWeight = lastLoggedBodyWeight,
-        //    MostRecentWeightDate = lastBodyWeightLoggedDate,
-        //};
+        var lastBodyWeightLoggedDate = weeklyBodyWeightProgress.Select(l => l.DateLogged).LastOrDefault();
 
-        return View(new OverallProgressViewModel());
+        BodyWeightDetailsViewModel bodyWeightDetailsViewModel = new BodyWeightDetailsViewModel()
+        {
+            BodyWeightGoal = bodyWeightGoal,
+            MonthlyRecords = monthlyBodyWeightProgress,
+            WeeklyRecords = weeklyBodyWeightProgress,
+            MostRecentWeight = lastLoggedBodyWeight,
+            MostRecentWeightDate = lastBodyWeightLoggedDate,
+        };
+
+        return View(bodyWeightDetailsViewModel);
     }
 }

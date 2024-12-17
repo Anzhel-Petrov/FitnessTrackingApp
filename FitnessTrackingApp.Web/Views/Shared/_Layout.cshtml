@@ -39,7 +39,7 @@
                         @if (isCustomer)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="BodyWeight" asp-action="Index">Body Weight Tracking</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="OverallProgress">Overall Progress</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="AvailableTrainers">Available Trainers</a>
@@ -83,18 +83,13 @@
                                     <i class="fas fa-calendar-week"></i> Weekly Plans
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Customers", "WeeklyPan", new { area = "Trainer" })">
-                                    <i class="fas fa-users"></i> Customers
-                                </a>
-                            </li>
                         </ul>
                     </nav>
                 </aside>
             }
 
             <!-- Main Content -->
-            <main role="main" class="@(isTrainer ? "col-md-9 col-lg-10" : "col-md-8 offset-md-2 col-lg-6 offset-lg-3") pb-3">
+            <main role="main" class="@(isTrainer ? "col-md-9 col-lg-10" : "col-md-9 offset-md-2 col-lg-8 offset-lg-2") pb-3">
                 @RenderBody()
             </main>
         </div>

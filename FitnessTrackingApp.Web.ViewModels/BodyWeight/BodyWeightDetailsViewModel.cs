@@ -6,7 +6,6 @@ public class BodyWeightDetailsViewModel
 {
     public BodyWeightGoal? BodyWeightGoal { get; set; }
     public BodyWeightGoalCreateViewModel GoalWeightViewModel { get; set; } = null!;
-    
     public decimal MostRecentWeight { get; set; }
     public DateTime MostRecentWeightDate { get; set; }
     public decimal TargetWeight { get; set; }
@@ -16,4 +15,5 @@ public class BodyWeightDetailsViewModel
     public decimal AllTimeProgress { get; set; }
     public IEnumerable<BodyWeightLog>? WeeklyRecords { get; set; }
     public IEnumerable<BodyWeightLog>? MonthlyRecords { get; set; }
+    public IEnumerable<BodyWeightLogViewModel>? AllLogs { get; set; } = new HashSet<BodyWeightLogViewModel>();
 }
