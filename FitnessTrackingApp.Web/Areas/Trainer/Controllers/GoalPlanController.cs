@@ -99,6 +99,7 @@ public class GoalPlanController : BaseController
         var viewModel = new RejectGoalPlanViewModel
         {
             GoalPlanId = goalPlan.Id,
+            GoalPlanStatus = goalPlan.GoalPlanStatus.ToString()
         };
 
         return View(viewModel);

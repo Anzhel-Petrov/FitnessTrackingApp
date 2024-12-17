@@ -1,4 +1,5 @@
-﻿@model RejectGoalPlanViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Formatters
+@model RejectGoalPlanViewModel
 
 @{
     ViewData["Title"] = "Reject Goal Plan";
@@ -22,7 +23,14 @@
     </div>
 
     <button type="submit" class="btn btn-danger">Reject</button>
-    <a asp-action="Review" asp-route-goalPlanId="@Model.GoalPlanId" class="btn btn-secondary">Cancel</a>
+    @if (Model.GoalPlanStatus == "Active")
+    {
+        <a asp-action="Active" asp-route-goalPlanId="@Model.GoalPlanId" class="btn btn-secondary">Cancel</a>
+    }
+    else
+    {
+        <a asp-action="Review" asp-route-goalPlanId="@Model.GoalPlanId" class="btn btn-secondary">Cancel</a>
+    }
 </form>
 
 @section Scripts {

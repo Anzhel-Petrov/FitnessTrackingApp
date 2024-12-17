@@ -1,6 +1,7 @@
 ﻿using FitnessTrackingApp.Common;
 using FitnessTrackingApp.Data;
 using FitnessTrackingApp.Data.Models;
+using FitnessTrackingApp.Data.Models.Enums;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.BodyWeight;
 using Microsoft.EntityFrameworkCore;
@@ -107,7 +108,7 @@ public class BodyWeightService : IBodyWeightService
         var existingDateLog = await _dbContext.BodyWeightLogs
             .Include(wp => wp.WeeklyPlan)
             .ThenInclude(gp => gp.GoalPlan)
-            .FirstOrDefaultAsync(l => l.WeeklyPlan.GoalPlan.UserId == userId && l.DateLogged == logViewModel.LogDate);
+            .FirstOrDefaultAsync(l => l.WeeklyPlan.GoalPlan.UserId == userId && l.DateLogged == logViewModel.LogDate && l.WeeklyPlanId == weeklyPlanId);
         
         if (existingDateLog != null)
         {

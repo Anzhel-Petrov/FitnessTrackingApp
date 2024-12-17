@@ -2,15 +2,11 @@
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.BodyWeight;
 using FitnessTrackingApp.Web.ViewModels.Customer;
-using FitnessTrackingApp.Web.ViewModels.GoalPlan;
 using FitnessTrackingApp.Web.ViewModels.WeeklyPlan;
 using Microsoft.AspNetCore.Mvc;
 using static FitnessTrackingApp.Common.NotificationMessageConstants;
-using static FitnessTrackingApp.Common.ErrorMessageConstants;
 using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 using Microsoft.AspNetCore.Authorization;
-using System.Linq;
-using FitnessTrackingApp.Data.Models;
 
 
 namespace FitnessTrackingApp.Web.Controllers;
@@ -149,6 +145,8 @@ public class CustomerController : BaseController
         }
 
         model.Logs = await _bodyWeightService.GetWeeklyPlanLogsAsync(this.GetUserId(), model.WeeklyPlanId);
+        model.WeeklyPlanStartDate = weeklyPlan.StartDate;
+        model.WeeklyPlanEndDate = weeklyPlan.EndDate;
         return View(nameof(WeeklyPlanDetails), model);
     }
 
