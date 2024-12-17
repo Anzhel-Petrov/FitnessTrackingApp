@@ -1,6 +1,6 @@
 # **Fitness Tracker and Trainer Application**
 
-Welcome to the **Fitness Tracker** application! This project is a small fitness management web application built using **ASP.NET Core MVC** and **Entity Framework Core**. It enables trainers and customers to manage fitness goals, weekly plans, and track progress effectively. It is ispired by another .NET fitness tracker project by [MattGardiner97](https://github.com/MattGardiner97/FitnessTracker) and the personal trainer [Matt Kido aka. Gokuflex](https://www.youtube.com/playlist?list=PLfdZhJK-QUpXjs-NKgExihgbaZv9LEY4j) with his online ooaching olient transformations. 
+Welcome to the **Fitness Tracker** application! This project is a small fitness management web application built using **ASP.NET Core MVC** and **Entity Framework Core**. It enables trainers and customers to manage fitness goals, weekly plans, and track progress effectively. It is ispired by another .NET fitness tracker project by [MattGardiner97](https://github.com/MattGardiner97/FitnessTracker) and the personal trainer [Matt Kido aka. Gokuflex](https://www.youtube.com/playlist?list=PLfdZhJK-QUpXjs-NKgExihgbaZv9LEY4j) with his online coaching client transformations. 
 
 ---
 
