@@ -70,3 +70,4 @@ dotnet ef database update
 
 ##### Password for all acounts:
 ##### 123
+# :construction: THIS PROJECT IS STILL UNDER CONSTRUCTION :construction:
