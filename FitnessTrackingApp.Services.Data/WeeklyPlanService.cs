@@ -6,6 +6,7 @@ using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.ViewModels.WeeklyPlan;
 using Microsoft.EntityFrameworkCore;
 using static FitnessTrackingApp.Common.GeneralApplicationConstants;
+using static FitnessTrackingApp.Common.ErrorMessageConstants;
 
 namespace FitnessTrackingApp.Services.Data;
 
@@ -34,12 +35,12 @@ public class WeeklyPlanService : IWeeklyPlanService
 
         if (goalPlan == null)
         {
-            return new OperationResult(false, "Invalid or inactive goal plan.");
+            return new OperationResult(false, WeeklyPlanNotFound);
         }
 
         if (goalPlan.WeeklyPlans.Any(wp => wp.Week == model.Week))
         {
-            return new OperationResult(false, "A week number for this weekly plan already exists.");
+            return new OperationResult(false, WeeklyPlanWeekExists);
         }
         
         var weeklyPlan = new WeeklyPlan
@@ -168,6 +169,8 @@ public class WeeklyPlanService : IWeeklyPlanService
         }
 
         weeklyPlanIndexViewModel.CurrentPage = currentPage == 0 ? weeklyPlanIndexViewModel.CurrentPage : currentPage;
+
+        weeklyPlanIndexViewModel.WeeklyPlansAll = allWeeklyPlans;
 
         weeklyPlanIndexViewModel.WeeklyPlans = allWeeklyPlans.Skip(weeklyPlanIndexViewModel.WeeklyPlansPerPage * (currentPage - 1))
             .Take(PlansPerPage);

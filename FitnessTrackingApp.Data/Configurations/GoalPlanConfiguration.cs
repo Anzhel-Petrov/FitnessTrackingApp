@@ -3,7 +3,7 @@ using FitnessTrackingApp.Data.Models.Enums;
 using FitnessTrackingApp.Data.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static FitnessTrackingApp.Common.ApplicationConstants;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
 namespace FitnessTrackingApp.Data.Configurations;
 

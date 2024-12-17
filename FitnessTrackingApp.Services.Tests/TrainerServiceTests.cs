@@ -3,6 +3,7 @@ using FitnessTrackingApp.Data;
 using FitnessTrackingApp.Services.Data;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using static FitnessTrackingApp.Services.Tests.DatabaseSeeder;
 
 namespace FitnessTrackingApp.Services.Tests;
 
@@ -24,7 +25,9 @@ public class TrainerServiceTests
 
         this._dbContext = new FitnessTrackingAppDbContext(this._dbOptions);
 
-        await this._dbContext.Database.EnsureCreatedAsync();
+        SeedDatabase(_dbContext);
+        await _dbContext.SaveChangesAsync();
+        //await this._dbContext.Database.EnsureCreatedAsync();
 
         this._trainerService = new TrainerService(this._dbContext);
     }
@@ -39,9 +42,9 @@ public class TrainerServiceTests
     [Test]
     public async Task GetTrainerPrimaryKeyAsync_Should_Return_TrainerPrimaryKey()
     {
-        var result = await this._trainerService.GetTrainerPrimaryKeyAsync(Guid.Parse("417ae2a4-ffbb-4e27-855e-d353004e0e91"));
+        var result = await this._trainerService.GetTrainerPrimaryKeyAsync(trainer1.UserId);
 
-        var expected = Guid.Parse("d8da2c4e-44f5-427d-b6f5-0dccfa1e2a46");
+        var expected = trainer1.Id;
 
         Assert.That(result, Is.EqualTo(expected));
     }
@@ -49,9 +52,9 @@ public class TrainerServiceTests
     [Test]
     public async Task TrainerExistsByUserIdAsync_Should_Return_True()
     {
-        var trainerUserId = "417ae2a4-ffbb-4e27-855e-d353004e0e91";
+        var trainerUserId = trainer3.UserId;
         
-        var result = await this._trainerService.TrainerExistsByUserIdAsync(trainerUserId);
+        var result = await this._trainerService.TrainerExistsByUserIdAsync(trainerUserId.ToString());
 
         Assert.That(result, Is.True);
     }
@@ -67,9 +70,9 @@ public class TrainerServiceTests
     [Test]
     public async Task TrainerExistsByIdAsync_Should_Return_True()
     {
-        var trainerId = "d8da2c4e-44f5-427d-b6f5-0dccfa1e2a46";
+        var trainerId = trainer5.Id;
 
-        var result = await this._trainerService.TrainerExistsByIdAsync(trainerId);
+        var result = await this._trainerService.TrainerExistsByIdAsync(trainerId.ToString());
 
         Assert.That(result, Is.True);
     }
@@ -85,11 +88,15 @@ public class TrainerServiceTests
     [Test]
     public async Task GetAvailableTrainersAsync_Should_Return_Only_Available_Trainers()
     {
+        var allTrainersCount = await _dbContext.Trainers.CountAsync();
+
         var result = (await this._trainerService.GetAvailableTrainersAsync(Guid.NewGuid())).ToList();
 
         var hasGoalPlan = result.All(t => t.HasGoalPlan == false);
+
         Assert.Multiple(() =>
         {
+            Assert.That(allTrainersCount, Is.EqualTo(5));
             Assert.That(result, Has.Count.EqualTo(4));
             Assert.That(!hasGoalPlan, Is.False);
         });

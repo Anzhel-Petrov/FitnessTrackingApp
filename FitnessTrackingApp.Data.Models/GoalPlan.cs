@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using FitnessTrackingApp.Common;
 using FitnessTrackingApp.Data.Models.Enums;
 using Microsoft.EntityFrameworkCore;
-using static FitnessTrackingApp.Common.ApplicationConstants;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
 namespace FitnessTrackingApp.Data.Models;
 
@@ -23,7 +23,7 @@ public class GoalPlan
     [ForeignKey(nameof(TrainerId))]
     public Trainer Trainer { get; set; } = null!;
 
-    public GoalType? GoalType { get; set; }
+    public GoalType GoalType { get; set; }
 
     [Range(BodyWeightMinRange, BodyWeightMaxRange)]
     [Precision(5, 2)]

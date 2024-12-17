@@ -27,7 +27,12 @@ namespace FitnessTrackingApp.Web.Controllers
         {
             return User.IsInRole(TrainerRoleName);
         }
-        
+
+        protected bool IsCustomer()
+        {
+            return User.IsInRole(CustomerRoleName);
+        }
+
         protected async Task<Guid> GetTrainerId()
         {
             Guid userId = this.GetUserId();

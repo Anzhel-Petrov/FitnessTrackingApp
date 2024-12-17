@@ -1,7 +1,7 @@
 ﻿using FitnessTrackingApp.Common;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using static FitnessTrackingApp.Common.ApplicationConstants;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
 namespace FitnessTrackingApp.Web.ViewModels.BodyWeight;
 

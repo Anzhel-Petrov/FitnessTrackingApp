@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static FitnessTrackingApp.Common.ApplicationConstants;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 using static FitnessTrackingApp.Common.EntityValidationMessages;
 
 namespace FitnessTrackingApp.Web.ViewModels.GoalPlan;

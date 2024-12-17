@@ -115,7 +115,7 @@ public class GoalPlanService : IGoalPlanService
             .Select(gp => new TrainerGoalPlanViewModel
             {
                 GoalPlanId = gp.Id,
-                GoalType = gp.CustomerDetails.GoalType,
+                GoalType = gp.GoalType,
                 CreatedOn = gp.CustomerDetails.DateCreated.ToString("dddd, dd MMMM yyyy"),
                 Status = gp.GoalPlanStatus.ToString(),
                 GoalWeight = gp.GoalWeigh,
@@ -135,7 +135,7 @@ public class GoalPlanService : IGoalPlanService
             {
                 GoalPlanId = gp.Id,
                 TrainerName = gp.Trainer.User.UserName ?? string.Empty,
-                GoalType = gp.CustomerDetails.GoalType,
+                GoalType = gp.GoalType,
                 CreatedOn = gp.CustomerDetails.DateCreated.ToString("dddd, dd MMMM yyyy"),
                 Status = gp.GoalPlanStatus.ToString(),
             })
@@ -151,7 +151,7 @@ public class GoalPlanService : IGoalPlanService
             {
                 GoalPlanId = gp.Id,
                 CustomerName = gp.ApplicationUser.UserName ?? string.Empty,
-                GoalType = gp.CustomerDetails.GoalType,
+                GoalType = gp.GoalType,
                 CurrentWeight = gp.CustomerDetails.StartingWeight,
                 CustomerDetails = gp.CustomerDetails.AdditionalNotes ?? string.Empty,
                 SubmittedOn = DateTime.UtcNow
@@ -166,6 +166,11 @@ public class GoalPlanService : IGoalPlanService
         if (goalPlan == null)
         {
             return new OperationResult(false, GoalPlanNotFound);
+        }
+
+        if (goalPlan.GoalPlanStatus != GoalPlanStatus.Pending)
+        {
+            return new OperationResult(false, GoalPlanApprovalIncorrectStatus);
         }
 
         goalPlan.GoalPlanStatus =  GoalPlanStatus.Active;
@@ -188,6 +193,11 @@ public class GoalPlanService : IGoalPlanService
         if (goalPlan == null)
         {
             return new OperationResult(false,GoalPlanNotFound);
+        }
+
+        if (goalPlan.GoalPlanStatus is GoalPlanStatus.Cancelled or GoalPlanStatus.Rejected or GoalPlanStatus.Completed)
+        {
+            return new OperationResult(false, GoalPlanRejectionIncorrectStatus);
         }
         
         goalPlan.GoalPlanStatus = GoalPlanStatus.Rejected;

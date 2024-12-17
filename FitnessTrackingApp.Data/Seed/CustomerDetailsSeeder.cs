@@ -1,4 +1,5 @@
 ﻿using FitnessTrackingApp.Data.Models;
+using FitnessTrackingApp.Data.Models.Enums;
 
 namespace FitnessTrackingApp.Data.Seed;
 
@@ -12,6 +13,7 @@ public class CustomerDetailsSeeder
             {
                 Id = 1,
                 GoalPlanId = 1,
+                GoalType = GoalType.WightLoss,
                 AdditionalNotes = "I am back for more - more motivated than ever to get leaner and stronger.",
                 StartingWeight = 93m,
                 TargetWeight = 78m,
@@ -21,6 +23,7 @@ public class CustomerDetailsSeeder
             {
                 Id = 2,
                 GoalPlanId = 2,
+                GoalType = GoalType.WightLoss,
                 AdditionalNotes = "The last session was great, but I think I am able to cut down more and get in better shape.",
                 StartingWeight = 102m,
                 TargetWeight = 90m,
@@ -30,6 +33,7 @@ public class CustomerDetailsSeeder
             {
                 Id = 3,
                 GoalPlanId = 3,
+                GoalType = GoalType.WightLoss,
                 AdditionalNotes = "Having hypothyroidism I started to realize I was gaining weight easier than before and not the good kind of weight wither. " +
                                   "With the help of Matt the focus was to stay active, hit my macros on a daily basis and the change will come. " +
                                   "I wasn't perfect but I was able to go down in weight and was able to fit on my old clothes that haven't been able to wear in 2 years. " +
@@ -43,6 +47,7 @@ public class CustomerDetailsSeeder
             {
                 Id = 4,
                 GoalPlanId = 4,
+                GoalType = GoalType.WightLoss,
                 AdditionalNotes = "I need to loose some weight. I have a condition called hypothyroidism and over the past years I gained a lot of weight. " +
                                   "I am ready to do whatever it takes to loose that weight fast!",
                 StartingWeight = 123m,
@@ -53,6 +58,7 @@ public class CustomerDetailsSeeder
             {
                 Id = 5,
                 GoalPlanId = 5,
+                GoalType = GoalType.WightLoss,
                 AdditionalNotes = "",
                 StartingWeight = 123m,
                 TargetWeight = 110m,
@@ -62,6 +68,7 @@ public class CustomerDetailsSeeder
             {
                 Id = 6,
                 GoalPlanId = 6,
+                GoalType = GoalType.WightLoss,
                 AdditionalNotes = "",
                 StartingWeight = 132m,
                 TargetWeight = 124m,

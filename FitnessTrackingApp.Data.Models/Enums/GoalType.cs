@@ -1,6 +1,5 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using static FitnessTrackingApp.Common.ApplicationConstants;
+﻿using System.ComponentModel.DataAnnotations;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
 namespace FitnessTrackingApp.Data.Models.Enums;
 

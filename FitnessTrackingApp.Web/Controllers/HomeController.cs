@@ -22,6 +22,11 @@ namespace FitnessTrackingApp.Web.Controllers
                 return this.RedirectToAction("Index", "Dashboard", new { Area = "Trainer" });
             }
 
+            if (this.IsCustomer())
+            {
+                return this.RedirectToAction("AllWeeklyPlans", "Customer");
+            }
+
             return View();
         }
 

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using FitnessTrackingApp.Data.Models.Enums;
-using static FitnessTrackingApp.Common.ApplicationConstants;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
 namespace FitnessTrackingApp.Data.Models;
 

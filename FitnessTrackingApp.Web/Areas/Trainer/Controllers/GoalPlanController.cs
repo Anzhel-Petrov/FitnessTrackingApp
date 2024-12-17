@@ -132,7 +132,7 @@ public class GoalPlanController : BaseController
 
         var result = await _goalPlanService.RejectGoalPlanAsync(model.GoalPlanId, model.RejectionReason);
 
-        return RedirectToAction(nameof(Index)); // Redirect to the appropriate Trainer dashboard or list
+        return RedirectToAction(nameof(Pending)); // Redirect to the appropriate Trainer dashboard or list
     }
     
     // /Trainer/GoalPlan/Assign/{goalPlanId}

@@ -96,6 +96,8 @@ public class CustomerController : BaseController
             model = new WeeklyPlanIndexViewModel();
         }
 
+        model.GoalWeight = await this._goalPlanService.GetGoalWeight(this.GetUserId());
+
         return View(model);
     }
     

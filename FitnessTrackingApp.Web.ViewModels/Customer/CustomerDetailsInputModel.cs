@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FitnessTrackingApp.Common;
 using FitnessTrackingApp.Data.Models.Enums;
 using static FitnessTrackingApp.Common.EntityValidationMessages;
-using static FitnessTrackingApp.Common.ApplicationConstants;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
 namespace FitnessTrackingApp.Web.ViewModels.Customer;
 

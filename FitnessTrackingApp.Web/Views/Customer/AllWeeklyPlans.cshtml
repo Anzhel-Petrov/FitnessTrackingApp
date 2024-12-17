@@ -98,28 +98,27 @@ else
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Get the data passed from the model
-        const weekNumbers = @Html.Raw(Json.Serialize(Model.WeeklyPlans.Select(wp => wp.WeekNumber)));
-        const averageWeights = @Html.Raw(Json.Serialize(Model.WeeklyPlans.Select(wp => wp.Weight)));
+        
+        const weekNumbers = @Html.Raw(Json.Serialize(Model.WeeklyPlansAll.Select(wp => wp.WeekNumber)));
+        const averageWeights = @Html.Raw(Json.Serialize(Model.WeeklyPlansAll.Select(wp => wp.Weight)));
 
-        // Render the chart
         const ctx = document.getElementById('progressChart').getContext('2d');
         new Chart(ctx, 
             {
-            type: 'line', // Line chart
+            type: 'line',
             data: 
             {
-                labels: weekNumbers, // X-axis labels
+                labels: weekNumbers,
                 datasets: [{
-                    label: 'Average Weight (lbs)',
-                    data: averageWeights, // Y-axis data
-                    borderColor: 'rgba(75, 192, 192, 1)', // Line color
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color
+                    label: 'Average Weight (kg)',
+                    data: averageWeights,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderWidth: 2,
                     pointRadius: 5,
                     pointBackgroundColor: 'white',
                     pointBorderColor: 'rgba(75, 192, 192, 1)',
-                    tension: 0.4 // Smooth the line
+                    tension: 0.4
                 }]
             },
             options: 
@@ -134,8 +133,9 @@ else
                         title: { display: true, text: 'Week Number' }
                     },
                     y: {
-                        title: { display: true, text: 'Weight (lbs)' },
-                        beginAtZero: false // Adjust as necessary
+                        title: { display: true, text: 'Weight (kg)' },
+                        beginAtZero: false,
+                        suggestedMin: @Model.GoalWeight
                     }
                 }
             }
