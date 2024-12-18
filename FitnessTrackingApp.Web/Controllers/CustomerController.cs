@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using static FitnessTrackingApp.Common.NotificationMessageConstants;
 using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.CodeAnalysis;
 
 
 namespace FitnessTrackingApp.Web.Controllers;
@@ -92,7 +93,7 @@ public class CustomerController : BaseController
             model = new WeeklyPlanIndexViewModel();
         }
 
-        model.GoalWeight = await this._goalPlanService.GetGoalWeight(this.GetUserId());
+        model.GoalWeight = await this._goalPlanService.GetGoalWeightASync(this.GetUserId());
 
         return View(model);
     }
@@ -168,23 +169,36 @@ public class CustomerController : BaseController
     {
         var currentUserId = this.GetUserId();
 
-        var bodyWeightGoal = await _bodyWeightService.GetBodyWeightGoalAsync(currentUserId);
+        var bodyWeightGoal = await _goalPlanService.GetGoalWeightASync(currentUserId);
 
-        var weeklyBodyWeightProgress = await _bodyWeightService.GetWeeklyBodyWeightLogsAsync(currentUserId);
+        var weeklyBodyWeightProgress = (await _bodyWeightService.GetWeeklyBodyWeightLogsAsync(currentUserId)).ToList();
 
-        var monthlyBodyWeightProgress = await _bodyWeightService.GetMonthlyBodyWeightLogsAsync(currentUserId);
+        var monthlyBodyWeightProgress = (await _bodyWeightService.GetMonthlyBodyWeightLogsAsync(currentUserId)).ToList();
+
+        bool hasStatistics = bodyWeightGoal != 0 || weeklyBodyWeightProgress.Any() || monthlyBodyWeightProgress.Any();
+
+        if (!hasStatistics)
+        {
+            // Return a view with no statistics
+            return View(new BodyWeightDetailsViewModel { HasStatistics = false });
+        }
 
         var lastLoggedBodyWeight = weeklyBodyWeightProgress.Select(l => l.CurrentWeight).LastOrDefault();
 
         var lastBodyWeightLoggedDate = weeklyBodyWeightProgress.Select(l => l.DateLogged).LastOrDefault();
 
+        var weeklyProgress = weeklyBodyWeightProgress.Select(wp => wp.CurrentWeight).FirstOrDefault() -
+                             weeklyBodyWeightProgress.Select(wp => wp.CurrentWeight).LastOrDefault();
+
         BodyWeightDetailsViewModel bodyWeightDetailsViewModel = new BodyWeightDetailsViewModel()
         {
+            HasStatistics = true,
             BodyWeightGoal = bodyWeightGoal,
             MonthlyRecords = monthlyBodyWeightProgress,
             WeeklyRecords = weeklyBodyWeightProgress,
             MostRecentWeight = lastLoggedBodyWeight,
             MostRecentWeightDate = lastBodyWeightLoggedDate,
+            WeeklyProgress = weeklyProgress
         };
 
         return View(bodyWeightDetailsViewModel);

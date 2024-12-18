@@ -21,6 +21,14 @@ public class GoalPlanService : IGoalPlanService
         _dbContext = dbContext;
     }
 
+    public async Task<OperationResult> CustomerHasActiveGoalPlan(Guid customerId)
+    {
+        var result = await this._dbContext.GoalPlans
+            .AnyAsync(gp => gp.UserId == customerId && gp.GoalPlanStatus == GoalPlanStatus.Active);
+
+        return result ? new OperationResult(true) : new OperationResult(false);
+    }
+
     public async Task<GoalPlan?> FindGoalPlanByIdAsync(long goalPlanId)
     {
         return await _dbContext.GoalPlans.FindAsync(goalPlanId);
@@ -231,7 +239,7 @@ public class GoalPlanService : IGoalPlanService
         return model;
     }
 
-    public async Task<decimal> GetGoalWeight(Guid userId)
+    public async Task<decimal> GetGoalWeightASync(Guid userId)
     {
         var goalPlans = await _dbContext.GoalPlans
             .Where(gp => gp.UserId == userId && 

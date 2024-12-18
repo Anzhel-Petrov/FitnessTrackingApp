@@ -4,7 +4,8 @@ namespace FitnessTrackingApp.Web.ViewModels.BodyWeight;
 
 public class BodyWeightDetailsViewModel
 {
-    public BodyWeightGoal? BodyWeightGoal { get; set; }
+    public bool HasStatistics { get; set; }
+    public decimal BodyWeightGoal { get; set; }
     public BodyWeightGoalCreateViewModel GoalWeightViewModel { get; set; } = null!;
     public decimal MostRecentWeight { get; set; }
     public DateTime MostRecentWeightDate { get; set; }

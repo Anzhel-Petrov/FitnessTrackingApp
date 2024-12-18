@@ -2,118 +2,126 @@
 
 <h2>Body Weigh Index</h2>
 
-<div class="row my-3">
-    <div class="col">
-        <div class="card mheight-100">
-            <div class="card-header py-3">
-                <h6 class="card-subtitle">Most Recent Body Weight</h6>
+@if (!Model.HasStatistics)
+{
+    <div class="alert alert-warning">
+        No statistics available yet. Start by creating a goal plan or logging your body weight.
+    </div>
+}
+else
+{
+    <div class="row my-3">
+        <div class="col">
+            <div class="card mheight-100">
+                <div class="card-header py-3">
+                    <h6 class="card-subtitle">Most Recent Body Weight</h6>
+                </div>
+                <div class="card-body d-flex align-items-center">
+                    <div class="w-100">
+                        <h4 class="card-title text-center">
+                            @Model.MostRecentWeight
+                        </h4>
+                        <div class="card-text text-center">
+                            @Model.MostRecentWeightDate.ToShortDateString()
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body d-flex align-items-center">
-                <div class="w-100">
-                    <h4 class="card-title text-center">
-                        120kg
-                    </h4>
-                    <div class="card-text text-center">
-                        18-Dec-2024
+
+        </div>
+
+        <div class="col">
+            <div class="card mb-2">
+                <div class="card-header py-3">
+                    <h6 class="card-subtitle">This Week's Progress</h6>
+                </div>
+                <div class="card-body d-flex align-items-center">
+                    <div class="w-100">
+                        <h4 class="card-title text-center">
+                            10
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header py-3">
+                    <h6 class="card-subtitle">Daily Average (This Week)</h6>
+                </div>
+                <div class="card-body d-flex align-items-center">
+                    <div class="w-100">
+                        <h4 class="card-title text-center">
+                            3
+                        </h4>
                     </div>
                 </div>
             </div>
         </div>
 
-    </div>
+        <div class="col">
+            <div class="card mb-2">
+                <div class="card-header py-3">
+                    <h6 class="card-subtitle">Current Month's Progress</h6>
+                </div>
+                <div class="card-body d-flex align-items-center">
+                    <div class="w-100">
+                        <h4 class="card-title text-center">
+                            15
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header py-3">
+                    <h6 class="card-subtitle">Daily Average (This Month)</h6>
+                </div>
+                <div class="card-body d-flex align-items-center">
+                    <div class="w-100">
+                        <h4 class="card-title text-center">
+                            7
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="col">
-        <div class="card mb-2">
-            <div class="card-header py-3">
-                <h6 class="card-subtitle">This Week's Progress</h6>
-            </div>
-            <div class="card-body d-flex align-items-center">
-                <div class="w-100">
-                    <h4 class="card-title text-center">
-                        10
-                    </h4>
+        <div class="col">
+            <div class="card mb-2">
+                <div class="card-header py-3">
+                    <h6 class="card-subtitle">All Time Progress</h6>
+                </div>
+                <div class="card-body d-flex align-items-center">
+                    <div class="w-100">
+                        <h4 class="card-title text-center">
+                            23
+                        </h4>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-header py-3">
-                <h6 class="card-subtitle">Daily Average (This Week)</h6>
-            </div>
-            <div class="card-body d-flex align-items-center">
-                <div class="w-100">
-                    <h4 class="card-title text-center">
-                        3
-                    </h4>
+            <div class="card">
+                <div class="card-header py-3">
+                    <h6 class="card-subtitle">Weekly Average (All Time)</h6>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col">
-        <div class="card mb-2">
-            <div class="card-header py-3">
-                <h6 class="card-subtitle">Current Month's Progress</h6>
-            </div>
-            <div class="card-body d-flex align-items-center">
-                <div class="w-100">
-                    <h4 class="card-title text-center">
-                        15
-                    </h4>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header py-3">
-                <h6 class="card-subtitle">Daily Average (This Month)</h6>
-            </div>
-            <div class="card-body d-flex align-items-center">
-                <div class="w-100">
-                    <h4 class="card-title text-center">
-                        7
-                    </h4>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col">
-        <div class="card mb-2">
-            <div class="card-header py-3">
-                <h6 class="card-subtitle">All Time Progress</h6>
-            </div>
-            <div class="card-body d-flex align-items-center">
-                <div class="w-100">
-                    <h4 class="card-title text-center">
-                        23
-                    </h4>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header py-3">
-                <h6 class="card-subtitle">Weekly Average (All Time)</h6>
-            </div>
-            <div class="card-body d-flex align-items-center">
-                <div class="w-100">
-                    <h4 class="card-title text-center">
-                        40
-                    </h4>
+                <div class="card-body d-flex align-items-center">
+                    <div class="w-100">
+                        <h4 class="card-title text-center">
+                            40
+                        </h4>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="container">
-    <h3>This Week</h3>
-    <canvas id="weeklyChart"></canvas>
+    <div class="container">
+        <h3>This Week</h3>
+        <canvas id="weeklyChart"></canvas>
 
-    <h3>This Month</h3>
-    <canvas id="monthlyChart"></canvas>
-</div>
+        <h3>This Month</h3>
+        <canvas id="monthlyChart"></canvas>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
     var weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
     var weeklyChart = new Chart(weeklyCtx, {
         type: 'line',
@@ -142,3 +150,6 @@
         }
     });
 </script>
+}
+
+

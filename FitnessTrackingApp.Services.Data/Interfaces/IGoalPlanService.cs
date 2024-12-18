@@ -9,6 +9,7 @@ namespace FitnessTrackingApp.Services.Data.Interfaces;
 
 public interface IGoalPlanService
 {
+    Task<OperationResult> CustomerHasActiveGoalPlan(Guid customerId);
     Task<GoalPlan?> FindGoalPlanByIdAsync(long goalPlanId);
     Task<OperationResult> ExistsByIdAndStatusAsync(long goalPlanId, GoalPlanStatus? goalPlanStatus = null);
     Task<OperationResult> CreateGoalPlanRequestAsync(CustomerDetailsInputModel model, Guid userId);
@@ -19,5 +20,5 @@ public interface IGoalPlanService
     Task<OperationResult> ApproveGoalPlanAsync(long goalPlanId);
     Task<OperationResult> RejectGoalPlanAsync(long goalPlanId, string rejectReason);
     Task<TrainerDashboardViewModel> GetStatisticsInfoAsync(Guid trainerId, GoalPlanStatus? goalPlanStatus);
-    Task<decimal> GetGoalWeight(Guid userId);
+    Task<decimal> GetGoalWeightASync(Guid userId);
 }

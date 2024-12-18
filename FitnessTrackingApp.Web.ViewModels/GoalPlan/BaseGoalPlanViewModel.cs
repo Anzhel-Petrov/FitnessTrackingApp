@@ -10,5 +10,4 @@ public abstract class BaseGoalPlanViewModel
     public string Status { get; set; } = null!;
     public decimal GoalWeight { get; set; }
     public decimal CurrentWeight { get; set; }
-
 }

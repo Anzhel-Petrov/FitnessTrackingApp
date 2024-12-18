@@ -310,7 +310,7 @@ public class GoalPlanServiceTests
     [Test]
     public async Task GetGoalWeight_Returns_Min_Weight()
     {
-        var result = await this._goalPlanService.GetGoalWeight(customer1.Id);
+        var result = await this._goalPlanService.GetGoalWeightASync(customer1.Id);
 
         Assert.That(result, Is.EqualTo(78m));
     }

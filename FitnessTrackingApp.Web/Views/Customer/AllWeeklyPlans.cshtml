@@ -10,8 +10,10 @@
 <h2>Weekly Plans</h2>
 @if (!Model.WeeklyPlans.Any())
 {
-    <p>There is no active Goal Plan yet.</p>
-    <p>Make sure to check our awesome trainers!</p>
+    <div class="alert alert-warning">
+        <p>There is no active Goal Plan yet or your Trainer has not created any Goal Plans.</p>
+        <p>Make sure to check our awesome trainers in case you have not selected one!</p>
+    </div>
     <a asp-action="AvailableTrainers" class="btn btn-primary btn-sm">Select your trainer here!</a>   
 }
 else

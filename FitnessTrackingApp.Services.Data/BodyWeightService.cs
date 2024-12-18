@@ -30,7 +30,11 @@ public class BodyWeightService : IBodyWeightService
         return await _dbContext.BodyWeightLogs
             .Include(wp => wp.WeeklyPlan)
             .ThenInclude(gp => gp.GoalPlan)
-            .Where(log => log.WeeklyPlan.GoalPlan.UserId == userId && log.DateLogged >= startOfWeek && log.DateLogged <= DateTime.Today)
+            .Where(
+                log => log.WeeklyPlan.GoalPlan.UserId == userId && 
+                (log.WeeklyPlan.GoalPlan.GoalPlanStatus == GoalPlanStatus.Active || log.WeeklyPlan.GoalPlan.GoalPlanStatus == GoalPlanStatus.Completed) &&
+                log.DateLogged >= startOfWeek &&
+                log.DateLogged <= DateTime.Today)
             .OrderBy(log => log.DateLogged)
             .AsNoTracking()
             .ToListAsync();
@@ -42,7 +46,11 @@ public class BodyWeightService : IBodyWeightService
         return await _dbContext.BodyWeightLogs
             .Include(wp => wp.WeeklyPlan)
             .ThenInclude(gp => gp.GoalPlan)
-            .Where(log => log.WeeklyPlan.GoalPlan.UserId == userId && log.DateLogged >= startOfMonth && log.DateLogged <= DateTime.Today)
+            .Where(
+                log => log.WeeklyPlan.GoalPlan.UserId == userId &&
+                (log.WeeklyPlan.GoalPlan.GoalPlanStatus == GoalPlanStatus.Active || log.WeeklyPlan.GoalPlan.GoalPlanStatus == GoalPlanStatus.Completed) &&
+                log.DateLogged >= startOfMonth &&
+                log.DateLogged <= DateTime.Today)
             .OrderBy(log => log.DateLogged)
             .AsNoTracking()
             .ToListAsync();
