@@ -120,36 +120,16 @@ else
         <canvas id="monthlyChart"></canvas>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-    var weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
-    var weeklyChart = new Chart(weeklyCtx, {
-        type: 'line',
-        data: {
-            labels: @Html.Raw(Json.Serialize(Model.WeeklyRecords.Select(r => r.DateLogged.ToShortDateString()))),
-            datasets: [{
-                label: 'Weight (kg)',
-                data: @Html.Raw(Json.Serialize(Model.WeeklyRecords.Select(r => r.CurrentWeight))),
-                borderColor: 'blue',
-                fill: false
-            }]
-        }
-    });
+    @section Scripts {
+        <script src="~/lib/chart/dist/chart.umd.min.js"></script>
+        <script>
+        window.weeklyChartLabels = @Html.Raw(Json.Serialize(Model.WeeklyRecords.Select(r => r.DateLogged.ToShortDateString())));
+        window.weeklyChartData = @Html.Raw(Json.Serialize(Model.WeeklyRecords.Select(r => r.CurrentWeight)));
 
-    var monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
-    var monthlyChart = new Chart(monthlyCtx, {
-        type: 'line',
-        data: {
-            labels: @Html.Raw(Json.Serialize(Model.MonthlyRecords.Select(r => r.DateLogged.ToShortDateString()))),
-            datasets: [{
-                label: 'Weight (kg)',
-                data: @Html.Raw(Json.Serialize(Model.MonthlyRecords.Select(r => r.CurrentWeight))),
-                borderColor: 'green',
-                fill: false
-            }]
-        }
-    });
-</script>
+        window.monthlyChartLabels = @Html.Raw(Json.Serialize(Model.MonthlyRecords.Select(r => r.DateLogged.ToShortDateString())));
+        window.monthlyChartData = @Html.Raw(Json.Serialize(Model.MonthlyRecords.Select(r => r.CurrentWeight)));
+        </script>
+        <script src="~/js/overall-progress/overall-progress.js"></script>
+    }
 }
-
 

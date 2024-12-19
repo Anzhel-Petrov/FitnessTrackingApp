@@ -11,10 +11,14 @@
 @if (!Model.WeeklyPlans.Any())
 {
     <div class="alert alert-warning">
-        <p>There is no active Goal Plan yet or your Trainer has not created any Goal Plans.</p>
-        <p>Make sure to check our awesome trainers in case you have not selected one!</p>
+        <section>
+            There is no active Goal Plan yet or your Trainer has not created any Goal Plans.
+        </section>
+        <section>
+                Make sure to check our awesome trainers in case you have not selected one!
+            </section>
     </div>
-    <a asp-action="AvailableTrainers" class="btn btn-primary btn-sm">Select your trainer here!</a>   
+    <a asp-action="AvailableTrainers" class="btn btn-primary btn-sm">Select your trainer here!</a>
 }
 else
 {
@@ -50,97 +54,59 @@ else
                 <td>@plan.CaloriesToBurnPerSession</td>
                 <td>@(plan.IsHIIT.HasValue ? (plan.IsHIIT.Value ? "Yes" : "No") : "N/A")</td>
                 <td>
-                        <a asp-action="WeeklyPlanDetails" asp-route-weeklyPlanId="@plan.WeeklyPlanId" class="btn btn-primary btn-sm">Details</a>
+                    <a asp-action="WeeklyPlanDetails" asp-route-weeklyPlanId="@plan.WeeklyPlanId" class="btn btn-primary btn-sm">Details</a>
                 </td>
             </tr>
         }
         </tbody>
     </table>
-}
 
-<nav aria-label="Page navigation" class="mt-4">
-    <ul class="pagination">
-        @if (Model.CurrentPage  > 1)
-        {
-            <li class="page-item">
-                <a class="page-link" asp-action="AllWeeklyPlans"
-                   asp-route-currentPage="@( Model.CurrentPage - 1 )">
-                    Previous
-                </a>
-            </li>
-        }
-
-        @for (int i = 1; i <= Model.TotalPages; i++)
-        {
-            <li class="page-item @(i == (int)Model.CurrentPage! ? "active" : "")">
-                <a class="page-link" asp-action="AllWeeklyPlans"
-                   asp-route-currentPage="@i">
-                    @i
-                </a>
-            </li>
-        }
-
-        @if (Model.CurrentPage < Model.TotalPages)
-        {
-            <li class="page-item">
-                <a class="page-link" asp-action="AllWeeklyPlans"
-                   asp-route-currentPage="@( Model.CurrentPage + 1 )">
-                    Next
-                </a>
-            </li>
-        }
-    </ul>
-</nav>
-
-<div>
-    <h3>Progress Chart</h3>
-    <canvas id="progressChart" width="400" height="200"></canvas>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        
-        const weekNumbers = @Html.Raw(Json.Serialize(Model.WeeklyPlansAll.Select(wp => wp.WeekNumber)));
-        const averageWeights = @Html.Raw(Json.Serialize(Model.WeeklyPlansAll.Select(wp => wp.Weight)));
-
-        const ctx = document.getElementById('progressChart').getContext('2d');
-        new Chart(ctx, 
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination">
+            @if (Model.CurrentPage > 1)
             {
-            type: 'line',
-            data: 
-            {
-                labels: weekNumbers,
-                datasets: [{
-                    label: 'Average Weight (kg)',
-                    data: averageWeights,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderWidth: 2,
-                    pointRadius: 5,
-                    pointBackgroundColor: 'white',
-                    pointBorderColor: 'rgba(75, 192, 192, 1)',
-                    tension: 0.4
-                }]
-            },
-            options: 
-            {
-                responsive: true,
-                plugins: {
-                    legend: { display: true, position: 'top' },
-                    tooltip: { enabled: true }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: 'Week Number' }
-                    },
-                    y: {
-                        title: { display: true, text: 'Weight (kg)' },
-                        beginAtZero: false,
-                        suggestedMin: @Model.GoalWeight
-                    }
-                }
+                <li class="page-item">
+                    <a class="page-link" asp-action="AllWeeklyPlans"
+                       asp-route-currentPage="@( Model.CurrentPage - 1 )">
+                        Previous
+                    </a>
+                </li>
             }
-        });
-    });
-</script>
+
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == (int)Model.CurrentPage! ? "active" : "")">
+                    <a class="page-link" asp-action="AllWeeklyPlans"
+                       asp-route-currentPage="@i">
+                        @i
+                    </a>
+                </li>
+            }
+
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="AllWeeklyPlans"
+                       asp-route-currentPage="@( Model.CurrentPage + 1 )">
+                        Next
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+    <div>
+        <h3>Progress Chart</h3>
+        <canvas id="progressChart" width="400" height="200"></canvas>
+    </div>
+
+    @section Scripts {
+    <script src="~/lib/chart/dist/chart.umd.min.js"></script>
+    <script>
+        window.weekNumbers = @Html.Raw(Json.Serialize(Model.WeeklyPlansAll.Select(wp => wp.WeekNumber)));
+        window.averageWeights = @Html.Raw(Json.Serialize(Model.WeeklyPlansAll.Select(wp => wp.Weight)));
+        window.goalWeight = @Model.GoalWeight;
+    </script>
+    <script src="~/js/weekly-progress/weekly-progress.js"></script>
+    }
+}
