@@ -19,7 +19,7 @@ public class BodyWeightPrecisionAttribute : ValidationAttribute
             var stringValue = decimalValue.ToString($"F{_scale}");
             if (stringValue.Replace(".", "").Length - _scale > _precision - _scale)
             {
-                return new ValidationResult($"The body weight must be in format {decimalValue}.75 (max two digits after the decimal point).");
+                return new ValidationResult($"The body weight can have up to two digits after the decimal point - for example 80.75");
             }
         }
         return ValidationResult.Success;

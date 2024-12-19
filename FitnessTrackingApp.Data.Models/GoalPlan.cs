@@ -26,13 +26,13 @@ public class GoalPlan
     public GoalType GoalType { get; set; }
 
     [Range(BodyWeightMinRange, BodyWeightMaxRange)]
-    [Precision(5, 2)]
-    [BodyWeightPrecision(5,2)]
+    [Precision(BodyWeightDecimalPrecision, BodyWeightDecimalScale)]
+    [BodyWeightPrecision(BodyWeightDecimalPrecision,BodyWeightDecimalScale)]
     public decimal GoalWeigh { get; set; }
 
     [Range(BodyWeightMinRange, BodyWeightMaxRange)]
-    [Precision(5, 2)]
-    [BodyWeightPrecision(5, 2)]
+    [Precision(BodyWeightDecimalPrecision, BodyWeightDecimalScale)]
+    [BodyWeightPrecision(BodyWeightDecimalPrecision, BodyWeightDecimalScale)]
     public decimal CurrentWeight { get; set; }
 
     [DataType(DataType.Date)]

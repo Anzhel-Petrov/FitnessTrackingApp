@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FitnessTrackingApp.Common;
 using FitnessTrackingApp.Data.Models.Enums;
 using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
@@ -25,12 +26,14 @@ public class CustomerDetails
     
     [Required]
     [Range(BodyWeightMinRange, BodyWeightMaxRange)]
-    [Precision(5, 2)]
+    [Precision(BodyWeightDecimalPrecision, BodyWeightDecimalScale)]
+    [BodyWeightPrecision(BodyWeightDecimalPrecision, BodyWeightDecimalScale)]
     public decimal StartingWeight { get; set; }
     
     [Required]
     [Range(BodyWeightMinRange, BodyWeightMaxRange)]
-    [Precision(5, 2)]
+    [Precision(BodyWeightDecimalPrecision, BodyWeightDecimalScale)]
+    [BodyWeightPrecision(BodyWeightDecimalPrecision, BodyWeightDecimalScale)]
     public decimal TargetWeight { get; set; }
     
     [Required]

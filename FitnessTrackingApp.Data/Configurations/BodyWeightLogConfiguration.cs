@@ -2,6 +2,7 @@
 using FitnessTrackingApp.Data.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
 namespace FitnessTrackingApp.Data.Configurations;
 
@@ -22,6 +23,8 @@ public class BodyWeightLogConfiguration : IEntityTypeConfiguration<BodyWeightLog
             .WithMany(w => w.BodyWeightLogs)
             .HasForeignKey(b => b.WeeklyPlanId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property(gp => gp.CurrentWeight).HasPrecision(BodyWeightDecimalPrecision, BodyWeightDecimalScale);
 
         builder.HasData(_seeder.GenerateBodyWeightLogs());
     }

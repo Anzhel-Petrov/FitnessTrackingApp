@@ -7,6 +7,8 @@ public static class GeneralApplicationConstants
     //Body Weight
     public const float BodyWeightMinRange = 30f;
     public const float BodyWeightMaxRange = 300f;
+    public const int BodyWeightDecimalPrecision = 5;
+    public const int BodyWeightDecimalScale = 2;
 
     // Macros
     public const int CaloriesPerGramOfProtein = 4;

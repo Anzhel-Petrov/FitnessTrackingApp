@@ -13,7 +13,8 @@
 
 <form asp-action="SubmitDetails" method="post">
     <input type="hidden" asp-for="TrainerId" />
-    
+    <span asp-validation-for="TrainerId" class="text-danger"></span>
+
     <div class="form-group">
         <label asp-for="GoalType"></label>
         <select asp-for="GoalType" class="form-control" asp-items="Html.GetEnumSelectList<GoalType>()">
@@ -24,13 +25,13 @@
 
     <div class="form-group">
         <label asp-for="StartingWeight"></label>
-        <input asp-for="StartingWeight" class="form-control" />
+        <input asp-for="StartingWeight" class="form-control" aria-required="true" type="number" step="0.01" />
         <span asp-validation-for="StartingWeight" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="TargetWeight"></label>
-        <input asp-for="TargetWeight" class="form-control" />
+        <input asp-for="TargetWeight" class="form-control" aria-required="true" type="number" step="0.01" />
         <span asp-validation-for="TargetWeight" class="text-danger"></span>
     </div>
 

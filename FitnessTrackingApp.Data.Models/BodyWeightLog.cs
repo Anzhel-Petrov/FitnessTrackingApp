@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using FitnessTrackingApp.Common;
 using Microsoft.EntityFrameworkCore;
 using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
@@ -22,6 +23,7 @@ public class BodyWeightLog
 
     [Required]
     [Range(BodyWeightMinRange, BodyWeightMaxRange)]
-    [Precision(5, 2)]
+    [Precision(BodyWeightDecimalPrecision, BodyWeightDecimalScale)]
+    [BodyWeightPrecision(BodyWeightDecimalPrecision, BodyWeightDecimalScale)]
     public decimal CurrentWeight { get; set; }
 }
