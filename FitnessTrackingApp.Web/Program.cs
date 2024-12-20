@@ -3,9 +3,11 @@ using FitnessTrackingApp.Data.Models;
 using FitnessTrackingApp.Services.Data;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.Infrastructure.Extensions;
+using FitnessTrackingApp.Web.Infrastructure.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace FitnessTrackingApp.Web
 {
@@ -59,6 +61,7 @@ namespace FitnessTrackingApp.Web
             // Add services to the container.
             builder.Services.AddControllersWithViews(cfg =>
             {
+                cfg.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
                 cfg.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
 
