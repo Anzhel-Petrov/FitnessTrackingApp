@@ -17,6 +17,11 @@ namespace FitnessTrackingApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            if (this.IsAdmin())
+            {
+                return this.RedirectToAction("Index", "UserManagement", new { Area = "Admin" });
+            }
+
             if (this.IsTrainer())
             {
                 return this.RedirectToAction("Index", "Dashboard", new { Area = "Trainer" });

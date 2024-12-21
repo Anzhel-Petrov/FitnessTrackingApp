@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<FitnessTrackingApp.Web.ViewModels.User.AllUsersViewModel>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "All Users";
+    var loggedInUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value; // Get the logged-in user's ID
+}
+
+<div class="container-fluid px-4 mt-4">
+    <h1 class="mb-4 text-center">All Registered Users</h1>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td>@user.Id</td>
+                                <td>@user.Email</td>
+                                <td>
+                                    @foreach (var role in user.Roles)
+                                    {
+                                        <span class="badge badge-info text-dark">@role</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (user.Id != Guid.Parse(loggedInUserId))
+                                    {
+                                        @if (!user.Roles.Contains("Admin"))
+                                        {
+                                            <form method="post" action="@Url.Action("Promote", "UserManagement", new { userId = user.Id })" style="display:inline;">
+                                                <button type="submit" class="btn btn-success btn-sm" title="Promote to Admin">Promote</button>
+                                            </form>
+                                        }
+
+                                        @if (user.Roles.Contains("Admin"))
+                                        {
+                                            <form method="post" action="@Url.Action("Demote", "UserManagement", new { userId = user.Id })" style="display:inline;">
+                                                <button type="submit" class="btn btn-warning btn-sm" title="Demote to User">Demote</button>
+                                            </form>
+                                        }
+                                        <form asp-action="LockUser" asp-controller="UserManagement" asp-area="Admin" asp-route-userId="@user.Id" method="post" style="display:inline;">
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Lock User">Lock</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No actions available.</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

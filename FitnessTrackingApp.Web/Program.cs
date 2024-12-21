@@ -43,6 +43,7 @@ namespace FitnessTrackingApp.Web
                         .Configuration.GetValue<bool>("Identity:Password:RequireNonAlphanumeric");
                     options.Password.RequiredLength = builder
                         .Configuration.GetValue<int>("Identity:Password:RequiredLength");
+                    options.Lockout.AllowedForNewUsers = true;
                 })
                 .AddEntityFrameworkStores<FitnessTrackingAppDbContext>()
                 .AddDefaultTokenProviders();;
@@ -57,6 +58,7 @@ namespace FitnessTrackingApp.Web
             builder.Services.AddScoped<ITrainerService, TrainerService>();
             builder.Services.AddScoped<IGoalPlanService, GoalPlanService>();
             builder.Services.AddScoped<IWeeklyPlanService, WeeklyPlanService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews(cfg =>

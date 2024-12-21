@@ -8,6 +8,8 @@
                     this.User.IsInRole(TrainerRoleName);
     var isCustomer = User?.Identity?.IsAuthenticated == true &&
                     this.User.IsInRole(CustomerRoleName);
+    var isAdmin = User?.Identity?.IsAuthenticated == true &&
+                    this.User.IsInRole(AdminRoleName);
 }
 
 <!DOCTYPE html>
@@ -58,32 +60,15 @@
             <!-- Trainer Sidebar -->
             @if (isTrainer)
             {
-                <aside class="col-md-3 col-lg-2 bg-light border-end vh-100">
-                    <nav class="trainer-dashboard-menu p-3">
-                        <h5 class="text-center">Trainer Menu</h5>
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a asp-area="Trainer" asp-controller="Dashboard" asp-action="Index" class="nav-link text-dark">
-                                    <i class="fas fa-home"></i>Dashboard Home
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Pending", "GoalPlan", new { area = "Trainer" })">
-                                    <i class="fas fa-clock"></i> Pending Goal Plans
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Active", "GoalPlan", new { area = "Trainer" })">
-                                    <i class="fas fa-tasks"></i> Active Goal Plans
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </aside>
+                <partial name="_TrainerDashboardMenu" />
             }
-
+            <!-- Admin Sidebar -->
+            @if (isAdmin)
+            {
+                <partial name="_AdminDashboardMenu" />
+            }
             <!-- Main Content -->
-            <main role="main" class="@(isTrainer ? "col-md-9 col-lg-10" : "col-md-9 offset-md-2 col-lg-8 offset-lg-2") pb-3">
+            <main role="main" class="@(isTrainer || isAdmin ? "col-md-9 col-lg-10" : "col-md-9 offset-md-2 col-lg-8 offset-lg-2") pb-3">
                 @RenderBody()
             </main>
         </div>

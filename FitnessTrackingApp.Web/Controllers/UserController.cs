@@ -93,12 +93,19 @@ namespace FitnessTrackingApp.Web.Controllers
             SignInResult result = 
                 await this._signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, loginViewModel.RememberMe, false);
 
+            if (result.IsLockedOut)
+            {
+                TempData[ErrorMessage] = UserLocked;
+                return this.View(loginViewModel);
+            }
+
             if (!result.Succeeded)
             {
                 TempData[ErrorMessage] = InvalidLogin;
 
                 return this.View(loginViewModel);
             }
+
 
             return this.Redirect(loginViewModel.ReturnUrl ?? "/Home/Index");
         }

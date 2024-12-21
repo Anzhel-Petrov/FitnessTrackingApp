@@ -19,7 +19,6 @@ public class FitnessTrackingAppDbContext : IdentityDbContext<ApplicationUser, Id
         
     }
 
-    public DbSet<ApplicationUser> Users { get; set; } = null!;
     public DbSet<BodyWeightGoal> BodyWeightGoals { get; set; } = null!;
     public DbSet<BodyWeightLog> BodyWeightLogs { get; set; } = null!;
     public DbSet<Macro> Macros { get; set; } = null!;

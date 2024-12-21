@@ -1,9 +1,9 @@
 ﻿using FitnessTrackingApp.Data.Models.Enums;
 using FitnessTrackingApp.Services.Data.Interfaces;
 using FitnessTrackingApp.Web.Controllers;
-using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static FitnessTrackingApp.Common.GeneralApplicationConstants;
 
 namespace FitnessTrackingApp.Web.Areas.Trainer.Controllers;
 
